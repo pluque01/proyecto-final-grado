@@ -2,13 +2,13 @@ name: Typst Tasks
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
     paths:
-      - '**.typ'
+      - "**.typ"
   pull_request:
-    branches: [ main ]
+    branches: [main]
     paths:
-      - '**.typ'
+      - "**.typ"
   workflow_dispatch:
 
 jobs:
