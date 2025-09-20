@@ -41,3 +41,66 @@ experimentar con arquitecturas de software modernas en un entorno controlado.
 En este contexto, este trabajo se enmarca en la búsqueda de una solución que
 permita centralizar servicios personales en una infraestructura propia,
 evaluando su viabilidad frente a las alternativas comerciales más habituales.
+
+== Definición del problema
+
+Para precisar mejor el problema, se emplea la técnica de personas, que permite
+representar perfiles ficticios con necesidades y objetivos concretos. A partir
+de estas descripciones se plantean historias de usuario, que reflejan qué espera
+conseguir cada perfil mediante la solución propuesta.
+
+=== Personas identificadas
+==== Laura Gómez (estudiante universitaria)
+
+Laura es estudiante de ingeniería y necesita almacenar gran cantidad de apuntes,
+proyectos y material académico. Hasta ahora ha utilizado servicios gratuitos
+como Google Drive y Dropbox, pero se encuentra con limitaciones de espacio y con
+la incomodidad de gestionar varios proveedores. Además, le preocupa que sus
+datos estén en servidores externos y no tener control sobre ellos.
+
+==== Javier Ruiz (profesional freelance)
+
+Javier trabaja como diseñador web independiente y gestiona múltiples proyectos
+con distintos clientes. Actualmente utiliza Trello y Asana para organizar sus
+tareas, pero le incomoda depender de servicios externos que cambian sus
+condiciones de uso y que requieren compartir datos sensibles de sus clientes en
+plataformas externas. Busca una alternativa que le permita mantener bajo control
+la organización de su trabajo.
+
+==== Marta Sánchez (administradora de sistemas)
+
+Marta es responsable de la infraestructura informática en una pequeña empresa.
+Su equipo maneja decenas de credenciales para distintos servicios y hasta ahora
+utilizaban hojas de cálculo compartidas, lo que supone un riesgo de seguridad.
+Marta quiere una solución autogestionada que le permita almacenar, compartir y
+gestionar contraseñas de manera segura, sin depender de proveedores externos.
+
+== Historias de usuario
+=== Laura Gómez (estudiante universitaria)
+
+- HU01: Como estudiante, quiero almacenar mis documentos en un servidor propio,
+  para poder acceder a ellos desde cualquier dispositivo sin depender de Google
+  Drive o Dropbox.
+
+- HU02: Como estudiante, quiero compartir carpetas con mis compañeros, para
+  facilitar el trabajo en grupo de forma sencilla y bajo mi control.
+
+=== Javier Ruiz (profesional freelance)
+
+- HU03: Como profesional freelance, quiero organizar mis proyectos en una
+  plataforma autogestionada, para evitar depender de servicios externos y
+  mantener la confidencialidad de los datos de mis clientes.
+
+- HU04: Como profesional freelance, quiero gestionar tareas y calendarios de mis
+  proyectos en un entorno propio, para mejorar la planificación y la
+  colaboración con mis clientes.
+
+=== Marta Sánchez (administradora de sistemas)
+
+- HU05: Como administradora de sistemas, quiero almacenar todas las credenciales
+  de mi equipo en un gestor de contraseñas seguro, para evitar pérdidas de
+  información y riesgos de seguridad.
+
+- HU06: Como administradora de sistemas, quiero compartir ciertas contraseñas
+  con mis compañeros de forma controlada, para que cada usuario tenga acceso
+  únicamente a la información que necesita.
