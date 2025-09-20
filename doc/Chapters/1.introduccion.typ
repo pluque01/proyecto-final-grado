@@ -104,3 +104,41 @@ gestionar contraseñas de manera segura, sin depender de proveedores externos.
 - HU06: Como administradora de sistemas, quiero compartir ciertas contraseñas
   con mis compañeros de forma controlada, para que cada usuario tenga acceso
   únicamente a la información que necesita.
+
+== Objetivos del trabajo
+
+El presente trabajo tiene como finalidad diseñar e implementar una
+infraestructura de servicios digitales autogestionados que permita sustituir
+parcialmente soluciones comerciales de uso cotidiano, garantizando mayor control
+sobre los datos, reducción de costes y flexibilidad en la personalización.
+
+=== Objetivo general
+
+Diseñar e implementar una infraestructura de autoalojamiento basada en software
+libre y desplegada mediante contenedores, que proporcione servicios de
+almacenamiento de archivos, gestión de proyectos y gestión de contraseñas como
+alternativa a las plataformas comerciales más habituales.
+
+=== Objetivos específicos
+
++ Desplegar y configurar Nextcloud como sistema de sincronización y compartición
+  de documentos, permitiendo tanto el acceso multiplataforma como el trabajo
+  colaborativo en grupos reducidos.
+
++ Implementar una herramienta de organización que facilite la planificación de
+  proyectos, la asignación de tareas y el seguimiento de avances, ofreciendo una
+  alternativa a plataformas comerciales como Trello o Asana.
+
++ Integrar un gestor de contraseñas autogestionado para almacenar de manera
+  segura credenciales personales o de equipo, permitiendo el acceso controlado y
+  compartido según las necesidades.
+
++ Desplegar todos los servicios mediante contenedores, favoreciendo la
+  portabilidad, el mantenimiento y la escalabilidad de la solución.
+
++ Realizar un análisis frente a servicios comerciales equivalentes, evaluando
+  aspectos como coste, facilidad de uso, privacidad, flexibilidad y seguridad.
+
++ Elaborar una guía de instalación y configuración de los servicios, con el fin
+  de que la propuesta pueda ser replicada por otros usuarios interesados en
+  adoptar soluciones autogestionadas.
