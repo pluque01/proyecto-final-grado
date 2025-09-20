@@ -53,19 +53,17 @@ conseguir cada perfil mediante la solución propuesta.
 ==== Laura Gómez (estudiante universitaria)
 
 Laura es estudiante de ingeniería y necesita almacenar gran cantidad de apuntes,
-proyectos y material académico. Hasta ahora ha utilizado servicios gratuitos
-como Google Drive y Dropbox, pero se encuentra con limitaciones de espacio y con
-la incomodidad de gestionar varios proveedores. Además, le preocupa que sus
-datos estén en servidores externos y no tener control sobre ellos.
+trabajos y material académico. Hasta ahora ha utilizado servicios gratuitos como
+Google Drive y Dropbox, pero se encuentra con limitaciones de espacio y con la
+incomodidad de gestionar varios proveedores. Además, le preocupa que sus datos
+estén en servidores externos y no tener control sobre ellos.
 
-==== Javier Ruiz (profesional freelance)
-
-Javier trabaja como diseñador web independiente y gestiona múltiples proyectos
-con distintos clientes. Actualmente utiliza Trello y Asana para organizar sus
-tareas, pero le incomoda depender de servicios externos que cambian sus
-condiciones de uso y que requieren compartir datos sensibles de sus clientes en
-plataformas externas. Busca una alternativa que le permita mantener bajo control
-la organización de su trabajo.
+También utiliza aplicaciones como Notion o Evernote para organizar sus notas,
+ideas y referencias. Aunque estas herramientas le resultan útiles, depende de
+plataformas comerciales que pueden cambiar sus condiciones de uso en cualquier
+momento. Laura busca una alternativa autogestionada que le permita centralizar
+tanto sus documentos como sus notas académicas en un único entorno bajo su
+control.
 
 ==== Marta Sánchez (administradora de sistemas)
 
@@ -85,15 +83,12 @@ gestionar contraseñas de manera segura, sin depender de proveedores externos.
 - HU02: Como estudiante, quiero compartir carpetas con mis compañeros, para
   facilitar el trabajo en grupo de forma sencilla y bajo mi control.
 
-=== Javier Ruiz (profesional freelance)
+- HU03: Como estudiante, quiero organizar mis notas e ideas en una herramienta
+  similar a Notion, para tener toda mi información académica centralizada sin
+  depender de servicios externos.
 
-- HU03: Como profesional freelance, quiero organizar mis proyectos en una
-  plataforma autogestionada, para evitar depender de servicios externos y
-  mantener la confidencialidad de los datos de mis clientes.
-
-- HU04: Como profesional freelance, quiero gestionar tareas y calendarios de mis
-  proyectos en un entorno propio, para mejorar la planificación y la
-  colaboración con mis clientes.
+- HU04: Como estudiante, quiero acceder a mis notas desde distintos
+  dispositivos, para poder continuar mi trabajo académico en cualquier lugar.
 
 === Marta Sánchez (administradora de sistemas)
 
@@ -114,10 +109,10 @@ sobre los datos, reducción de costes y flexibilidad en la personalización.
 
 === Objetivo general
 
-Diseñar e implementar una infraestructura de autoalojamiento basada en software
+Diseñar e implementar una infraestructura de _self-hosting_ basada en software
 libre y desplegada mediante contenedores, que proporcione servicios de
-almacenamiento de archivos, gestión de proyectos y gestión de contraseñas como
-alternativa a las plataformas comerciales más habituales.
+almacenamiento de archivos, toma y organización de notas, y gestión de
+contraseñas como alternativa a las plataformas comerciales más habituales.
 
 === Objetivos específicos
 
@@ -125,9 +120,9 @@ alternativa a las plataformas comerciales más habituales.
   de documentos, permitiendo tanto el acceso multiplataforma como el trabajo
   colaborativo en grupos reducidos.
 
-+ Implementar una herramienta de organización que facilite la planificación de
-  proyectos, la asignación de tareas y el seguimiento de avances, ofreciendo una
-  alternativa a plataformas comerciales como Trello o Asana.
++ Implementar una herramienta de notas y organización personal que permita a los
+  estudiantes centralizar y estructurar su información académica como
+  alternativa a plataformas comerciales como Notion o Evernote.
 
 + Integrar un gestor de contraseñas autogestionado para almacenar de manera
   segura credenciales personales o de equipo, permitiendo el acceso controlado y
