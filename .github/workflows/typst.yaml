@@ -63,6 +63,8 @@ jobs:
         if: steps.package-cache.outputs.cache-hit != 'true'
 
       - name: Run Grammar Check
+        env:
+            JAVA_TOOL_OPTIONS: "-Djdk.xml.totalEntitySizeLimit=0"
         run: |
           # Create wrapper script
           cat > grammar-check-wrapper.sh << 'EOF'
