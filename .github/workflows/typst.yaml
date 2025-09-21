@@ -59,7 +59,7 @@ jobs:
           key: ${{ runner.os }}-typst-languagetool-v1
 
       - name: Install typst-languagetool package
-        run: cargo install --git=https://github.com/antonWetzel/typst-languagetool cli --features=bundle
+        run: cargo install --git=https://github.com/pluque01/typst-languagetool cli --features=bundle
         if: steps.package-cache.outputs.cache-hit != 'true'
 
       - name: Run Grammar Check
