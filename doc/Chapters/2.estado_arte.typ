@@ -1,5 +1,2 @@
 = Estado del arte
-
-Prueba la sintaxis.
-
-Prueba de nuevo.
+#lorem(500)
