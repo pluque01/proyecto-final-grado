@@ -1,2 +1,3 @@
 = Estado del arte
-#lorem(500)
+
+Prueba la sintaxis.
