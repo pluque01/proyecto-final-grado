@@ -1,2 +1,3 @@
 = Estado del arte
-#lorem(500)
+
+Oración de prueba para ver si funciona el pipeline.
