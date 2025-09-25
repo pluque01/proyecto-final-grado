@@ -161,3 +161,30 @@ aporta un entorno ligero y configurable, sino que gracias a su ecosistema de
 extensiones e integración con Git cumple de forma explícita con todos los
 requisitos planteados, consolidándose como la mejor opción frente a la otra
 alternativa evaluada.
+
+=== Workflows de validación automática
+
+Con el objetivo de garantizar la calidad y consistencia de la memoria en todo
+momento, se han configurado workflows de integración continua en el repositorio
+de GitHub del proyecto. Estos workflows se ejecutan de forma automática cada vez
+que se introduce un cambio en el repositorio, ya sea mediante un *commit*
+directo o a través de una *pull request*.
+
+Los workflows implementados realizan dos validaciones principales:
+
+- *Compilación del documento*: se comprueba que el código Typst compile
+  correctamente, asegurando que la memoria pueda generarse sin errores en
+  cualquier momento del desarrollo. De este modo, se evita que cambios
+  intermedios introduzcan inconsistencias que impidan producir el documento
+  final.
+
+- *Verificación gramatical*: se ejecuta una revisión lingüística automática
+  sobre el contenido para detectar posibles errores de ortografía o gramática.
+  Esta validación complementa el trabajo realizado de forma local en el editor y
+  contribuye a mantener un estándar de calidad en la redacción.
+
+La integración de estas comprobaciones en GitHub permite detectar problemas de
+manera temprana, vinculándolos directamente con el cambio que los causa. Así, se
+asegura que la memoria esté siempre en un estado válido, al mismo tiempo que se
+reduce el riesgo de acumular errores difíciles de corregir en las fases finales
+del proyecto.
