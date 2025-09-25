@@ -130,25 +130,26 @@ de elegir la herramienta se definieron los siguientes requisitos:
 
 Con base en estos criterios se consideraron dos alternativas principales:
 
-- #link("https://typst.app")[*Editor web de Typst*]: ofrece un entorno básico y
-  ligero, pero limitado en extensiones y sin soporte avanzado de revisión
+
+- *Editor web de Typst*#footnote("https://typst.app"): ofrece un entorno básico
+  y ligero, pero limitado en extensiones y sin soporte avanzado de revisión
   lingüística. Además, la integración con sistemas de control de versiones es
   una característica de la versión de pago.
 
-- #link("https://code.visualstudio.com")[*Visual Studio Code (VSCode)*]: editor
-  versátil con un amplio ecosistema de extensiones, capaz de integrar soporte
-  para Typst y herramientas de revisión lingüística en un mismo entorno.
+- *Visual Studio Code (VSCode)*#footnote("https://code.visualstudio.com"):
+  editor versátil con un amplio ecosistema de extensiones, capaz de integrar
+  soporte para Typst y herramientas de revisión lingüística en un mismo entorno.
 
 La opción seleccionada fue finalmente *Visual Studio Code (VSCode)*, ya que, en
 combinación con sus extensiones, satisface todos los requisitos definidos para
 el entorno de edición. En particular:
 
-- #link("https://github.com/Myriad-Dreamin/tinymist")[*Tinymist*]: proporciona
+- *Tinymist*#footnote("https://github.com/Myriad-Dreamin/tinymist"): proporciona
   compatibilidad completa con Typst, incluyendo resaltado de sintaxis y
   compilación. Además, permite la previsualización en tiempo real del documento,
   facilitando la detección inmediata de errores y la validación del formato.
 
-- #link("https://ltex-plus.github.io/ltex-plus/")[*LTeX+*]: ofrece integración
+- *LTeX+*#footnote("https://ltex-plus.github.io/ltex-plus/"): ofrece integración
   con herramientas de verificación ortográfica y gramatical en varios idiomas,
   lo que asegura que la redacción cumpla con los estándares de calidad exigidos
   en un trabajo académico.
