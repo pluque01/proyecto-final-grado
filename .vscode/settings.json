@@ -9,4 +9,17 @@
     },
     "tinymist.formatterPrintWidth": 80,
     "tinymist.formatterProseWrap": true,
+    "ltex.dictionary": {
+        "es": [
+            "milestone",
+            "milestones",
+            "Git",
+            "VSCode",
+            "Typst",
+            "workflow",
+            "workflows",
+            "Workflows",
+            "commit"
+        ]
+    }
 }

@@ -1,5 +1,15 @@
 {
     "dictionary": {
-        "es-ES": []
+        "es-ES": [
+            "milestone",
+            "milestones",
+            "Git",
+            "VSCode",
+            "Typst",
+            "workflow",
+            "workflows",
+            "Workflows",
+            "commit"
+        ]
     }
 }
