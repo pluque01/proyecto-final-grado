@@ -3,13 +3,12 @@
 == Contexto y motivación
 
 La transformación digital de los últimos años ha consolidado el uso de servicios
-en la nube como parte esencial de la vida personal y profesional. Hoy en día,
-actividades tan diversas como el almacenamiento de fotografías y documentos, la
-reproducción de contenidos multimedia, la colaboración en proyectos o la
-organización de tareas dependen de plataformas gestionadas por grandes
-corporaciones. Servicios como Google Drive, Dropbox, Spotify, Netflix o Trello
-representan soluciones rápidas y fáciles de usar, lo que ha impulsado su
-adopción masiva a nivel global.
+en la nube como parte esencial de la vida cotidiana, tanto a nivel personal como
+profesional. Estas plataformas ofrecen soluciones accesibles y de uso inmediato,
+lo que ha impulsado su adopción masiva en ámbitos muy diversos. Sin embargo,
+esta dependencia creciente de infraestructuras gestionadas por grandes
+corporaciones plantea interrogantes en torno al control de los datos, los costes
+asociados y la capacidad de adaptación a necesidades específicas.
 
 Sin embargo, este modelo basado en la externalización de servicios presenta
 importantes limitaciones. En primer lugar, supone una dependencia tecnológica de
@@ -25,17 +24,17 @@ deben aceptar políticas de uso que no siempre garantizan un control total sobre
 su información. Asimismo, los modelos de negocio basados en la explotación de
 datos personales para fines publicitarios intensifican esta problemática.
 
-Ante esta situación, surge un interés creciente por las alternativas de
-autogestión de servicios digitales (_self-hosting_), que permiten a los usuarios
-desplegar su propia infraestructura sobre hardware propio. Gracias a tecnologías
-como la virtualización, los contenedores y el software libre, hoy es posible
-replicar gran parte de las funcionalidades que ofrecen los proveedores
+Ante esta situación, surge un interés creciente por las alternativas
+autogestionadas de servicios digitales ("self-hosting"), que permiten a los
+usuarios desplegar sus propios servicios sobre hardware propio. Gracias a
+tecnologías como la virtualización, los contenedores y el software libre, hoy es
+posible replicar gran parte de las funcionalidades que ofrecen los proveedores
 comerciales, pero sin los inconvenientes mencionados.
 
-El _self-hosting_ no solo responde a la necesidad de reducir costes y reforzar
-la privacidad, sino que también fomenta la soberanía digital: la capacidad de
-los usuarios para decidir cómo, dónde y bajo qué condiciones se gestionan sus
-datos y servicios. Además, brinda un espacio de aprendizaje técnico, al permitir
+El self-hosting no solo responde a la necesidad de reducir costes y reforzar la
+privacidad, sino que también fomenta la soberanía digital: la capacidad de los
+usuarios para decidir cómo, dónde y bajo qué condiciones se gestionan sus datos
+y servicios. Además, brinda un espacio de aprendizaje técnico, al permitir
 experimentar con arquitecturas de software modernas en un entorno controlado.
 
 En este contexto, este trabajo se enmarca en la búsqueda de una solución que
@@ -109,7 +108,7 @@ sobre los datos, reducción de costes y flexibilidad en la personalización.
 
 === Objetivo general
 
-Diseñar e implementar una infraestructura de _self-hosting_ basada en software
+Diseñar e implementar una infraestructura de self-hosting basada en software
 libre y desplegada mediante contenedores, que proporcione servicios de
 almacenamiento de archivos, toma y organización de notas, y gestión de
 contraseñas como alternativa a las plataformas comerciales más habituales.
