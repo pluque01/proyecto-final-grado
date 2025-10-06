@@ -4,11 +4,15 @@
 
 La transformación digital de los últimos años ha consolidado el uso de servicios
 en la nube como parte esencial de la vida cotidiana, tanto a nivel personal como
-profesional. Estas plataformas ofrecen soluciones accesibles y de uso inmediato,
-lo que ha impulsado su adopción masiva en ámbitos muy diversos. Sin embargo,
-esta dependencia creciente de infraestructuras gestionadas por grandes
-corporaciones plantea interrogantes en torno al control de los datos, los costes
-asociados y la capacidad de adaptación a necesidades específicas.
+profesional. Según datos recientes sobre la evolución del mercado de servicios
+en la nube @precedence2024-cloud, su adopción global continúa en expansión
+impulsada por la digitalización generalizada.
+
+Estas plataformas ofrecen soluciones accesibles y de uso inmediato, lo que ha
+impulsado su adopción masiva en ámbitos muy diversos. Sin embargo, esta
+dependencia creciente de infraestructuras gestionadas por grandes corporaciones
+plantea interrogantes en torno al control de los datos, los costes asociados y
+la capacidad de adaptación a necesidades específicas.
 
 Sin embargo, este modelo basado en la externalización de servicios presenta
 importantes limitaciones. En primer lugar, supone una dependencia tecnológica de
@@ -22,7 +26,10 @@ de que la información personal y profesional se almacene en servidores ajenos
 plantea dudas sobre la seguridad y la confidencialidad, ya que los usuarios
 deben aceptar políticas de uso que no siempre garantizan un control total sobre
 su información. Asimismo, los modelos de negocio basados en la explotación de
-datos personales para fines publicitarios intensifican esta problemática.
+datos personales para fines publicitarios intensifican esta problemática. Estas
+preocupaciones están alineadas con los principios del Reglamento General de
+Protección de Datos (UE 2016/679), que subraya la necesidad de garantizar la
+soberanía del usuario sobre su información personal @rgpd2016.
 
 Ante esta situación, surge un interés creciente por las alternativas
 autogestionadas de servicios digitales ("self-hosting"), que permiten a los
