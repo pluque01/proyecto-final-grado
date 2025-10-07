@@ -77,6 +77,12 @@ mejorar la organización:
   planificación y el seguimiento visual de las tareas en distintas fases de
   progreso.
 
+  #figure(
+    caption: [Tablero Kanban en GitHub Projects utilizado para la gestión del
+      proyecto.],
+    image("../Figures/Chapter2/kanban_board.png", width: 100%),
+  ) <figure:kanban_board>
+
 === Redacción de la memoria
 
 Para seleccionar la herramienta de redacción de la memoria se definieron unos
@@ -101,16 +107,16 @@ Con base en estos criterios, se valoraron distintas opciones: *Word*, *LaTeX* y
   es pronunciada, lo que supone una barrera en proyectos con tiempos acotados. A
   ello se suman los largos tiempos de compilación, que pueden dificultar la
   iteración rápida y el ajuste inmediato del contenido y del formato.
-- *Typst* surge como alternativa moderna a LaTeX, diseñada para mantener la
-  precisión de un lenguaje de marcado al tiempo que simplifica su uso y
-  aprendizaje. Su principal ventaja es ofrecer una edición en tiempo real, lo
-  que permite comprobar de inmediato el resultado del documento tras cualquier
-  modificación. Además, cuenta con una comunidad activa en crecimiento y con
-  integración sencilla en entornos de desarrollo como Visual Studio Code, donde
-  se han empleado extensiones específicas para la edición de documentos Typst.
-  Esto ha permitido complementar la escritura con validadores de compilación y
-  gramática, asegurando que el texto cumpla con los requisitos de corrección y
-  consistencia establecidos al inicio del proyecto.
+- *Typst* #footnote("https://typst.app") surge como alternativa moderna a LaTeX,
+  diseñada para mantener la precisión de un lenguaje de marcado al tiempo que
+  simplifica su uso y aprendizaje. Su principal ventaja es ofrecer una edición
+  en tiempo real, lo que permite comprobar de inmediato el resultado del
+  documento tras cualquier modificación. Además, cuenta con una comunidad activa
+  en crecimiento y con integración sencilla en entornos de desarrollo como
+  Visual Studio Code, donde se han empleado extensiones específicas para la
+  edición de documentos Typst. Esto ha permitido complementar la escritura con
+  validadores de compilación y gramática, asegurando que el texto cumpla con los
+  requisitos de corrección y consistencia establecidos al inicio del proyecto.
 
 En conclusión, *Typst* fue la opción seleccionada por equilibrar eficiencia,
 facilidad de uso y capacidad de mantener un estilo uniforme en un documento
@@ -131,10 +137,10 @@ de elegir la herramienta se definieron los siguientes requisitos:
 Con base en estos criterios se consideraron dos alternativas principales:
 
 
-- *Editor web de Typst*#footnote("https://typst.app"): ofrece un entorno básico
-  y ligero, pero limitado en extensiones y sin soporte avanzado de revisión
-  lingüística. Además, la integración con sistemas de control de versiones es
-  una característica de la versión de pago.
+- *Editor web de Typst*: ofrece un entorno básico y ligero, pero limitado en
+  extensiones y sin soporte avanzado de revisión lingüística. Además, la
+  integración con sistemas de control de versiones es una característica de la
+  versión de pago.
 
 - *Visual Studio Code (VSCode)*#footnote("https://code.visualstudio.com"):
   editor versátil con un amplio ecosistema de extensiones, capaz de integrar
