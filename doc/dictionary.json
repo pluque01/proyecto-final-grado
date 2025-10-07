@@ -1,5 +1,31 @@
 {
+    "disabled_checks": {
+        "es-ES": [
+            "SEPARADO"
+        ]
+    },
     "dictionary": {
-        "es-ES": []
+        "es-ES": [
+            "AGPL",
+            "Logseq",
+            "Vaultwarden",
+            "Service",
+            "autoalojamiento",
+            "Compose",
+            "k3s",
+            "multifactor",
+            "Markdown",
+            "Git",
+            "1Password",
+            "proxy",
+            "Cloud",
+            "SSO",
+            "Evernote",
+            "kanban",
+            "Notion",
+            "Nextcloud",
+            "Silicon",
+            "autohospedaje"
+        ]
     }
 }

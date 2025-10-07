@@ -9,4 +9,28 @@
     },
     "tinymist.formatterPrintWidth": 80,
     "tinymist.formatterProseWrap": true,
+    "ltex.dictionary": {
+        "es": [
+            "AGPL",
+            "Logseq",
+            "Vaultwarden",
+            "Service",
+            "autoalojamiento",
+            "Compose",
+            "k3s",
+            "multifactor",
+            "Markdown",
+            "Git",
+            "1Password",
+            "proxy",
+            "Cloud",
+            "SSO",
+            "Evernote",
+            "kanban",
+            "Notion",
+            "Nextcloud",
+            "Silicon",
+            "autohospedaje"
+        ],
+    }
 }

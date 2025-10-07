@@ -387,6 +387,7 @@
     } else {
       it
     }
+    show footnote: it => [0]
     doc
   }
 }
