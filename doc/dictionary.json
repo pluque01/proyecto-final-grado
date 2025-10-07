@@ -18,7 +18,14 @@
             "Git",
             "1Password",
             "proxy",
-            "Cloud"
+            "Cloud",
+            "SSO",
+            "Evernote",
+            "kanban",
+            "Notion",
+            "Nextcloud",
+            "Silicon",
+            "autohospedaje"
         ]
     }
 }
