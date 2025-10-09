@@ -11,6 +11,15 @@
     "tinymist.formatterProseWrap": true,
     "ltex.dictionary": {
         "es": [
+            "milestone",
+            "milestones",
+            "Git",
+            "VSCode",
+            "Typst",
+            "workflow",
+            "workflows",
+            "Workflows",
+            "commit",
             "AGPL",
             "Logseq",
             "Vaultwarden",
@@ -30,7 +39,9 @@
             "Notion",
             "Nextcloud",
             "Silicon",
-            "autohospedaje"
+            "autohospedaje",
+            "pull",
+            "request"
         ],
     }
 }
