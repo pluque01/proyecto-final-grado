@@ -39,7 +39,9 @@
             "Notion",
             "Nextcloud",
             "Silicon",
-            "autohospedaje"
+            "autohospedaje",
+            "pull",
+            "request"
         ],
     }
 }
