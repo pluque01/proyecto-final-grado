@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
 
 env:
-  TYPLT_REV: "73d0bae"
+  TYPLT_REV: "6ef57b4"
 
 jobs:
   compile:
@@ -37,16 +37,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up JDK 17
+      - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           distribution: "temurin"
-          java-version: "17"
+          java-version: "25"
 
       - name: Set up Maven
         uses: stCarolas/setup-maven@v5
         with:
-          maven-version: "3.8.6"
+          maven-version: "3.9.11"
 
       - name: Install Rust toolchain
         uses: actions-rust-lang/setup-rust-toolchain@v1
