@@ -6,23 +6,24 @@ planteados. En este capítulo se describe cómo se ha estructurado el desarrollo
 siguiendo un enfoque iterativo e incremental, en coherencia con los principios
 ágiles expuestos en la metodología.
 
+Para la gestión y el seguimiento se ha empleado GitHub, aprovechando sus
+funcionalidades nativas de planificación, como los "milestones" y las "issues".
+Un milestone o hito representa una agrupación de tareas con un objetivo común y
+un horizonte temporal definido, permitiendo medir el progreso de forma
+estructurada @github_milestones. Por su parte, una tarea o issue es una unidad
+de trabajo que describe una tarea, problema o mejora específica, y constituye el
+principal mecanismo de organización en GitHub @github_issues. El uso conjunto de
+ambos elementos permite mantener un control centralizado del proyecto dentro del
+repositorio, garantizando la trazabilidad de los cambios y la documentación
+continua de los avances.
 
 == Organización del proyecto
 
-Para la gestión y el seguimiento se ha empleado GitHub, aprovechando sus
-funcionalidades nativas de planificación, como los milestones para agrupar
-tareas y los issues para registrar el progreso y las decisiones tomadas. Este
-sistema permite mantener un control centralizado del proyecto dentro del propio
-repositorio, facilitando la trazabilidad de los cambios y la documentación
-continua de los avances.
-
-=== Milestones
-
-El desarrollo se ha estructurado en una serie de milestones, cada uno con un
-objetivo concreto y verificable. Cada milestone agrupa un conjunto de issues
-relacionadas, que detallan las tareas necesarias para alcanzar dicho objetivo.
-Este enfoque permite dividir el trabajo en bloques manejables y evaluar el
-progreso de forma clara y medible.
+El desarrollo se ha estructurado en una serie de hitos o milestones, cada uno
+con un objetivo concreto y verificable. Cada milestone agrupa un conjunto de
+issues relacionadas, que detallan las tareas necesarias para alcanzar dicho
+objetivo. Este enfoque permite dividir el trabajo en bloques manejables y
+evaluar el progreso de forma clara y medible.
 
 El primer milestone (M0) se ha dedicado a establecer la infraestructura inicial
 del proyecto. Incluye la configuración del entorno de trabajo, la verificación
@@ -35,9 +36,13 @@ Los milestones posteriores se centrarán en la entrega de productos mínimos
 viables (PMV) que cubran las necesidades identificadas en las historias de
 usuario. Cada PMV representará una versión funcional o parcial del sistema que
 permita validar un conjunto de requisitos concretos y avanzar de manera
-progresiva hacia el resultado final. De esta forma, el proyecto mantiene una
-orientación práctica y que se puede validar en cada fase, asegurando que las
-iteraciones aporten valor y se ajusten a los objetivos definidos.
+progresiva hacia el resultado final. Así, cada fase aporta valor incremental y
+puede evaluarse su éxito en función de entregas concretas.
+
+La literatura reciente destaca el valor de los milestones como instrumentos de
+control y alineación en proyectos ágiles, pues permiten estructurar las
+iteraciones, coordinar el equipo y asegurar que los entregables parciales tienen
+relevancia para los objetivos del proyecto @dugbartey2025.
 
 == Gestión de tareas y seguimiento
 
@@ -47,6 +52,12 @@ problema específico, indicando su propósito, el estado de avance y las
 decisiones asociadas. Este sistema permite descomponer los objetivos de cada
 milestone en pasos concretos y fácilmente verificables.
 
+Para facilitar la organización y búsqueda de tareas, se emplean etiquetas que
+clasifican las issues según su naturaleza, como documentación, implementación,
+revisión o corrección. Asimismo, se mantienen convenciones de redacción en los
+títulos y descripciones, de modo que cada issue refleje de forma concisa el
+contenido y su relación con el proyecto.
+
 El cierre de las tareas se vincula directamente con los pull requests, que
 documentan los cambios realizados en el repositorio. Cada pull request hace
 referencia a las issues que resuelve, de modo que el proceso de revisión y
@@ -54,7 +65,6 @@ validación queda integrado en el propio flujo de desarrollo. GitHub proporciona
 además indicadores automáticos de progreso en cada milestone, permitiendo
 visualizar el porcentaje de tareas completadas y realizar un seguimiento del
 avance general.
-
 
 #figure(
   caption: [Captura de pantalla de los issues cerrados en GitHub],
