@@ -389,7 +389,13 @@
     }
     show footnote: it => [0]
     set footnote.entry(separator: none)
-    doc
+    show text.where(weight: "bold")
+      .or(text.where(weight: "italic"))
+      .or(text.where(weight: "black"))
+      .or(text.where(weight: "semibold")): it => text(weight: "regular", it)
+    show strong: it => it.body
+    show emph: it => it.body
+    doc 
   }
 }
 //LTeX: enabled=true
