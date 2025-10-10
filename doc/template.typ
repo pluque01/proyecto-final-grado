@@ -388,6 +388,7 @@
       it
     }
     show footnote: it => [0]
+    set footnote.entry(separator: none)
     doc
   }
 }
