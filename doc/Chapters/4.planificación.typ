@@ -25,12 +25,12 @@ issues relacionadas, que detallan las tareas necesarias para alcanzar dicho
 objetivo. Este enfoque permite dividir el trabajo en bloques manejables y
 evaluar el progreso de forma clara y medible.
 
-El primer milestone (M0) se ha dedicado a establecer la infraestructura inicial
-del proyecto. Incluye la configuración del entorno de trabajo, la verificación
-del correcto funcionamiento del compilador de Typst y la revisión ortográfica y
-gramatical del documento base. Además, en esta etapa se han documentado las
-decisiones relativas a la estructura del repositorio y a la adaptación de la
-infraestructura para posibles usos futuros.
+El primer milestone (M0) corresponde a la infraestructura inicial del proyecto,
+cuyo resultado principal es un entorno de trabajo funcional y estable sobre el
+que desarrollar el resto del proyecto. Además, incluye la definición de las
+convenciones de trabajo y la documentación de las decisiones relacionadas con la
+organización del repositorio, de modo que el proyecto puede reproducirse o
+adaptarse fácilmente en otros entornos.
 
 Los milestones posteriores se centrarán en la entrega de productos mínimos
 viables (PMV) que cubran las necesidades identificadas en las historias de
