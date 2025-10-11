@@ -36,7 +36,10 @@
             "Silicon",
             "autohospedaje",
             "pull",
-            "request"
+            "request",
+            "requests",
+            "issue",
+            "issues"
         ]
     }
 }

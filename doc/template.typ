@@ -388,7 +388,14 @@
       it
     }
     show footnote: it => [0]
-    doc
+    set footnote.entry(separator: none)
+    show text.where(weight: "bold")
+      .or(text.where(weight: "italic"))
+      .or(text.where(weight: "black"))
+      .or(text.where(weight: "semibold")): it => text(weight: "regular", it)
+    show strong: it => it.body
+    show emph: it => it.body
+    doc 
   }
 }
 //LTeX: enabled=true
