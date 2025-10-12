@@ -44,7 +44,9 @@
             "request",
             "requests",
             "issue",
-            "issues"
+            "issues",
+            "Server",
+            "microSD"
         ],
     }
 }
