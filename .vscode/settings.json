@@ -46,7 +46,14 @@
             "issue",
             "issues",
             "Server",
-            "microSD"
+            "microSD",
+            "HGU",
+            "IaC",
+            "ARM",
+            "rpi",
+            "aarch64",
+            "Nix",
+            "x86_64"
         ],
     }
 }
