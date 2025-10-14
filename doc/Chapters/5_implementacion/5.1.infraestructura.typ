@@ -17,74 +17,72 @@ reproducibilidad y accesibilidad remota.
 
 El self-hosting implica que los servicios se ejecuten en una infraestructura
 propia, bajo control directo del usuario o de la organización. Esta elección
-proporciona independencia de los proveedores externos, mayor privacidad y la
-posibilidad de adaptar el entorno a las necesidades concretas del proyecto.
+ofrece independencia de proveedores externos, mayor privacidad y la posibilidad
+de adaptar el entorno a las necesidades concretas del proyecto.
 
-En el contexto del presente trabajo se han considerado tres aproximaciones
-principales.
+==== Alternativas consideradas
 
-==== Servidor privado virtual (VPS)
+Se evaluaron tres aproximaciones principales para alojar los servicios del
+proyecto:
 
-Una primera posibilidad consiste en utilizar un servidor privado virtual
-("Virtual Private Server") ofrecido por un proveedor de infraestructura en la
-nube. Este modelo permite disponer de una máquina virtual con recursos
-dedicados, accesible de forma permanente desde cualquier ubicación. Entre sus
-ventajas destacan la alta disponibilidad, la conectividad estable y la
-simplicidad de configuración inicial, ya que el mantenimiento físico del
-hardware recae en el proveedor.
+- *Servidor privado virtual (VPS)*: Consiste en contratar una máquina virtual en
+  la nube con recursos dedicados. Ofrece alta disponibilidad, buena conectividad
+  y configuración inicial sencilla, ya que el mantenimiento físico recae en el
+  proveedor. No obstante, introduce dependencia externa y un coste mensual
+  recurrente, factores poco adecuados para un entorno educativo o experimental
+  orientado a la autonomía.
 
-Sin embargo, este enfoque implica una dependencia externa y un coste mensual
-recurrente, lo que puede resultar poco adecuado para proyectos personales o
-educativos en los que se prioriza la autonomía, la transparencia y la reducción
-de gastos.
+- *Equipo físico reciclado*: Permite reutilizar un ordenador en desuso como
+  servidor doméstico, eliminando gastos de suscripción y garantizando control
+  total sobre el hardware. Sin embargo, este tipo de equipos suele tener un
+  consumo energético elevado y no está optimizado para funcionar de forma
+  continua, lo que afecta a su eficiencia y mantenimiento.
 
-==== Equipo físico reciclado
+- *Dispositivo embebido (Raspberry Pi)*: Presenta una solución ligera y
+  económica, con bajo consumo energético y funcionamiento silencioso
+  @raspi_benchmarks_2024. Ofrece una amplia comunidad, soporte estable y
+  compatibilidad con distribuciones GNU/Linux orientadas al self-hosting, lo que
+  facilita la instalación y administración de servicios.
 
-Otra opción consiste en habilitar un ordenador en desuso como servidor
-doméstico. Esta alternativa proporciona control total sobre el hardware y
-elimina los costes de suscripción, además de ofrecer una oportunidad para
-reutilizar recursos existentes. Su principal desventaja reside en que por lo
-general, estos equipos no están optimizados para funcionar de forma continua, lo
-que puede traducirse en un mayor consumo energético y en el mantenimiento
-continuo del sistema, que debe permanecer encendido de forma estable para
-ofrecer disponibilidad constante.
+==== Criterios de elección
 
-Aun así, este enfoque resulta apropiado en entornos de aprendizaje o en
-instalaciones pequeñas donde se busca experimentar con la administración de
-sistemas y el despliegue de servicios locales, siempre que se asuma el consumo y
-espacio físico que conlleva mantener un equipo dedicado en funcionamiento.
+Las alternativas se valoraron según los siguientes criterios:
 
-==== Dispositivos embebidos
+- Coste económico: inversión inicial y ausencia de cuotas recurrentes.
 
-Los dispositivos embebidos como la Raspberry Pi ofrecen una solución ligera y
-económica para el self-hosting. A pesar de sus limitaciones de rendimiento,
-proporcionan un bajo consumo energético y un funcionamiento silencioso
-@raspi_benchmarks_2024. Con una amplia comunidad de usuarios, tiene su propio
-sistema operativo basado en Linux y una gran variedad de software compatible, lo
-que facilita la instalación y gestión de servicios.
+- Consumo energético: viabilidad para funcionamiento continuo sin impacto
+  significativo.
 
-Su versatilidad permite ejecutar entornos completos de trabajo y almacenamiento
-con un coste energético y económico muy reducido, manteniendo al mismo tiempo la
-posibilidad de administrar el sistema mediante herramientas estándar de Linux.
+- Autonomía: control completo del entorno sin depender de terceros.
+
+- Escalabilidad y replicabilidad: facilidad para reproducir la infraestructura
+  en otros contextos.
+
+- Soporte comunitario: disponibilidad de documentación, foros y soluciones.
 
 ==== Justificación de la elección
 
-Tras evaluar las distintas alternativas, se ha optado por utilizar una Raspberry
-Pi como servidor principal del proyecto. Esta decisión se justifica por varios
-motivos:
+Tras el análisis, se optó por utilizar una Raspberry Pi como servidor principal
+del proyecto. Esta decisión se fundamenta en los siguientes aspectos:
 
-- Se disponía previamente de una unidad funcional, lo que permitió iniciar el
-  despliegue sin adquirir nuevo hardware.
-- Su bajo consumo energético la hace adecuada para mantener el sistema en
-  ejecución continua sin un impacto significativo en el coste eléctrico.
-- Su precio reducido y amplia disponibilidad facilitan la replicación del
-  entorno en otros contextos.
-- Existe una gran comunidad de usuarios con el mismo hardware, lo que garantiza
-  abundante documentación, soporte y soluciones ante posibles incidencias.
+- Se disponía previamente de una unidad funcional, lo que evitó costes iniciales
+  y aceleró la implementación.
+
+- Su bajo consumo energético permite mantenerla encendida de forma continua con
+  un gasto mínimo.
+
+- Su precio reducido y amplia disponibilidad favorecen la replicación del
+  entorno en otros escenarios educativos o de investigación.
+
+- La gran comunidad de usuarios y abundante documentación garantizan soporte
+  estable y soluciones ante incidencias.
+
+- En conjunto, la Raspberry Pi ofrece el equilibrio ideal entre eficiencia,
+  autonomía y sostenibilidad, cumpliendo los requisitos del proyecto para una
+  infraestructura self-hosted ligera y reproducible.
 
 De esta forma, la Raspberry Pi constituye la base sobre la que se desplegarán
 los distintos servicios implementados en las siguientes fases del proyecto.
-
 Específicamente, se ha utilizado una Raspberry Pi 4 Modelo B con 4 GB de RAM y
 una tarjeta microSD de 32 GB para el almacenamiento principal.
 
