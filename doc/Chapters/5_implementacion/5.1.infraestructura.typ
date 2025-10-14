@@ -1,4 +1,4 @@
-== M1 - Infraestructura y configuración de entorno
+== [M1] Infraestructura y configuración de entorno
 
 Este milestone tiene como objetivo seleccionar y preparar el hardware que
 servirá de base para la infraestructura self-hosted, junto con la instalación y
@@ -58,10 +58,10 @@ espacio físico que conlleva mantener un equipo dedicado en funcionamiento.
 
 Los dispositivos embebidos como la Raspberry Pi ofrecen una solución ligera y
 económica para el self-hosting. A pesar de sus limitaciones de rendimiento,
-proporcionan un bajo consumo energético y un funcionamiento silencioso. Con una
-amplia comunidad de usuarios, tiene su propio sistema operativo basado en Linux
-y una gran variedad de software compatible, lo que facilita la instalación y
-gestión de servicios.
+proporcionan un bajo consumo energético y un funcionamiento silencioso
+@raspi_benchmarks_2024. Con una amplia comunidad de usuarios, tiene su propio
+sistema operativo basado en Linux y una gran variedad de software compatible, lo
+que facilita la instalación y gestión de servicios.
 
 Su versatilidad permite ejecutar entornos completos de trabajo y almacenamiento
 con un coste energético y económico muy reducido, manteniendo al mismo tiempo la
@@ -106,32 +106,37 @@ configuración.
 Se analizaron distintas distribuciones de GNU/Linux con soporte para la
 arquitectura ARM y orientadas al uso como servidor:
 
-- *Raspberry Pi OS*: distribución oficial basada en Debian y optimizada para el
-  hardware de la placa. Su principal ventaja es la compatibilidad inmediata con
-  todos los controladores y la gran cantidad de documentación disponible. Sin
-  embargo, su enfoque generalista y la configuración manual de paquetes
-  dificultan la reproducibilidad exacta del entorno en otros equipos.
+- *Raspberry Pi OS* #footnote(
+    "https://www.raspberrypi.com/software/operating-systems/",
+  ): distribución oficial basada en Debian y optimizada para el hardware de la
+  placa. Su principal ventaja es la compatibilidad inmediata con todos los
+  controladores y la gran cantidad de documentación disponible. Sin embargo, su
+  enfoque generalista y la configuración manual de paquetes dificultan la
+  reproducibilidad exacta del entorno en otros equipos.
 
-- *Ubuntu Server*: versión minimalista del sistema de Canonical, también
-  disponible para ARM. Ofrece estabilidad y soporte LTS, junto con una amplia
-  compatibilidad de software. Su desventaja radica en el mayor consumo de
-  recursos y en la dependencia de herramientas tradicionales de gestión, menos
-  adecuadas para un enfoque declarativo.
+- *Ubuntu Server* #footnote("https://ubuntu.com/download/server"): versión
+  minimalista del sistema de Canonical, también disponible para ARM. Ofrece
+  estabilidad y soporte LTS, junto con una amplia compatibilidad de software. Su
+  desventaja radica en el mayor consumo de recursos y en la dependencia de
+  herramientas tradicionales de gestión, menos adecuadas para un enfoque
+  declarativo.
 
-- *DietPi*: sistema extremadamente ligero orientado a entornos embebidos. Es
-  fácil de instalar y ofrece scripts automatizados para servicios comunes, pero
-  su ecosistema es más limitado y depende en gran medida de configuraciones
-  predefinidas, reduciendo la flexibilidad y trazabilidad de los cambios.
+- *DietPi* #footnote("https://dietpi.com/"): sistema extremadamente ligero
+  orientado a entornos embebidos. Es fácil de instalar y ofrece scripts
+  automatizados para servicios comunes, pero su ecosistema es más limitado y
+  depende en gran medida de configuraciones predefinidas, reduciendo la
+  flexibilidad y trazabilidad de los cambios.
 
-- *NixOS*: distribución construida en torno al gestor de paquetes y sistema de
-  configuración Nix. Permite definir toda la configuración del sistema de forma
-  declarativa, garantizando reproducibilidad y reversión completa de cambios.
-  Este enfoque se alinea con el paradigma de *Infraestructura como código*
-  ("IaC"), que concibe la infraestructura como un conjunto de definiciones
-  versionables en lugar de configuraciones manuales. Aunque su curva de
-  aprendizaje es más pronunciada, ofrece un control total sobre los servicios y
-  dependencias, lo que lo convierte en una opción especialmente adecuada para
-  entornos técnicos y proyectos de investigación.
+- *NixOS* #footnote("https://nixos.org/"): distribución construida en torno al
+  gestor de paquetes y sistema de configuración Nix. Permite definir toda la
+  configuración del sistema de forma declarativa, garantizando reproducibilidad
+  y reversión completa de cambios. Este enfoque se alinea con el paradigma de
+  *Infraestructura como código* ("IaC"), que concibe la infraestructura como un
+  conjunto de definiciones versionables en lugar de configuraciones manuales
+  @morris2016infrastructure. Aunque su curva de aprendizaje es más pronunciada,
+  ofrece un control total sobre los servicios y dependencias, lo que lo
+  convierte en una opción especialmente adecuada para entornos técnicos y
+  proyectos de investigación.
 
 ==== Criterios de evaluación
 
@@ -180,9 +185,9 @@ sistema.
 
 NixOS es una distribución de GNU/Linux diseñada en torno al gestor de paquetes
 Nix, que introduce un enfoque declarativo e inmutable para la gestión del
-sistema. A diferencia de las distribuciones tradicionales, donde la
-configuración y los paquetes se instalan de manera imperativa, NixOS utiliza
-descripciones formales del sistema en un único archivo
+sistema @dolstra2008nixos. A diferencia de las distribuciones tradicionales,
+donde la configuración y los paquetes se instalan de manera imperativa, NixOS
+utiliza descripciones formales del sistema en un único archivo
 `/etc/nixos/configuration.nix` que actúa como fuente de verdad del estado
 deseado.
 
@@ -211,11 +216,11 @@ clave pública SSH del usuario, de manera que el acceso remoto estuviera
 disponible desde el primer arranque.
 
 La compilación de la imagen se realizó desde una máquina con Windows 11 (x86_64)
-utilizando NixOS bajo WSL. Gracias al propio sistema de compilación cruzada de
-Nix, fue posible generar una imagen compatible con la arquitectura aarch64,
-correspondiente a la Raspberry Pi.
+utilizando NixOS bajo WSL @microsoft_wsl_install. Gracias al propio sistema de
+compilación cruzada de Nix, fue posible generar una imagen compatible con la
+arquitectura aarch64, correspondiente a la Raspberry Pi.
 
-Para ello, se definió un archivo flake.nix con la estructura siguiente:
+Para ello, se definió un archivo `flake.nix` con la siguiente estructura:
 
 ```nix
 {
@@ -315,8 +320,8 @@ para permitir la conexión inicial a la red local.
 
 Gracias al enfoque declarativo y reproducible de NixOS, este proceso permite
 regenerar la imagen de forma idéntica en el futuro o adaptarla fácilmente a
-nuevas configuraciones de hardware, manteniendo la filosofía de Infraestructura
-como Código (IaC) en todas las etapas del proyecto.
+nuevas configuraciones de hardware, manteniendo la filosofía de IaC en futuras
+etapas del proyecto.
 
 ==== Acceso remoto
 
@@ -329,7 +334,7 @@ tendrá la misma IP y podremos acceder a ella sin problemas.
 Con las herramientas de mi router (Movistar HGU) se puede hacer fácilmente desde
 la sección de DHCP, donde se pueden ver los dispositivos conectados y asignarles
 una IP fija. Como puede verse en la @figure:dhcp, he reservado la IP
-192.168.1.180 a la Raspberry Pi.
+`192.168.1.180` a la Raspberry Pi.
 
 
 #figure(
