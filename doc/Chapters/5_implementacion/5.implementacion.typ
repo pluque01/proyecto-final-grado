@@ -5,4 +5,4 @@ siguiendo el enfoque incremental definido en la planificación. Para cada
 milestone, se explicarán las decisiones tomadas, los desafíos encontrados y cómo
 se resolvieron.
 
-#include "5.1.infraestructura.typ"
+#include "m1.typ"
