@@ -90,7 +90,8 @@ funcional del producto mínimo viable definido para este hito.
 
 A diferencia de otras alternativas, Nextcloud integra de forma nativa tanto la
 sincronización de archivos como la colaboración entre usuarios, ofreciendo una
-interfaz web moderna, clientes multiplataforma y aplicaciones móviles oficiales.
+interfaz web moderna, clientes para varias plataformas y aplicaciones móviles
+oficiales.
 
 Otro aspecto decisivo ha sido la madurez del proyecto y la amplitud de su
 comunidad, que garantizan una documentación exhaustiva, actualizaciones
