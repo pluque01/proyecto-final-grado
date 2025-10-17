@@ -341,10 +341,131 @@ una IP fija. Como puede verse en la @figure:dhcp, he reservado la IP
   image("../../Figures/Chapter5/dhcp.png", width: 90%),
 ) <figure:dhcp>
 
+=== Estrategia de despliegue de servicios
+
+Una vez configurada la infraestructura base y verificado el correcto
+funcionamiento del sistema operativo, se definió la estrategia de despliegue que
+servirá de guía para la implementación de los servicios autoalojados en los
+siguientes milestones.
+
+El objetivo de esta estrategia es asegurar la reproducibilidad, portabilidad y
+consistencia del entorno de ejecución, permitiendo que los servicios puedan
+desplegarse de manera controlada y predecible en cualquier momento del ciclo de
+vida del sistema.
+
+==== Alternativas de despliegue
+
+En el contexto de NixOS, existen principalmente dos enfoques posibles para el
+despliegue de servicios:
+
+- Despliegue nativo mediante NixOS: Consiste en definir cada servicio dentro de
+  la configuración declarativa del sistema aprovechando las ventajas del modelo
+  de IaC propio de Nix. Este enfoque ofrece una integración total con el sistema
+  operativo y un alto grado de reproducibilidad, ya que todas las dependencias y
+  servicios quedan descritos como parte del propio entorno. Sin embargo, esta
+  opción puede presentar limitaciones a la hora de replicar el entorno en otros
+  sistemas no basados en NixOS, y aumenta la complejidad cuando se desean
+  desplegar servicios con configuraciones dinámicas o dependencias externas.
+
+- Despliegue mediante contenedores Docker [@cap:m1_docker]: Este enfoque
+  encapsula cada servicio dentro de un contenedor independiente, gestionado a
+  través de herramientas como Docker Compose. Permite aislar completamente las
+  dependencias y facilita la replicación del entorno en otros sistemas
+  operativos (Linux, Windows, macOS) sin modificar la infraestructura base.
+  Además, su uso está ampliamente extendido en entornos DevOps, lo que
+  simplifica la integración con prácticas de automatización, monitorización y
+  mantenimiento continuo.
+
+==== Docker y la contenedorización<cap:m1_docker>
+
+*Docker* #footnote("https://www.docker.com/") es una plataforma de
+virtualización ligera basada en contenedores que permite ejecutar aplicaciones
+de forma aislada, junto con todas sus dependencias, sobre un mismo sistema
+operativo. A diferencia de las máquinas virtuales tradicionales, los
+contenedores comparten el kernel del sistema, reduciendo significativamente el
+consumo de recursos y los tiempos de arranque.
+
+Cada contenedor incluye únicamente los componentes necesarios para ejecutar una
+aplicación concreta, lo que facilita su despliegue, actualización y eliminación
+sin afectar al resto del sistema. Este modelo permite alcanzar un alto grado de
+portabilidad, ya que un mismo contenedor puede ejecutarse de forma idéntica en
+distintos entornos.
+
+Docker proporciona además herramientas para la orquestación de múltiples
+contenedores, como Docker Compose, que permiten describir la configuración de un
+conjunto de servicios mediante archivos declarativos y automatizar su puesta en
+marcha. Gracias a estas características, Docker se ha convertido en un
+componente central en las prácticas de desarrollo y despliegue modernas (DevOps)
+@emmanni2023impact.
+
+==== Justificación de la elección
+
+Teniendo en cuenta los objetivos del proyecto y las características de la
+infraestructura definida, se ha optado por utilizar contenedores Docker como
+método principal de despliegue de los servicios.
+
+Esta decisión responde a varios motivos. En primer lugar, los contenedores
+proporcionan un equilibrio óptimo entre aislamiento y portabilidad, permitiendo
+desplegar aplicaciones complejas sin comprometer la estabilidad del sistema
+base. En segundo lugar, el uso de Docker Compose facilita la gestión declarativa
+de múltiples servicios, manteniendo la filosofía de reproducibilidad que
+caracteriza a NixOS.
+
+De este modo, NixOS continúa desempeñando el papel de infraestructura base
+reproducible, encargada de definir y asegurar el estado del sistema operativo,
+la red y los recursos del host, mientras que Docker gestiona la capa de
+servicios funcionales, que puede versionarse, replicarse o migrarse con
+facilidad.
+
+La combinación de ambos enfoques ofrece un entorno flexible:
+
+- NixOS garantiza la coherencia y el control de la infraestructura.
+
+- Docker aporta portabilidad, modularidad y compatibilidad con prácticas
+  modernas de despliegue.
+
+Este modelo híbrido constituye la base del trabajo realizado en los siguientes
+milestones, asegurando que todos los servicios implementados sean reproducibles,
+portables y fácilmente mantenibles dentro del ecosistema self-hosted del
+proyecto.
+
+=== Instalación y configuración de Docker en NixOS
+
+La instalación de Docker en NixOS se realizó de forma declarativa, integrándolo
+dentro del archivo de configuración del sistema (`configuration.nix`). Este
+método permite que la presencia y el estado del servicio formen parte de la
+definición del sistema, garantizando que la infraestructura pueda reconstruirse
+de manera exacta en caso de reinstalación o migración.
+
+```nix
+virtualisation.docker.enable = true;
+users.users.pi.extraGroups = [ "docker" ];
+```
+
+La primera línea activa el servicio de Docker como parte del sistema gestionado
+por `systemd`, asegurando su inicio automático en cada arranque. La segunda
+línea incorpora al usuario principal (pi) al grupo docker, lo que permite
+ejecutar comandos sin privilegios de superusuario, siguiendo las recomendaciones
+de seguridad.
+
+Una vez reconstruido el sistema el servicio queda habilitado y accesible.
+
+
 === Cierre del milestone
 
 Con la instalación de NixOS, la configuración del usuario principal y la
 habilitación del acceso remoto mediante clave SSH, se ha completado la
-preparación del entorno base. La Raspberry Pi dispone ahora de un sistema
-operativo reproducible y accesible, que constituye el punto de partida para la
-implementación de los servicios autoalojados en los siguientes milestones.
+preparación del entorno base sobre el que se desarrollará el resto del proyecto.
+La Raspberry Pi dispone ahora de un sistema operativo estable, reproducible y
+gestionado de forma declarativa, capaz de reconstruirse íntegramente a partir de
+su configuración.
+
+La incorporación de Docker como capa de despliegue complementaria refuerza esta
+reproducibilidad, al permitir la ejecución de servicios en contenedores aislados
+y portables, manteniendo la coherencia con la filosofía de Infraestructura como
+Código. De este modo, el sistema no solo está operativo, sino también preparado
+para albergar servicios complejos bajo un control total del entorno.
+
+Este milestone marca, por tanto, la transición desde la fase de configuración
+del sistema hacia la de implementación de servicios autoalojados, que se
+abordará en los siguientes milestones.
