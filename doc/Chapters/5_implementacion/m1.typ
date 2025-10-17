@@ -444,7 +444,7 @@ users.users.pi.extraGroups = [ "docker" ];
 
 La primera línea activa el servicio de Docker como parte del sistema gestionado
 por `systemd`, asegurando su inicio automático en cada arranque. La segunda
-línea incorpora al usuario principal (pi) al grupo docker, lo que permite
+línea incorpora al usuario principal (pi) al grupo `docker`, lo que permite
 ejecutar comandos sin privilegios de superusuario, siguiendo las recomendaciones
 de seguridad.
 
