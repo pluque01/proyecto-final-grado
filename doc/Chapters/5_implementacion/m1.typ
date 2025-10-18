@@ -367,67 +367,98 @@ despliegue de servicios:
   sistemas no basados en NixOS, y aumenta la complejidad cuando se desean
   desplegar servicios con configuraciones dinámicas o dependencias externas.
 
-- Despliegue mediante contenedores Docker [@cap:m1_docker]: Este enfoque
-  encapsula cada servicio dentro de un contenedor independiente, gestionado a
-  través de herramientas como Docker Compose. Permite aislar completamente las
-  dependencias y facilita la replicación del entorno en otros sistemas
-  operativos (Linux, Windows, macOS) sin modificar la infraestructura base.
-  Además, su uso está ampliamente extendido en entornos DevOps, lo que
-  simplifica la integración con prácticas de automatización, monitorización y
-  mantenimiento continuo.
+- Despliegue mediante contenedores [@cap:m1_contenedores]: Este enfoque
+  encapsula cada servicio dentro de un contenedor independiente, gestionado por
+  un motor compatible. Los contenedores aíslan completamente las dependencias y
+  facilitan la portabilidad del entorno a otros sistemas operativos sin
+  necesidad de replicar la configuración del host. Además, su uso está
+  ampliamente extendido en entornos DevOps, lo que favorece la integración con
+  prácticas de automatización, monitorización y despliegue continuo.
 
-==== Docker y la contenedorización<cap:m1_docker>
+==== Contenedorización de servicios<cap:m1_contenedores>
 
-*Docker* #footnote("https://www.docker.com/") es una plataforma de
-virtualización ligera basada en contenedores que permite ejecutar aplicaciones
-de forma aislada, junto con todas sus dependencias, sobre un mismo sistema
-operativo. A diferencia de las máquinas virtuales tradicionales, los
-contenedores comparten el kernel del sistema, reduciendo significativamente el
-consumo de recursos y los tiempos de arranque.
+La contenedorización es una técnica de aislamiento a nivel de sistema operativo
+que permite ejecutar aplicaciones y servicios en entornos independientes, junto
+con todas sus dependencias y configuraciones necesarias
+@bentaleb2022containerization. A diferencia de la virtualización tradicional,
+que requiere emular hardware y ejecutar múltiples sistemas operativos, los
+contenedores comparten el mismo kernel del sistema anfitrión y se aíslan
+mediante mecanismos nativos como _cgroups_, _namespaces_, _capabilities_ o
+_seccomp_ @sultan2019containers.
 
-Cada contenedor incluye únicamente los componentes necesarios para ejecutar una
-aplicación concreta, lo que facilita su despliegue, actualización y eliminación
-sin afectar al resto del sistema. Este modelo permite alcanzar un alto grado de
-portabilidad, ya que un mismo contenedor puede ejecutarse de forma idéntica en
-distintos entornos.
+Este modelo proporciona un entorno de ejecución coherente y reproducible, donde
+cada contenedor incluye únicamente los componentes esenciales para la aplicación
+que aloja. Como resultado, los contenedores se inician de forma casi
+instantánea, consumen menos recursos que las máquinas virtuales y permiten
+mantener una estricta separación entre servicios.
 
-Docker proporciona además herramientas para la orquestación de múltiples
-contenedores, como Docker Compose, que permiten describir la configuración de un
-conjunto de servicios mediante archivos declarativos y automatizar su puesta en
-marcha. Gracias a estas características, Docker se ha convertido en un
-componente central en las prácticas de desarrollo y despliegue modernas (DevOps)
-@emmanni2023impact.
+La contenedorización también facilita la portabilidad de las aplicaciones, ya
+que un mismo contenedor puede ejecutarse de manera idéntica en diferentes
+sistemas operativos o entornos, ya sea en servidores locales, máquinas virtuales
+o infraestructuras en la nube; siempre que exista un motor compatible. Entre las
+herramientas más utilizadas para la gestión y ejecución de contenedores se
+encuentran Docker #footnote("https://www.docker.com/"), Podman #footnote(
+  "https://podman.io/",
+) y containerd #footnote("https://containerd.io/"), todas ellas basadas en las
+especificaciones abiertas del Open Container Initiative (OCI).
+
+Además, existen soluciones de orquestación y gestión de múltiples contenedores,
+como Compose #footnote("https://docs.docker.com/compose/") o Kubernetes
+#footnote("https://kubernetes.io/"), que permiten describir y automatizar la
+puesta en marcha de conjuntos de servicios mediante configuraciones
+declarativas. Gracias a estas características, la contenedorización se ha
+convertido en un componente esencial de las prácticas modernas de desarrollo,
+integración y despliegue continuo (DevOps) @emmanni2023impact.
 
 ==== Justificación de la elección
 
 Teniendo en cuenta los objetivos del proyecto y las características de la
-infraestructura definida, se ha optado por utilizar contenedores Docker como
-método principal de despliegue de los servicios.
+infraestructura definida, se ha optado por utilizar un modelo de despliegue
+basado en contenedores como método principal para la ejecución de los servicios
+autoalojados.
 
-Esta decisión responde a varios motivos. En primer lugar, los contenedores
-proporcionan un equilibrio óptimo entre aislamiento y portabilidad, permitiendo
-desplegar aplicaciones complejas sin comprometer la estabilidad del sistema
-base. En segundo lugar, el uso de Docker Compose facilita la gestión declarativa
-de múltiples servicios, manteniendo la filosofía de reproducibilidad que
-caracteriza a NixOS.
+La decisión responde a varios factores de carácter técnico, operativo y de
+seguridad. En primer lugar, los contenedores proporcionan un entorno de
+aislamiento ligero, que permite ejecutar múltiples servicios de forma
+independiente sobre el mismo sistema base, evitando conflictos de dependencias o
+configuraciones. Este aislamiento reduce la superficie de ataque, ya que cada
+contenedor dispone de su propio espacio de usuario, red y sistema de archivos,
+impidiendo que una vulnerabilidad en un servicio comprometa al resto del sistema
+o a otros servicios en ejecución.
 
-De este modo, NixOS continúa desempeñando el papel de infraestructura base
-reproducible, encargada de definir y asegurar el estado del sistema operativo,
-la red y los recursos del host, mientras que Docker gestiona la capa de
-servicios funcionales, que puede versionarse, replicarse o migrarse con
-facilidad.
+Además, los contenedores pueden ejecutarse siguiendo el principio de privilegios
+mínimos ("least privilege") @schneider2004least, limitando el acceso al kernel y
+a los recursos del host mediante mecanismos de seguridad del propio sistema
+operativo. Esta separación a nivel de proceso permite aplicar políticas de
+control de acceso más estrictas y coherentes con las buenas prácticas de
+seguridad modernas.
 
-La combinación de ambos enfoques ofrece un entorno flexible:
+Otro aspecto relevante es la gestión segura del ciclo de vida de los servicios.
+El uso de contenedores facilita la aplicación de actualizaciones o la
+sustitución completa de una instancia sin alterar la configuración del sistema
+operativo subyacente. De este modo, en caso de detección de una vulnerabilidad,
+puede desplegarse una nueva imagen corregida sin comprometer la estabilidad del
+host ni la reproducibilidad del entorno.
 
-- NixOS garantiza la coherencia y el control de la infraestructura.
+Desde el punto de vista de la portabilidad y la reproducibilidad, tanto Nix como
+la contenedorización persiguen objetivos similares, aunque desde niveles
+distintos de abstracción. Nix garantiza que la infraestructura subyacente, es
+decir, el sistema operativo, los paquetes y las configuraciones, pueda
+reconstruirse de forma determinista en cualquier máquina compatible, asegurando
+la coherencia del entorno base.
 
-- Docker aporta portabilidad, modularidad y compatibilidad con prácticas
-  modernas de despliegue.
+La contenedorización, por su parte, aplica estos principios al nivel de los
+servicios, encapsulando cada aplicación junto con sus dependencias en una unidad
+autocontenida. Esto permite desplegar el mismo servicio de manera idéntica en
+diferentes sistemas, independientemente de la distribución o las versiones del
+software instaladas.
 
-Este modelo híbrido constituye la base del trabajo realizado en los siguientes
-milestones, asegurando que todos los servicios implementados sean reproducibles,
-portables y fácilmente mantenibles dentro del ecosistema self-hosted del
-proyecto.
+En conjunto, ambos enfoques se complementan: Nix proporciona una base
+reproducible y coherente para la infraestructura, mientras que los contenedores
+añaden portabilidad, aislamiento en tiempo de ejecución y flexibilidad
+operativa. Esta combinación reduce los riesgos asociados a configuraciones
+divergentes y facilita la gestión segura y predecible de los servicios
+autoalojados.
 
 === Instalación y configuración de Docker en NixOS
 
