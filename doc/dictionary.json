@@ -50,7 +50,16 @@
             "Nix",
             "x86_64",
             "DevOps",
-            "Seafile"
+            "Seafile",
+            "OCI",
+            "Initiative",
+            "Container",
+            "containerd",
+            "Podman",
+            "seccomp",
+            "cgroups",
+            "namespaces",
+            "capabilities"
         ]
     }
 }
