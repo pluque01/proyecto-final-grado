@@ -6,3 +6,4 @@ milestone, se explicarán las decisiones tomadas, los desafíos encontrados y c�
 se resolvieron.
 
 #include "m1.typ"
+#include "m2.typ"
