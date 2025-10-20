@@ -460,13 +460,67 @@ operativa. Esta combinación reduce los riesgos asociados a configuraciones
 divergentes y facilita la gestión segura y predecible de los servicios
 autoalojados.
 
-=== Instalación y configuración de Docker en NixOS
+=== Evaluación y elección de la herramienta de contenedorización
 
-La instalación de Docker en NixOS se realizó de forma declarativa, integrándolo
-dentro del archivo de configuración del sistema (`configuration.nix`). Este
-método permite que la presencia y el estado del servicio formen parte de la
-definición del sistema, garantizando que la infraestructura pueda reconstruirse
-de manera exacta en caso de reinstalación o migración.
+Una vez definida la estrategia de despliegue basada en contenedores, fue
+necesario seleccionar la herramienta más adecuada para la gestión de los mismos
+dentro del entorno NixOS. En el ecosistema actual existen diversas opciones
+compatibles con las especificaciones del Open Container Initiative (OCI), que
+garantizan la interoperabilidad de las imágenes y la portabilidad de los
+servicios. Entre las más relevantes destacan Docker, Podman y containerd.
+
+==== Criterios de selección
+
+Para determinar la herramienta más apropiada se consideraron los siguientes
+criterios:
+
+- Compatibilidad con el estándar OCI: posibilidad de ejecutar imágenes y
+  descriptores de contenedores creados con otras herramientas.
+
+- Integración con NixOS: facilidad de instalación y gestión mediante
+  configuración declarativa.
+
+- Seguridad y modelo de ejecución: soporte para ejecución sin privilegios de
+  superusuario y aislamiento mediante mecanismos del kernel.
+
+- Facilidad de uso y ecosistema: disponibilidad de herramientas auxiliares (CLI,
+  orquestación local, documentación y soporte comunitario).
+
+==== Comparativa de alternativas
+
+- *Docker*: es la herramienta más extendida y dispone de un ecosistema maduro y
+  bien documentado. Sin embargo, su modelo tradicional requiere un demonio
+  central ("dockerd") que se ejecuta con privilegios de superusuario, lo que
+  introduce un riesgo adicional en términos de seguridad @docker_overview.
+  Aunque existen implementaciones sin privilegios ("rootless"), su integración
+  con NixOS resulta menos transparente y añade complejidad operativa.
+
+- *containerd*: es el motor de ejecución subyacente utilizado por muchas
+  plataformas (incluido Docker), optimizado para entornos de orquestación a gran
+  escala como Kubernetes. Ofrece una gran estabilidad y eficiencia, pero carece
+  de herramientas integradas de gestión de contenedores a nivel de usuario, por
+  lo que requiere componentes adicionales para tareas cotidianas de despliegue y
+  mantenimiento.
+
+- *Podman*: desarrollado por Red Hat, Podman mantiene compatibilidad completa
+  con las imágenes y comandos de Docker, pero adopta una arquitectura sin
+  demonio ("daemonless"), en la que cada contenedor se ejecuta como un proceso
+  del usuario @redhat_podman. Esto elimina la necesidad de un servicio con
+  privilegios elevados y permite ejecutar contenedores en modo rootless,
+  reforzando la seguridad del sistema. Además, su integración con NixOS es
+  directa y su sintaxis es prácticamente idéntica a la de Docker, lo que
+  facilita la transición y el uso de herramientas existentes.
+
+==== Justificación de la elección
+
+Considerando los criterios anteriores, se ha seleccionado Podman como
+herramienta principal de contenedorización para el entorno self-hosted del
+proyecto. Podman ofrece un equilibrio óptimo entre compatibilidad, seguridad y
+simplicidad operativa, permitiendo gestionar contenedores sin necesidad de
+privilegios de superusuario y manteniendo la compatibilidad con las imágenes y
+flujos de trabajo de Docker. Su diseño modular y conforme a los estándares OCI
+garantiza la portabilidad de los servicios y la interoperabilidad con otras
+plataformas.
 
 ```nix
 virtualisation.docker.enable = true;
