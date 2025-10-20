@@ -522,19 +522,115 @@ flujos de trabajo de Docker. Su diseño modular y conforme a los estándares OCI
 garantiza la portabilidad de los servicios y la interoperabilidad con otras
 plataformas.
 
+==== Instalación y configuración de Podman en NixOS
+
+Para mantener un modelo de ejecución seguro y coherente con el principio de
+privilegios mínimos, se ha optado por ejecutar los contenedores en modo
+rootless, es decir, sin necesidad de privilegios de superusuario. En NixOS, esta
+configuración se consigue de forma óptima mediante Home Manager, una extensión
+del ecosistema Nix que permite gestionar la configuración del entorno de usuario
+de manera declarativa y reproducible.
+
+Home Manager facilita describir las aplicaciones, servicios y parámetros del
+usuario dentro de su propio módulo de configuración, manteniendo la filosofía de
+Infraestructura como Código también en el nivel del usuario. En este proyecto,
+se ha integrado como módulo dentro del flake principal de NixOS, de modo que la
+configuración del sistema y la del usuario se construyen conjuntamente:
+
 ```nix
-virtualisation.docker.enable = true;
-users.users.pi.extraGroups = [ "docker" ];
+{
+  inputs.home-manager.url = "github:nix-community/home-manager";
+  outputs = { self, nixpkgs, home-manager, ... }: {
+    nixosConfigurations.rpi = nixpkgs.lib.nixosSystem {
+      system = "aarch64-linux";
+      modules = [
+        ./configuration.nix
+        home-manager.nixosModules.home-manager
+        {
+          # Configuración del usuario containers
+          home-manager.users.containers = import ./home/containers;
+        }
+      ];
+    };
+  };
+}
 ```
 
-La primera línea activa el servicio de Docker como parte del sistema gestionado
-por `systemd`, asegurando su inicio automático en cada arranque. La segunda
-línea incorpora al usuario principal (pi) al grupo `docker`, lo que permite
-ejecutar comandos sin privilegios de superusuario, siguiendo las recomendaciones
-de seguridad.
 
-Una vez reconstruido el sistema el servicio queda habilitado y accesible.
+Además, se ha creado un usuario dedicado para la ejecución de contenedores,
+denominado "containers", que no dispone de privilegios de administrador. Este
+usuario está diseñado específicamente para alojar y gestionar los contenedores
+rootless, reduciendo el impacto potencial de vulnerabilidades o configuraciones
+erróneas. Su definición en `configuration.nix` es la siguiente:
 
+```nix
+users.users.containers = {
+  isNormalUser = true;
+  description = "Dedicated user for rootless Podman containers";
+  home = "/home/containers";
+  linger = true;
+  createHome = true;
+  subUidRanges = [
+    {
+      startUid = 100000;
+      count = 65536;
+    }
+  ];
+  subGidRanges = [
+    {
+      startGid = 100000;
+      count = 65536;
+    }
+  ];
+};
+```
+
+
+El parámetro `linger = true` es especialmente importante, ya que permite que los
+servicios y contenedores asociados a este usuario continúen ejecutándose incluso
+cuando no haya una sesión activa. Esto resulta esencial en un entorno
+self-hosted, donde los servicios deben permanecer disponibles de forma continua
+sin depender del inicio de sesión del usuario.
+
+Por su parte, los atributos "subUidRanges" y "subGidRanges" definen los rangos
+de identificadores subordinados asignados al usuario. Estos rangos permiten que
+los contenedores rootless utilicen un espacio propio de identificadores de
+usuario y grupo dentro del kernel, aislado del sistema anfitrión
+@gentoo_subuid_subgid. Gracias a este mapeo, los procesos que se ejecutan como
+administrador dentro del contenedor no poseen privilegios reales sobre el host,
+lo que proporciona un nivel adicional de seguridad y evita interferencias entre
+servicios.
+
+La configuración de Podman se define mediante Home Manager en el archivo
+`home/containers/default.nix`:
+
+```nix
+{ config, pkgs, ... }:
+
+{
+  services.podman = {
+    enable = true;
+    autoUpdate = {
+      enable = true;
+      # Ejecuta el auto-update diariamente a medianoche
+      onCalendar = "*-*-* 00:00:00";
+    };
+  };
+}
+```
+
+La opción `enable = true` activa Podman como servicio de usuario, lo que permite
+lanzar y gestionar contenedores bajo el identificador del usuario sin requerir
+permisos de administrador. De este modo, cada contenedor se ejecuta de forma
+aislada y segura dentro del espacio de nombres del usuario, siguiendo el
+principio de privilegios mínimos.
+
+El bloque `autoUpdate` habilita el mecanismo automático de actualización de
+contenedores. Este sistema crea una unidad y un temporizador de usuario (user
+unit y user timer en systemd) @suse_systemd_timers que ejecutan el comando
+`podman auto-update` de manera programada. En este caso, la opción
+`onCalendar = "*-*-* 00:00:00"` establece que la actualización se ejecute
+diariamente a medianoche.
 
 === Cierre del milestone
 
@@ -545,12 +641,17 @@ La Raspberry Pi dispone ahora de un sistema operativo estable, reproducible y
 gestionado de forma declarativa, capaz de reconstruirse íntegramente a partir de
 su configuración.
 
-La incorporación de Docker como capa de despliegue complementaria refuerza esta
-reproducibilidad, al permitir la ejecución de servicios en contenedores aislados
-y portables, manteniendo la coherencia con la filosofía de Infraestructura como
-Código. De este modo, el sistema no solo está operativo, sino también preparado
-para albergar servicios complejos bajo un control total del entorno.
+La incorporación de una capa de contenedorización rootless mediante Podman,
+gestionada a través de Home Manager, amplía las capacidades del sistema y
+refuerza su reproducibilidad. Esta arquitectura permite desplegar servicios en
+entornos aislados y portables, manteniendo la coherencia con la filosofía de
+Infraestructura como Código y sin comprometer la seguridad del sistema base. El
+uso de un usuario dedicado y sin privilegios para la ejecución de contenedores
+garantiza el aislamiento de procesos y la persistencia de los servicios, incluso
+en ausencia de sesiones activas.
 
-Este milestone marca, por tanto, la transición desde la fase de configuración
-del sistema hacia la de implementación de servicios autoalojados, que se
-abordará en los siguientes milestones.
+De este modo, el sistema no solo se encuentra plenamente operativo, sino también
+preparado para albergar servicios autoalojados complejos bajo un control total,
+seguro y declarativo del entorno. Este milestone marca, por tanto, la transición
+desde la fase de configuración de la infraestructura hacia la de implementación
+de servicios, que se abordará en los siguientes hitos del proyecto.
