@@ -49,7 +49,17 @@
             "aarch64",
             "Nix",
             "x86_64",
-            "Seafile"
+            "DevOps",
+            "Seafile",
+            "OCI",
+            "Initiative",
+            "Container",
+            "containerd",
+            "Podman",
+            "seccomp",
+            "cgroups",
+            "namespaces",
+            "capabilities"
         ]
     }
 }

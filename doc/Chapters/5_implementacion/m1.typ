@@ -341,10 +341,162 @@ una IP fija. Como puede verse en la @figure:dhcp, he reservado la IP
   image("../../Figures/Chapter5/dhcp.png", width: 90%),
 ) <figure:dhcp>
 
+=== Estrategia de despliegue de servicios
+
+Una vez configurada la infraestructura base y verificado el correcto
+funcionamiento del sistema operativo, se definió la estrategia de despliegue que
+servirá de guía para la implementación de los servicios autoalojados en los
+siguientes milestones.
+
+El objetivo de esta estrategia es asegurar la reproducibilidad, portabilidad y
+consistencia del entorno de ejecución, permitiendo que los servicios puedan
+desplegarse de manera controlada y predecible en cualquier momento del ciclo de
+vida del sistema.
+
+==== Alternativas de despliegue
+
+En el contexto de NixOS, existen principalmente dos enfoques posibles para el
+despliegue de servicios:
+
+- Despliegue nativo mediante NixOS: Consiste en definir cada servicio dentro de
+  la configuración declarativa del sistema aprovechando las ventajas del modelo
+  de IaC propio de Nix. Este enfoque ofrece una integración total con el sistema
+  operativo y un alto grado de reproducibilidad, ya que todas las dependencias y
+  servicios quedan descritos como parte del propio entorno. Sin embargo, esta
+  opción puede presentar limitaciones a la hora de replicar el entorno en otros
+  sistemas no basados en NixOS, y aumenta la complejidad cuando se desean
+  desplegar servicios con configuraciones dinámicas o dependencias externas.
+
+- Despliegue mediante contenedores [@cap:m1_contenedores]: Este enfoque
+  encapsula cada servicio dentro de un contenedor independiente, gestionado por
+  un motor compatible. Los contenedores aíslan completamente las dependencias y
+  facilitan la portabilidad del entorno a otros sistemas operativos sin
+  necesidad de replicar la configuración del host. Además, su uso está
+  ampliamente extendido en entornos DevOps, lo que favorece la integración con
+  prácticas de automatización, monitorización y despliegue continuo.
+
+==== Contenedorización de servicios<cap:m1_contenedores>
+
+La contenedorización es una técnica de aislamiento a nivel de sistema operativo
+que permite ejecutar aplicaciones y servicios en entornos independientes, junto
+con todas sus dependencias y configuraciones necesarias
+@bentaleb2022containerization. A diferencia de la virtualización tradicional,
+que requiere emular hardware y ejecutar múltiples sistemas operativos, los
+contenedores comparten el mismo kernel del sistema anfitrión y se aíslan
+mediante mecanismos nativos como _cgroups_, _namespaces_, _capabilities_ o
+_seccomp_ @sultan2019containers.
+
+Este modelo proporciona un entorno de ejecución coherente y reproducible, donde
+cada contenedor incluye únicamente los componentes esenciales para la aplicación
+que aloja. Como resultado, los contenedores se inician de forma casi
+instantánea, consumen menos recursos que las máquinas virtuales y permiten
+mantener una estricta separación entre servicios.
+
+La contenedorización también facilita la portabilidad de las aplicaciones, ya
+que un mismo contenedor puede ejecutarse de manera idéntica en diferentes
+sistemas operativos o entornos, ya sea en servidores locales, máquinas virtuales
+o infraestructuras en la nube; siempre que exista un motor compatible. Entre las
+herramientas más utilizadas para la gestión y ejecución de contenedores se
+encuentran Docker #footnote("https://www.docker.com/"), Podman #footnote(
+  "https://podman.io/",
+) y containerd #footnote("https://containerd.io/"), todas ellas basadas en las
+especificaciones abiertas del Open Container Initiative (OCI).
+
+Además, existen soluciones de orquestación y gestión de múltiples contenedores,
+como Compose #footnote("https://docs.docker.com/compose/") o Kubernetes
+#footnote("https://kubernetes.io/"), que permiten describir y automatizar la
+puesta en marcha de conjuntos de servicios mediante configuraciones
+declarativas. Gracias a estas características, la contenedorización se ha
+convertido en un componente esencial de las prácticas modernas de desarrollo,
+integración y despliegue continuo (DevOps) @emmanni2023impact.
+
+==== Justificación de la elección
+
+Teniendo en cuenta los objetivos del proyecto y las características de la
+infraestructura definida, se ha optado por utilizar un modelo de despliegue
+basado en contenedores como método principal para la ejecución de los servicios
+autoalojados.
+
+La decisión responde a varios factores de carácter técnico, operativo y de
+seguridad. En primer lugar, los contenedores proporcionan un entorno de
+aislamiento ligero, que permite ejecutar múltiples servicios de forma
+independiente sobre el mismo sistema base, evitando conflictos de dependencias o
+configuraciones. Este aislamiento reduce la superficie de ataque, ya que cada
+contenedor dispone de su propio espacio de usuario, red y sistema de archivos,
+impidiendo que una vulnerabilidad en un servicio comprometa al resto del sistema
+o a otros servicios en ejecución.
+
+Además, los contenedores pueden ejecutarse siguiendo el principio de privilegios
+mínimos ("least privilege") @schneider2004least, limitando el acceso al kernel y
+a los recursos del host mediante mecanismos de seguridad del propio sistema
+operativo. Esta separación a nivel de proceso permite aplicar políticas de
+control de acceso más estrictas y coherentes con las buenas prácticas de
+seguridad modernas.
+
+Otro aspecto relevante es la gestión segura del ciclo de vida de los servicios.
+El uso de contenedores facilita la aplicación de actualizaciones o la
+sustitución completa de una instancia sin alterar la configuración del sistema
+operativo subyacente. De este modo, en caso de detección de una vulnerabilidad,
+puede desplegarse una nueva imagen corregida sin comprometer la estabilidad del
+host ni la reproducibilidad del entorno.
+
+Desde el punto de vista de la portabilidad y la reproducibilidad, tanto Nix como
+la contenedorización persiguen objetivos similares, aunque desde niveles
+distintos de abstracción. Nix garantiza que la infraestructura subyacente, es
+decir, el sistema operativo, los paquetes y las configuraciones, pueda
+reconstruirse de forma determinista en cualquier máquina compatible, asegurando
+la coherencia del entorno base.
+
+La contenedorización, por su parte, aplica estos principios al nivel de los
+servicios, encapsulando cada aplicación junto con sus dependencias en una unidad
+autocontenida. Esto permite desplegar el mismo servicio de manera idéntica en
+diferentes sistemas, independientemente de la distribución o las versiones del
+software instaladas.
+
+En conjunto, ambos enfoques se complementan: Nix proporciona una base
+reproducible y coherente para la infraestructura, mientras que los contenedores
+añaden portabilidad, aislamiento en tiempo de ejecución y flexibilidad
+operativa. Esta combinación reduce los riesgos asociados a configuraciones
+divergentes y facilita la gestión segura y predecible de los servicios
+autoalojados.
+
+=== Instalación y configuración de Docker en NixOS
+
+La instalación de Docker en NixOS se realizó de forma declarativa, integrándolo
+dentro del archivo de configuración del sistema (`configuration.nix`). Este
+método permite que la presencia y el estado del servicio formen parte de la
+definición del sistema, garantizando que la infraestructura pueda reconstruirse
+de manera exacta en caso de reinstalación o migración.
+
+```nix
+virtualisation.docker.enable = true;
+users.users.pi.extraGroups = [ "docker" ];
+```
+
+La primera línea activa el servicio de Docker como parte del sistema gestionado
+por `systemd`, asegurando su inicio automático en cada arranque. La segunda
+línea incorpora al usuario principal (pi) al grupo `docker`, lo que permite
+ejecutar comandos sin privilegios de superusuario, siguiendo las recomendaciones
+de seguridad.
+
+Una vez reconstruido el sistema el servicio queda habilitado y accesible.
+
+
 === Cierre del milestone
 
 Con la instalación de NixOS, la configuración del usuario principal y la
 habilitación del acceso remoto mediante clave SSH, se ha completado la
-preparación del entorno base. La Raspberry Pi dispone ahora de un sistema
-operativo reproducible y accesible, que constituye el punto de partida para la
-implementación de los servicios autoalojados en los siguientes milestones.
+preparación del entorno base sobre el que se desarrollará el resto del proyecto.
+La Raspberry Pi dispone ahora de un sistema operativo estable, reproducible y
+gestionado de forma declarativa, capaz de reconstruirse íntegramente a partir de
+su configuración.
+
+La incorporación de Docker como capa de despliegue complementaria refuerza esta
+reproducibilidad, al permitir la ejecución de servicios en contenedores aislados
+y portables, manteniendo la coherencia con la filosofía de Infraestructura como
+Código. De este modo, el sistema no solo está operativo, sino también preparado
+para albergar servicios complejos bajo un control total del entorno.
+
+Este milestone marca, por tanto, la transición desde la fase de configuración
+del sistema hacia la de implementación de servicios autoalojados, que se
+abordará en los siguientes milestones.
