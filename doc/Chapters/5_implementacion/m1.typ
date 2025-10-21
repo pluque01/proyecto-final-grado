@@ -502,14 +502,13 @@ criterios:
   lo que requiere componentes adicionales para tareas cotidianas de despliegue y
   mantenimiento.
 
-- *Podman*: desarrollado por Red Hat, Podman mantiene compatibilidad completa
-  con las imágenes y comandos de Docker, pero adopta una arquitectura sin
-  demonio ("daemonless"), en la que cada contenedor se ejecuta como un proceso
-  del usuario @redhat_podman. Esto elimina la necesidad de un servicio con
-  privilegios elevados y permite ejecutar contenedores en modo rootless,
-  reforzando la seguridad del sistema. Además, su integración con NixOS es
-  directa y su sintaxis es prácticamente idéntica a la de Docker, lo que
-  facilita la transición y el uso de herramientas existentes.
+- *Podman*: ofrece alta compatibilidad con imágenes y comandos de Docker, pero
+  utiliza una arquitectura sin servicio central en segundo plano ("daemonless").
+  En la práctica, esto significa que no hay un proceso con permisos de
+  administrador gestionando todos los contenedores. Cada contenedor se ejecuta
+  como proceso del propio usuario, lo que permite trabajar en sin privilegios de
+  administrador y reduce el riesgo de que un fallo afecte a todo el sistema
+  @redhat_podman.
 
 ==== Justificación de la elección
 
