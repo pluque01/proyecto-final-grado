@@ -454,7 +454,7 @@ operativa. Esta combinación reduce los riesgos asociados a configuraciones
 divergentes y facilita la gestión segura y predecible de los servicios
 autoalojados.
 
-=== Evaluación y elección de la herramienta de contenedorización
+=== Evaluación y elección de la herramienta de gestión de contenedores
 
 Una vez definida la estrategia de despliegue basada en contenedores, fue
 necesario seleccionar la herramienta más adecuada para la gestión de los mismos
