@@ -397,10 +397,10 @@ que un mismo contenedor puede ejecutarse de manera idéntica en diferentes
 sistemas operativos o entornos, ya sea en servidores locales, máquinas virtuales
 o infraestructuras en la nube; siempre que exista un motor compatible. Entre las
 herramientas más utilizadas para la gestión y ejecución de contenedores se
-encuentran Docker #footnote("https://www.docker.com/"), Podman #footnote(
+encuentran Docker #footnote("https://www.docker.com/") y Podman #footnote(
   "https://podman.io/",
-) y containerd #footnote("https://containerd.io/"), todas ellas basadas en las
-especificaciones abiertas del Open Container Initiative (OCI).
+), ambas basadas en las especificaciones abiertas del Open Container Initiative
+(OCI).
 
 Además, existen soluciones de orquestación y gestión de múltiples contenedores,
 como Compose #footnote("https://docs.docker.com/compose/") o Kubernetes
@@ -467,7 +467,7 @@ necesario seleccionar la herramienta más adecuada para la gestión de los mismo
 dentro del entorno NixOS. En el ecosistema actual existen diversas opciones
 compatibles con las especificaciones del Open Container Initiative (OCI), que
 garantizan la interoperabilidad de las imágenes y la portabilidad de los
-servicios. Entre las más relevantes destacan Docker, Podman y containerd.
+servicios. Entre las más relevantes destacan Docker y Podman.
 
 ==== Criterios de selección
 
@@ -494,13 +494,6 @@ criterios:
   introduce un riesgo adicional en términos de seguridad @docker_overview.
   Aunque existen implementaciones sin privilegios ("rootless"), su integración
   con NixOS resulta menos transparente y añade complejidad operativa.
-
-- *containerd*: es el motor de ejecución subyacente utilizado por muchas
-  plataformas (incluido Docker), optimizado para entornos de orquestación a gran
-  escala como Kubernetes. Ofrece una gran estabilidad y eficiencia, pero carece
-  de herramientas integradas de gestión de contenedores a nivel de usuario, por
-  lo que requiere componentes adicionales para tareas cotidianas de despliegue y
-  mantenimiento.
 
 - *Podman*: ofrece alta compatibilidad con imágenes y comandos de Docker, pero
   utiliza una arquitectura sin servicio central en segundo plano ("daemonless").
