@@ -462,7 +462,7 @@ necesario seleccionar la herramienta más adecuada para la gestión de los mismo
 dentro del entorno NixOS. En el ecosistema actual existen diversas opciones
 compatibles con las especificaciones del Open Container Initiative (OCI), que
 garantizan la interoperabilidad de las imágenes y la portabilidad de los
-servicios.
+servicios @oci_spec.
 
 ==== Criterios de selección
 
