@@ -398,12 +398,11 @@ sistemas operativos o entornos, ya sea en servidores locales, máquinas virtuale
 o infraestructuras en la nube; siempre que exista un motor compatible.
 
 Además, existen soluciones de orquestación y gestión de múltiples contenedores,
-como Compose #footnote("https://docs.docker.com/compose/") o Kubernetes
-#footnote("https://kubernetes.io/"), que permiten describir y automatizar la
-puesta en marcha de conjuntos de servicios mediante configuraciones
-declarativas. Gracias a estas características, la contenedorización se ha
-convertido en un componente esencial de las prácticas modernas de desarrollo,
-integración y despliegue continuo (DevOps) @emmanni2023impact.
+que permiten describir y automatizar la puesta en marcha de conjuntos de
+servicios mediante configuraciones declarativas. Gracias a estas
+características, la contenedorización se ha convertido en un componente esencial
+de las prácticas modernas de desarrollo, integración y despliegue continuo
+@emmanni2023impact.
 
 ==== Justificación de la elección
 
