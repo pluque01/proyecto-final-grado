@@ -468,9 +468,6 @@ servicios @oci_spec.
 Para determinar la herramienta más apropiada se consideraron los siguientes
 criterios:
 
-- Compatibilidad con el estándar OCI: posibilidad de ejecutar imágenes y
-  descriptores de contenedores creados con otras herramientas.
-
 - Integración con NixOS: facilidad de instalación y gestión mediante
   configuración declarativa.
 
