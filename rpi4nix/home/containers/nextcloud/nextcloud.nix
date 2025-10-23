@@ -3,12 +3,16 @@
   networks ? [],
   hostname,
 }: let
-  nextcloudDataDir = "/mnt/data/containers/nextcloud/data";
-  mariadbDataDir = "/mnt/data/containers/nextcloud/db";
+  mainDataDir = "/mnt/data/containers/nextcloud";
+  nextcloudDataDir = "${mainDataDir}/data";
+  mariadbDataDir = "${mainDataDir}/db";
 in {
   home.activation.ensureNextcloudDirs = lib.hm.dag.entryAfter ["writeBoundary"] ''
     mkdir -p ${nextcloudDataDir}
     mkdir -p ${mariadbDataDir}
+
+    install -m 600 ${./nextcloud.env} ${mainDataDir}/nextcloud.env
+    install -m 600 ${./db.env} ${mainDataDir}/db.env
   '';
 
   services.podman.containers.nextcloud-db = {
@@ -16,12 +20,7 @@ in {
 
     network = ["backnet"];
 
-    environment = {
-      MYSQL_DATABASE = "nextcloud";
-      MYSQL_USER = "nextcloud";
-      MYSQL_PASSWORD = "change_me";
-      MYSQL_ROOT_PASSWORD = "change_me";
-    };
+    environmentFile = ["${mainDataDir}/db.env"];
 
     volumes = [
       "${mariadbDataDir}:/var/lib/mysql"
@@ -39,15 +38,7 @@ in {
 
     network = networks ++ ["backnet"]; # Also needs to be on backnet to reach the database
 
-    environment = {
-      MYSQL_HOST = "nextcloud-db";
-      MYSQL_DATABASE = "nextcloud";
-      MYSQL_USER = "nextcloud";
-      MYSQL_PASSWORD = "change_me"; 
-      NEXTCLOUD_ADMIN_USER = "admin";
-      NEXTCLOUD_ADMIN_PASSWORD = "change_me";
-      NEXTCLOUD_TRUSTED_DOMAINS = "nextcloud.localhost";
-    };
+    environmentFile = ["${mainDataDir}/nextcloud.env"];
 
     volumes = [
       "${nextcloudDataDir}:/var/www/html"
