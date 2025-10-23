@@ -138,3 +138,43 @@ Por estas razones, se optó por la instalación manual de Nextcloud, configurand
 de forma independiente sus servicios principales y gestionando los volúmenes de
 datos de manera persistente.
 
+=== Despliegue de Nextcloud
+
+El despliegue del servicio se estructuró en dos contenedores principales: uno
+para la aplicación Nextcloud, encargada de servir la interfaz web y gestionar
+las operaciones del usuario, y otro para la base de datos, donde se almacena la
+información interna del sistema, como usuarios, permisos y metadatos.
+
+Para garantizar un aislamiento adecuado de los recursos, se hace uso de redes
+internas en el entorno de contenedores. Este tipo de redes permite que los
+servicios que no requieren exposición pública se comuniquen únicamente entre sí,
+sin ser accesibles desde el exterior del sistema @docker_network_internal.
+Gracias a esta arquitectura, y al hecho de que un contenedor puede pertenecer
+simultáneamente a varias redes, es posible situar la base de datos en una red
+interna mientras que el contenedor de Nextcloud se conecta tanto a dicha red
+como a una red externa. De este modo, únicamente Nextcloud dispone de acceso
+directo a la base de datos y al exterior, preservando la seguridad y el
+aislamiento de los componentes.
+
+No obstante, a medida que el sistema se amplía y comienzan a desplegarse
+múltiples servicios web, surge la necesidad de contar con un punto de entrada
+único que gestione todas las conexiones externas. En lugar de exponer cada
+servicio individualmente, se recurre a un proxy inverso, encargado de recibir
+las solicitudes desde el exterior y redirigirlas al contenedor correspondiente
+según el dominio o la ruta solicitada @nginx_reverse_proxy.
+
+Con la configuración descrita, la @figure:5_m2_nextcloud_db_network ilustra la
+estructura de redes resultante en el despliegue de Nextcloud. En ella puede
+observarse cómo el contenedor de Nextcloud actúa como punto intermedio entre la
+red externa, que conecta con el proxy inverso, y la red interna, donde reside la
+base de datos. Esta disposición garantiza el aislamiento de los servicios y un
+acceso controlado desde el exterior.
+
+#figure(
+  caption: [Esquema de redes para el despliegue de Nextcloud],
+  image(
+    "../../Figures/Chapter5/m2/m2-nextcloud-db-network.drawio.svg",
+    width: 90%,
+  ),
+) <figure:5_m2_nextcloud_db_network>
+
