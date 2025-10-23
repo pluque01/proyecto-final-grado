@@ -178,3 +178,39 @@ acceso controlado desde el exterior.
   ),
 ) <figure:5_m2_nextcloud_db_network>
 
+==== Elección de la base de datos
+
+Nextcloud requiere una base de datos relacional para almacenar información
+estructurada, como las cuentas de usuario, los permisos de acceso, la
+configuración de la aplicación y los metadatos de los archivos. Entre las
+opciones compatibles se encuentran SQLite, MySQL/MariaDB y PostgreSQL,
+ampliamente reconocidas y consolidadas @stackoverflow_survey_2025_db.
+
+*SQLite* #footnote("https://www.sqlite.org") destaca por su sencillez de
+despliegue, al no requerir un servidor independiente: todos los datos se
+almacenan en un único archivo @sqlite_about. Esta característica la convierte en
+una opción adecuada para entornos de pruebas o instalaciones de un solo usuario,
+aunque presenta limitaciones de rendimiento y concurrencia en escenarios con
+múltiples clientes.
+
+*MySQL* #footnote("https://www.mysql.com"), por su parte, ofrece un rendimiento
+sólido y una amplia documentación, pero su desarrollo está actualmente más
+orientado al ecosistema empresarial de Oracle. Como alternativa, *MariaDB*
+#footnote("https://mariadb.org") mantiene plena compatibilidad con MySQL y
+aporta mejoras notables en términos de rendimiento, licencia abierta y soporte
+comunitario @aws_mariadb_vs_mysql. Estas ventajas la convierten en una opción
+más adecuada para entornos autoalojados, donde se valora la transparencia y la
+optimización de recursos.
+
+Finalmente, *PostgreSQL* #footnote("https://www.postgresql.org") representa una
+base de datos avanzada con capacidades extendidas para consultas complejas,
+índices avanzados y transacciones concurrentes @postgresql_features. Sin
+embargo, su mayor complejidad de configuración y consumo de recursos la hacen
+menos apropiada para entornos con hardware limitado, como una Raspberry Pi.
+
+En conjunto, MariaDB ofrece un equilibrio óptimo entre facilidad de
+configuración, rendimiento y estabilidad, ajustándose mejor a las necesidades
+del proyecto. Su compatibilidad con MySQL, junto con un ecosistema maduro y
+abierto, la convierten en la base de datos más adecuada para el despliegue de
+Nextcloud en este entorno.
+
