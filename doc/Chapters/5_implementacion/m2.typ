@@ -112,3 +112,29 @@ proyecto, basado en una Raspberry Pi. En conjunto, estos factores hacen de
 Nextcloud la solución más equilibrada para satisfacer las necesidades
 funcionales del milestone, combinando usabilidad, eficiencia y reproducibilidad
 dentro de la infraestructura establecida en el M1.
+
+=== Opciones de despliegue
+
+Antes de proceder a la instalación de Nextcloud, se evaluaron las dos
+principales estrategias de despliegue disponibles: la versión todo en uno
+("AIO") y el despliegue manual a partir de la imagen base oficial.
+
+La opción Nextcloud AIO #footnote(
+  "https://apps.nextcloud.com/apps/nextcloud_all_in_one",
+) ofrece un proceso de instalación muy simplificado, ya que agrupa en un único
+entorno todos los componentes necesarios: base de datos, servidor web, proxy
+inverso y sistema de actualizaciones. Sin embargo, esta comodidad implica una
+mayor demanda de recursos y una menor flexibilidad, al no permitir un control
+detallado de la configuración interna. Además, su estructura cerrada dificulta
+la integración con el modelo declarativo de NixOS.
+
+Por el contrario, el despliegue manual requiere definir individualmente los
+contenedores y sus dependencias, pero proporciona un control total sobre los
+volúmenes, versiones y parámetros del sistema. Este enfoque permite optimizar el
+uso de los recursos disponibles en la Raspberry Pi y se adapta mejor a la
+filosofía modular y reproducible de NixOS.
+
+Por estas razones, se optó por la instalación manual de Nextcloud, configurando
+de forma independiente sus servicios principales y gestionando los volúmenes de
+datos de manera persistente.
+
