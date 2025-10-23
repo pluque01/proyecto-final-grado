@@ -59,7 +59,16 @@
             "seccomp",
             "cgroups",
             "namespaces",
-            "capabilities"
+            "capabilities",
+            "rootless",
+            "containers",
+            "subUidRanges",
+            "subGidRanges",
+            "subordinate",
+            "UID",
+            "GID",
+            "ranges",
+            "systemd"
         ]
     }
 }

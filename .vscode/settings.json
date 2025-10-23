@@ -55,7 +55,25 @@
             "Nix",
             "x86_64",
             "DevOps",
-            "Seafile"
+            "Seafile",
+            "OCI",
+            "Initiative",
+            "Container",
+            "containerd",
+            "Podman",
+            "seccomp",
+            "cgroups",
+            "namespaces",
+            "capabilities",
+            "rootless",
+            "containers",
+            "subUidRanges",
+            "subGidRanges",
+            "subordinate",
+            "UID",
+            "GID",
+            "ranges",
+            "systemd"
         ],
     }
 }
