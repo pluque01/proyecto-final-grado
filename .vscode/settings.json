@@ -73,7 +73,9 @@
             "UID",
             "GID",
             "ranges",
-            "systemd"
+            "systemd",
+            "AIO",
+            "Traefik"
         ],
     }
 }

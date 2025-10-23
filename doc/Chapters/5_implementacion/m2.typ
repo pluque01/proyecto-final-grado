@@ -214,3 +214,40 @@ del proyecto. Su compatibilidad con MySQL, junto con un ecosistema maduro y
 abierto, la convierten en la base de datos más adecuada para el despliegue de
 Nextcloud en este entorno.
 
+==== Elección de un proxy inverso
+
+Un proxy inverso actúa como punto de entrada único para las peticiones HTTP y
+HTTPS, ofreciendo ventajas significativas en términos de seguridad,
+mantenimiento y flexibilidad. Entre sus principales funciones destacan la
+terminación de conexiones TLS y la gestión de certificados de seguridad; el
+enrutamiento del tráfico hacia distintos servicios internos; la posibilidad de
+aplicar reglas de autenticación, redirección o balanceo de carga; y la reducción
+de la superficie de exposición al evitar que los servicios sean accesibles
+directamente desde el exterior.
+
+En el ecosistema actual existen varias soluciones consolidadas para cumplir este
+papel:
+
+- *Nginx* #footnote("https://www.nginx.com"), ampliamente utilizado por su
+  estabilidad y rendimiento, aunque con una configuración menos flexible en
+  entornos de contenedores.
+
+- *Caddy* #footnote("https://caddyserver.com"), que destaca por su simplicidad
+  de configuración y la obtención automática de certificados TLS
+  @caddy_automatic_https.
+
+- *Traefik* #footnote("https://traefik.io"), diseñado específicamente para
+  entornos con contenedores, capaz de detectar y configurar automáticamente los
+  servicios mediante etiquetas, e integrar nativamente la gestión de
+  certificados TLS mediante el protocolo ACME ("Automatic Certificate Management
+  Environment") @traefik_acme_tls.
+
+Teniendo en cuenta el entorno de despliegue con contenedores y que en etapas
+posteriores puede ser necesario un certificado TLS, Traefik se considera la
+opción más adecuada. Su bajo consumo de recursos, configuración declarativa y
+detección automática de servicios permiten mantener una infraestructura flexible
+y coherente con la filosofía modular del proyecto. Además, al actuar como punto
+de entrada único, facilitará la publicación segura de futuros servicios
+autoalojados sin necesidad de modificar la red interna ni exponer puertos
+adicionales.
+
