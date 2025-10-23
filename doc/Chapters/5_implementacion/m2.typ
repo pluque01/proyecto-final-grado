@@ -225,29 +225,24 @@ aplicar reglas de autenticación, redirección o balanceo de carga; y la reducci
 de la superficie de exposición al evitar que los servicios sean accesibles
 directamente desde el exterior.
 
-En el ecosistema actual existen varias soluciones consolidadas para cumplir este
-papel:
+Dado que los servicios desplegados deben estar disponibles de forma segura y sin
+intervención manual en la gestión de certificados, se establece como requisito
+funcional que el proxy inverso admita la obtención y renovación automática de
+certificados TLS sin herramientas externas.
 
-- *Nginx* #footnote("https://www.nginx.com"), ampliamente utilizado por su
-  estabilidad y rendimiento, aunque con una configuración menos flexible en
-  entornos de contenedores.
+Con este requisito se valoran dos alternativas:
 
-- *Caddy* #footnote("https://caddyserver.com"), que destaca por su simplicidad
-  de configuración y la obtención automática de certificados TLS
-  @caddy_automatic_https.
+- *Caddy* #footnote("https://caddyserver.com"), que incorpora de forma nativa la
+  obtención y renovación automática de certificados TLS, simplificando
+  considerablemente la configuración @caddy_automatic_https.
 
 - *Traefik* #footnote("https://traefik.io"), diseñado específicamente para
-  entornos con contenedores, capaz de detectar y configurar automáticamente los
-  servicios mediante etiquetas, e integrar nativamente la gestión de
-  certificados TLS mediante el protocolo ACME ("Automatic Certificate Management
-  Environment") @traefik_acme_tls.
+  entornos de contenedores, capaz de detectar automáticamente los servicios en
+  ejecución mediante etiquetas (labels) e integrar nativamente la gestión y
+  renovación de certificados a través de ACME @traefik_acme_tls.
 
-Teniendo en cuenta el entorno de despliegue con contenedores y que en etapas
-posteriores puede ser necesario un certificado TLS, Traefik se considera la
-opción más adecuada. Su bajo consumo de recursos, configuración declarativa y
-detección automática de servicios permiten mantener una infraestructura flexible
-y coherente con la filosofía modular del proyecto. Además, al actuar como punto
-de entrada único, facilitará la publicación segura de futuros servicios
-autoalojados sin necesidad de modificar la red interna ni exponer puertos
-adicionales.
-
+Considerando los requisitos del entorno basado en contenedores gestionados con
+Podman y hardware de recursos limitados, Traefik se selecciona como la solución
+más adecuada. Su bajo consumo de recursos, su integración dinámica con servicios
+en contenedores y su soporte completo para la gestión automática de certificados
+permiten mantener una infraestructura segura y escalable.
