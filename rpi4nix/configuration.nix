@@ -48,6 +48,22 @@
         }
       ];
     };
+    
+    systemd.services."create-mnt-data-containers" = {
+      description = "Ensure /mnt/data/containers exists after mount";
+      wantedBy = ["multi-user.target"];
+      after = ["mnt-data.mount"];
+      requires = ["mnt-data.mount"];
+      serviceConfig = {
+        Type = "oneshot";
+        ExecStart = [
+          "/run/current-system/sw/bin/mkdir -p /mnt/data/containers"
+          "/run/current-system/sw/bin/chown containers:users /mnt/data/containers"
+          "/run/current-system/sw/bin/chmod 0755 /mnt/data/containers"
+        ];
+        RemainAfterExit = true;
+      };
+    };
 
     # Allow ssh in
     services.openssh.enable = true;
