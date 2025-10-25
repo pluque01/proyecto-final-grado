@@ -112,3 +112,137 @@ proyecto, basado en una Raspberry Pi. En conjunto, estos factores hacen de
 Nextcloud la solución más equilibrada para satisfacer las necesidades
 funcionales del milestone, combinando usabilidad, eficiencia y reproducibilidad
 dentro de la infraestructura establecida en el M1.
+
+=== Opciones de despliegue
+
+Antes de proceder a la instalación de Nextcloud, se evaluaron las dos
+principales estrategias de despliegue disponibles: la versión todo en uno
+("AIO") y el despliegue manual a partir de la imagen base oficial.
+
+La opción Nextcloud AIO #footnote(
+  "https://apps.nextcloud.com/apps/nextcloud_all_in_one",
+) ofrece un proceso de instalación muy simplificado, ya que agrupa en un único
+entorno todos los componentes necesarios: base de datos, servidor web, proxy
+inverso y sistema de actualizaciones. Sin embargo, esta comodidad implica una
+mayor demanda de recursos y una menor flexibilidad, al no permitir un control
+detallado de la configuración interna. Además, su estructura cerrada dificulta
+la integración con el modelo declarativo de NixOS.
+
+Por el contrario, el despliegue manual requiere definir individualmente los
+contenedores y sus dependencias, pero proporciona un control total sobre los
+volúmenes, versiones y parámetros del sistema. Este enfoque permite optimizar el
+uso de los recursos disponibles en la Raspberry Pi y se adapta mejor a la
+filosofía modular y reproducible de NixOS.
+
+Por estas razones, se optó por la instalación manual de Nextcloud, configurando
+de forma independiente sus servicios principales y gestionando los volúmenes de
+datos de manera persistente.
+
+=== Despliegue de Nextcloud
+
+El despliegue del servicio se estructuró en dos contenedores principales: uno
+para la aplicación Nextcloud, encargada de servir la interfaz web y gestionar
+las operaciones del usuario, y otro para la base de datos, donde se almacena la
+información interna del sistema, como usuarios, permisos y metadatos.
+
+Para garantizar un aislamiento adecuado de los recursos, se hace uso de redes
+internas en el entorno de contenedores. Este tipo de redes permite que los
+servicios que no requieren exposición pública se comuniquen únicamente entre sí,
+sin ser accesibles desde el exterior del sistema @docker_network_internal.
+Gracias a esta arquitectura, y al hecho de que un contenedor puede pertenecer
+simultáneamente a varias redes, es posible situar la base de datos en una red
+interna mientras que el contenedor de Nextcloud se conecta tanto a dicha red
+como a una red externa. De este modo, únicamente Nextcloud dispone de acceso
+directo a la base de datos y al exterior, preservando la seguridad y el
+aislamiento de los componentes.
+
+No obstante, a medida que el sistema se amplía y comienzan a desplegarse
+múltiples servicios web, surge la necesidad de contar con un punto de entrada
+único que gestione todas las conexiones externas. En lugar de exponer cada
+servicio individualmente, se recurre a un proxy inverso, encargado de recibir
+las solicitudes desde el exterior y redirigirlas al contenedor correspondiente
+según el dominio o la ruta solicitada @nginx_reverse_proxy.
+
+Con la configuración descrita, la @figure:5_m2_nextcloud_db_network ilustra la
+estructura de redes resultante en el despliegue de Nextcloud. En ella puede
+observarse cómo el contenedor de Nextcloud actúa como punto intermedio entre la
+red externa, que conecta con el proxy inverso, y la red interna, donde reside la
+base de datos. Esta disposición garantiza el aislamiento de los servicios y un
+acceso controlado desde el exterior.
+
+#figure(
+  caption: [Esquema de redes para el despliegue de Nextcloud],
+  image(
+    "../../Figures/Chapter5/m2/m2-nextcloud-db-network.drawio.svg",
+    width: 90%,
+  ),
+) <figure:5_m2_nextcloud_db_network>
+
+==== Elección de la base de datos
+
+Nextcloud requiere una base de datos relacional para almacenar información
+estructurada, como las cuentas de usuario, los permisos de acceso, la
+configuración de la aplicación y los metadatos de los archivos. Entre las
+opciones compatibles se encuentran SQLite, MySQL/MariaDB y PostgreSQL,
+ampliamente reconocidas y consolidadas @stackoverflow_survey_2025_db.
+
+*SQLite* #footnote("https://www.sqlite.org") destaca por su sencillez de
+despliegue, al no requerir un servidor independiente: todos los datos se
+almacenan en un único archivo @sqlite_about. Esta característica la convierte en
+una opción adecuada para entornos de pruebas o instalaciones de un solo usuario,
+aunque presenta limitaciones de rendimiento y concurrencia en escenarios con
+múltiples clientes.
+
+*MySQL* #footnote("https://www.mysql.com"), por su parte, ofrece un rendimiento
+sólido y una amplia documentación, pero su desarrollo está actualmente más
+orientado al ecosistema empresarial de Oracle. Como alternativa, *MariaDB*
+#footnote("https://mariadb.org") mantiene plena compatibilidad con MySQL y
+aporta mejoras notables en términos de rendimiento, licencia abierta y soporte
+comunitario @aws_mariadb_vs_mysql. Estas ventajas la convierten en una opción
+más adecuada para entornos autoalojados, donde se valora la transparencia y la
+optimización de recursos.
+
+Finalmente, *PostgreSQL* #footnote("https://www.postgresql.org") representa una
+base de datos avanzada con capacidades extendidas para consultas complejas,
+índices avanzados y transacciones concurrentes @postgresql_features. Sin
+embargo, su mayor complejidad de configuración y consumo de recursos la hacen
+menos apropiada para entornos con hardware limitado, como una Raspberry Pi.
+
+En conjunto, MariaDB ofrece un equilibrio óptimo entre facilidad de
+configuración, rendimiento y estabilidad, ajustándose mejor a las necesidades
+del proyecto. Su compatibilidad con MySQL, junto con un ecosistema maduro y
+abierto, la convierten en la base de datos más adecuada para el despliegue de
+Nextcloud en este entorno.
+
+==== Elección de un proxy inverso
+
+Un proxy inverso actúa como punto de entrada único para las peticiones HTTP y
+HTTPS, ofreciendo ventajas significativas en términos de seguridad,
+mantenimiento y flexibilidad. Entre sus principales funciones destacan la
+terminación de conexiones TLS y la gestión de certificados de seguridad; el
+enrutamiento del tráfico hacia distintos servicios internos; la posibilidad de
+aplicar reglas de autenticación, redirección o balanceo de carga; y la reducción
+de la superficie de exposición al evitar que los servicios sean accesibles
+directamente desde el exterior.
+
+Dado que los servicios desplegados deben estar disponibles de forma segura y sin
+intervención manual en la gestión de certificados, se establece como requisito
+funcional que el proxy inverso admita la obtención y renovación automática de
+certificados TLS sin herramientas externas.
+
+Con este requisito se valoran dos alternativas:
+
+- *Caddy* #footnote("https://caddyserver.com"), que incorpora de forma nativa la
+  obtención y renovación automática de certificados TLS, simplificando
+  considerablemente la configuración @caddy_automatic_https.
+
+- *Traefik* #footnote("https://traefik.io"), diseñado específicamente para
+  entornos de contenedores, capaz de detectar automáticamente los servicios en
+  ejecución mediante etiquetas (labels) e integrar nativamente la gestión y
+  renovación de certificados a través de ACME @traefik_acme_tls.
+
+Considerando los requisitos del entorno basado en contenedores gestionados con
+Podman y hardware de recursos limitados, Traefik se selecciona como la solución
+más adecuada. Su bajo consumo de recursos, su integración dinámica con servicios
+en contenedores y su soporte completo para la gestión automática de certificados
+permiten mantener una infraestructura segura y escalable.
