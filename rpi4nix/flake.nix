@@ -13,11 +13,18 @@
     nixpkgs,
     nixos-hardware,
     home-manager,
-  } @ attrs: {
+  } @ inputs: let
+    globals = {
+      containerUser = "containers";
+      dataFolder = "/mnt/data";
+      hostname = "rpi4.local";
+      mkServiceHost = service: "${service}.${globals.hostname}";
+    };
+  in {
     nixosConfigurations = {
       rpi4 = nixpkgs.lib.nixosSystem {
         system = "aarch64-linux";
-        specialArgs = attrs;
+        specialArgs = {inherit globals;};
         modules = [
           ./configuration.nix
           ./hardware-configuration.nix
@@ -27,9 +34,10 @@
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
+              extraSpecialArgs = {inherit globals;};
 
-              users = {
-                containers = import ./home/containers;
+              users.${globals.containerUser} = {
+                imports = [./home/containers];
               };
             };
           }

@@ -2,9 +2,9 @@
   lib,
   pkgs,
   config,
+  globals,
   ...
 }: let
-  host = "rpi4.local";
   networkDefs = {
     frontnet = {driver = "bridge";};
     backnet = {
@@ -15,13 +15,12 @@
   };
 
   traefik = import ./traefik.nix {
-    inherit config pkgs;
+    inherit pkgs;
     networks = ["frontnet"];
   };
-  nextcloud = import ./nextcloud.nix {
-    inherit lib;
+  nextcloud = import ./nextcloud/nextcloud.nix {
+    inherit lib globals;
     networks = ["frontnet"];
-    hostname = "nextcloud." + host;
   };
 in {
   home.stateVersion = "25.05";
@@ -36,7 +35,7 @@ in {
     };
     settings.storage = {
       storage = {
-        graphroot = "/mnt/data/containers/storage";
+        graphroot = "${globals.dataFolder}/${globals.containerUser}/storage";
       };
     };
   };
