@@ -246,3 +246,94 @@ Podman y hardware de recursos limitados, Traefik se selecciona como la solución
 más adecuada. Su bajo consumo de recursos, su integración dinámica con servicios
 en contenedores y su soporte completo para la gestión automática de certificados
 permiten mantener una infraestructura segura y escalable.
+
+=== Validación del milestone
+
+Una vez desplegado el servicio Nextcloud es necesario comprobar que la solución
+implementada satisface los requisitos definidos en las historias de usuario del
+proyecto. Esta sección muestra de forma práctica cómo el sistema responde a las
+necesidades planteadas, a través de ejemplos de uso reales capturados durante
+las pruebas de funcionamiento.
+
+==== Almacenamiento y sincronización de archivos (HU01)
+
+El despliegue de Nextcloud permite al usuario disponer de un espacio de
+almacenamiento propio accesible desde cualquier dispositivo. El acceso se
+realiza mediante la interfaz web o las aplicaciones oficiales de escritorio y
+móvil, que sincronizan automáticamente los archivos con el servidor local. De
+este modo, el usuario puede subir, organizar y descargar documentos sin depender
+de servicios externos como Google Drive o Dropbox, cumpliendo así el propósito
+de esta historia.
+
+Los datos se almacenan en un volumen persistente definido en la configuración de
+NixOS, garantizando su conservación tras actualizaciones o reinstalaciones del
+sistema. Esta separación entre aplicación y datos permite mantener la
+información del usuario incluso si el contenedor o el servicio deben ser
+reinstalados.
+
+#figure(
+  image("../../Figures/Chapter5/m2/nextcloud-folder-web.png", width: 100%),
+  caption: [Carpeta de una asignatura con varios documentos, visible desde la
+    interfaz web.],
+)
+
+#figure(
+  image("../../Figures/Chapter5/m2/nextcloud-folder-iphone.png", height: 100%),
+  caption: [La misma carpeta abierta desde la aplicación móvil de Nextcloud en
+    iPhone.],
+)
+
+
+==== Compartir contenido con varios usuarios (HU02)
+
+El sistema desplegado permite compartir carpetas y archivos con otros usuarios
+registrados en la instancia de Nextcloud. Desde la interfaz web, el usuario
+puede seleccionar cualquier carpeta y habilitar su compartición con compañeros
+concretos, asignando distintos niveles de permisos (solo lectura, edición o
+personalizados). Esta funcionalidad facilita el trabajo en grupo, ya que varios
+usuarios pueden acceder simultáneamente a los mismos documentos y realizar
+modificaciones colaborativas en tiempo real.
+
+Durante las pruebas, se creó una carpeta compartida entre tres cuentas de
+usuario diferentes, utilizada para editar documentos de manera conjunta. La
+interfaz refleja en todo momento la presencia de otros colaboradores y actualiza
+automáticamente los cambios realizados por cada uno de ellos, garantizando la
+coherencia de los archivos compartidos.
+
+#figure(
+  image("../../Figures/Chapter5/m2/nextcloud-share-menu.png", width: 100%),
+  caption: [Menú de compartición de una carpeta en Nextcloud, con opciones para
+    añadir usuarios y definir permisos de acceso.],
+)
+
+#figure(
+  image("../../Figures/Chapter5/m2/nextcloud-collaboration.png", width: 100%),
+  caption: [Edición simultánea de un documento compartido entre tres usuarios en
+    la interfaz web de Nextcloud.],
+)
+
+#figure(
+  image(
+    "../../Figures/Chapter5/m2/nextcloud-collaboration-iphone.png",
+    height: 100%,
+  ),
+  caption: [Usuario "Laura" editando el mismo documento compartido desde la
+    aplicación móvil de Nextcloud en iPhone.],
+)
+
+
+=== Cierre del milestone
+
+Las pruebas realizadas demuestran que el despliegue de Nextcloud sobre NixOS
+cumple satisfactoriamente con las dos primeras historias de usuario del
+proyecto. El sistema proporciona un entorno self-hosted funcional que permite
+tanto el almacenamiento personal de documentos como la colaboración entre varios
+usuarios mediante la compartición de carpetas y la edición simultánea de
+archivos.
+
+Gracias al enfoque declarativo de NixOS y la contenedorización, el despliegue
+del servicio es reproducible y sencillo de mantener, lo que facilita su
+actualización o reinstalación sin pérdida de datos. Con este milestone se
+valida, por tanto, la viabilidad del modelo de infraestructura propuesto y se
+establecen las bases para ampliar los servicios en los siguientes hitos del
+proyecto.
