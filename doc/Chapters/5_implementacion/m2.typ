@@ -247,6 +247,184 @@ más adecuada. Su bajo consumo de recursos, su integración dinámica con servic
 en contenedores y su soporte completo para la gestión automática de certificados
 permiten mantener una infraestructura segura y escalable.
 
+=== Acceso desde el exterior
+
+Uno de los requisitos fundamentales para el servicio de almacenamiento y
+colaboración implementado es la posibilidad de acceder a los datos desde
+distintos dispositivos y ubicaciones, sin depender exclusivamente de la red
+local. Esto responde directamente a la necesidad del usuario de consultar,
+modificar o compartir información académica incluso cuando no se encuentra en su
+domicilio.
+
+En este contexto, es necesario analizar las distintas estrategias que permiten
+acceder de forma remota a servicios autoalojados manteniendo la seguridad y el
+control sobre la infraestructura.
+
+==== Alternativas de acceso
+
+Existen principalmente dos enfoques para permitir el acceso remoto a un servicio
+como Nextcloud:
+
+- Exposición directa a Internet público:
+
+  En este modelo, el servicio se publica en la red mediante un dominio y un
+  proxy inverso, utilizando certificados TLS para garantizar la conexión
+  cifrada. Esta opción permite un acceso universal desde cualquier dispositivo
+  conectado a Internet, pero requiere una configuración rigurosa de seguridad:
+  gestión de certificados, cortafuegos, actualizaciones constantes y
+  monitorización frente a posibles ataques o escaneos automáticos.
+
+  Si bien ofrece mayor disponibilidad, también aumenta la superficie de
+  exposición, lo que implica un riesgo añadido para entornos personales sin
+  medidas de defensa avanzadas.
+
+- Acceso mediante una red privada virtual (VPN):
+
+  Otra opción es mantener el servicio accesible únicamente desde la red local y
+  utilizar una capa privada de conexión remota. Entre las soluciones disponibles
+  se encuentran las VPN tradicionales, como WireGuard #footnote(
+    "https://www.wireguard.com/",
+  ) u OpenVPN #footnote("https://openvpn.net/"), que permiten crear redes
+  privadas cifradas entre dispositivos sin necesidad de configuraciones
+  complejas de red o reenvío de puertos.
+
+  Esta aproximación ofrece una seguridad significativamente superior, ya que los
+  servicios no quedan expuestos directamente a Internet, y solo los dispositivos
+  autenticados dentro de la red privada pueden acceder a ellos.
+
+==== Solución adoptada
+
+Para este proyecto se ha optado por utilizar *Tailscale* #footnote(
+  "https://tailscale.com",
+) como mecanismo de acceso remoto seguro. Tailscale es un servicio que crea una
+red privada virtual basada en la tecnología de WireGuard, permitiendo conectar
+varios dispositivos entre sí de manera cifrada, como si se encontraran en la
+misma red local @tailscale_wireguard. Cada dispositivo conectado a Tailscale se
+autentica mediante una identidad única (por ejemplo, una cuenta de Google,
+GitHub o Microsoft) y obtiene una dirección IP privada dentro de la red virtual.
+
+Entre las ventajas que justifican esta elección destacan:
+
+- Simplicidad de despliegue: no requiere abrir puertos en el router.
+
+- Autenticación mediante identidad: el acceso se gestiona por usuario y
+  dispositivo, facilitando el control de quién puede entrar en la red privada.
+
+- Compatibilidad multiplataforma: disponible para Linux, Windows, macOS, Android
+  e iOS, lo que permite acceder al servicio desde cualquier dispositivo del
+  usuario.
+
+- Mantenimiento reducido: evita la exposición directa del servicio y, por tanto,
+  la necesidad de aplicar medidas adicionales de protección frente a ataques
+  externos.
+
+Para instalar Tailscale en NixOS, se puede activar con facilidad el módulo
+oficial disponible en la configuración del sistema. Una vez activado, Tailscale
+se encargará de gestionar automáticamente la conexión y autenticación de los
+dispositivos en la red privada.
+
+#figure(
+  image(
+    "../../Figures/Chapter5/m2/tailscale-dashboard.png",
+    width: 100%,
+  ),
+  caption: [Panel de administración de Tailscale, mostrando los dispositivos
+    conectados a la red privada virtual.],
+) <figure:5_m2_tailscale_dashboard>
+
+
+Una vez desplegado Tailscale, es posible acceder de forma remota a la Raspberry
+Pi mediante su nombre interno dentro de la red privada, en este caso `rpi4`.
+Esto permite conectarse directamente al servicio de Nextcloud sin exponerlo
+públicamente.
+
+Sin embargo, esta configuración presenta una limitación al integrarse con el
+proxy inverso Traefik. En este proyecto, Traefik se ha configurado con
+subdominios de la forma `<servicio>.<host>` y no con subdirectorios
+`<host>/<servicio>`, porque Nextcloud desaconseja ejecutarse en un subdirectorio
+para evitar problemas de rutas internas, archivos estáticos y compatibilidad con
+aplicaciones @nextcloud_subdir_limitations. Por tanto, emplear subdominios
+simplifica la configuración y maximiza la compatibilidad con Nextcloud en
+producción.
+
+==== Configuración del dominio local
+
+Para resolver la limitación relacionada con el uso de subdominios, se ha
+decidido configurar un dominio que apunte directamente a la dirección IP privada
+de la Raspberry Pi dentro del entorno local. Existen numerosos proveedores que
+ofrecen este servicio, pero en este proyecto, con el objetivo de minimizar
+costes y simplificar la configuración, se ha optado por utilizar el servicio
+gratuito *DuckDNS* #footnote("https://www.duckdns.org/").
+
+DuckDNS es un sistema de DNS dinámico @aws_dynamic_dns que permite registrar
+subdominios bajo el dominio principal `duckdns.org`. Aunque este proyecto no
+requiere la funcionalidad de actualización dinámica de direcciones IP, el
+servicio resulta muy útil para obtener un subdominio gratuito y gestionable
+mediante una interfaz web sencilla.
+
+En la @figure:5_m2_duckdns_domain se muestra el panel de administración de
+DuckDNS, donde puede verse el subdominio asignado para este proyecto:
+`nixospi.duckdns.org`.
+
+#figure(
+  image("../../Figures/Chapter5/m2/duckdns-domain.png", width: 100%),
+  caption: [Panel de administración de DuckDNS, mostrando el subdominio
+    asignado.],
+)<figure:5_m2_duckdns_domain>
+
+==== Obtención de un certificado TLS
+
+Con la configuración actual, el servicio de Nextcloud ya es accesible a través
+de la dirección `nextcloud.nixospi.duckdns.org` desde cualquier dispositivo
+conectado a la red local o a la red de Tailscale. Sin embargo, para garantizar
+la seguridad de las comunicaciones y proteger los datos transmitidos, podemos
+utilizar Traefik para obtener un certificado TLS válido para este subdominio de
+manera automática.
+
+Para esto, Traefik se ha configurado con el proveedor de certificados Let's
+Encrypt #footnote("https://letsencrypt.org/"), utilizando el mecanismo
+`dnsChallenge`. Este método resulta especialmente útil en entornos donde los
+dominios apuntan a direcciones IP privadas como es el caso del subdominio
+configurado, ya que la validación no depende del acceso HTTP directo al
+servidor, sino de la creación temporal de un registro `TXT` en el DNS del
+dominio @letsencrypt_dns01.
+
+Gracias a esta configuración, Traefik genera y renueva automáticamente un
+certificado SSL wildcard para `*.nixospi.duckdns.org`, lo que permite proteger
+con cifrado TLS todos los subdominios asociados a los distintos servicios
+desplegados, incluyendo `nextcloud.nixospi.duckdns.org`.
+
+#figure(
+  image("../../Figures/Chapter5/m2/tls-certificate.png", width: 70%),
+  caption: [Certificado TLS emitido por Let's Encrypt para
+    `nixospi.duckdns.org`.],
+)
+
+El esquema de la @figure:5_m2_tailscale_duckdns_traefik representa el flujo
+completo de conexión entre los distintos componentes. El subdominio
+`nextcloud.nixospi.duckdns.org`, gestionado por DuckDNS, resuelve hacia la
+dirección IP privada de la Raspberry Pi. Cuando un usuario accede al servicio,
+la petición se redirige hacia el host `rpi4`, donde Traefik actúa como proxy
+inverso dentro de la red externa, gestionando la terminación TLS y el
+enrutamiento de tráfico hacia los contenedores de Podman. En la red interna se
+encuentran los servicios de Nextcloud y su base de datos, comunicándose
+únicamente a través de la red privada definida para los contenedores.
+
+Todo el entorno está encapsulado dentro de la red privada virtual establecida
+por Tailscale, lo que garantiza un acceso remoto cifrado y seguro sin necesidad
+de exponer puertos al exterior.
+
+
+#figure(
+  image(
+    "../../Figures/Chapter5/m2/m2-dns-tailscale.drawio.svg",
+    width: 100%,
+  ),
+  caption: [Esquema de acceso remoto a Nextcloud mediante Tailscale, DuckDNS y
+    Traefik.],
+)<figure:5_m2_tailscale_duckdns_traefik>
+
+
 === Validación del milestone
 
 Una vez desplegado el servicio Nextcloud es necesario comprobar que la solución

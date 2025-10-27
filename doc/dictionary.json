@@ -70,7 +70,10 @@
             "ranges",
             "systemd",
             "AIO",
-            "Traefik"
+            "Traefik",
+            "Tailscale",
+            "DuckDNS",
+            "wildcard"
         ]
     }
 }
