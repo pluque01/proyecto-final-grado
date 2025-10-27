@@ -1,8 +1,35 @@
 {
   pkgs,
+  config,
   globals,
   ...
 }: {
+  imports = [
+    ./modules/sops.nix
+    ./modules/tailscale.nix
+  ];
+
+  sops = {
+    defaultSopsFile = ./secrets.yaml;
+    secrets = {
+      tailscale_key = {};
+      duckdns_token = {
+        owner = globals.containerUser;
+        group = "users";
+        mode = "0400";
+      };
+    };
+
+    templates."duckdns.env" = {
+      content = ''
+        DUCKDNS_TOKEN=${config.sops.placeholder."duckdns_token"}
+      '';
+      owner = globals.containerUser;
+      group = "users";
+      mode = "0400";
+    };
+  };
+
   # Time, keyboard language, etc
   time.timeZone = "Europe/Madrid";
   i18n.defaultLocale = "es_ES.UTF-8";
@@ -17,6 +44,7 @@
   environment.systemPackages = with pkgs; [
     neovim
     git
+    sops
   ];
 
   # User

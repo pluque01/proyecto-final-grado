@@ -15,7 +15,7 @@
   };
 
   traefik = import ./traefik.nix {
-    inherit pkgs;
+    inherit lib pkgs config globals;
     networks = ["frontnet"];
   };
   nextcloud = import ./nextcloud/nextcloud.nix {
