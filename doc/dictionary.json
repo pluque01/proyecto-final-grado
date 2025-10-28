@@ -73,7 +73,9 @@
             "Traefik",
             "Tailscale",
             "DuckDNS",
-            "wildcard"
+            "wildcard",
+            "PiVPN",
+            "Headscale"
         ]
     }
 }

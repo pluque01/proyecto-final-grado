@@ -280,43 +280,103 @@ como Nextcloud:
 
 - Acceso mediante una red privada virtual (VPN):
 
-  Otra opción es mantener el servicio accesible únicamente desde la red local y
-  utilizar una capa privada de conexión remota. Entre las soluciones disponibles
-  se encuentran las VPN tradicionales, como WireGuard #footnote(
-    "https://www.wireguard.com/",
-  ) u OpenVPN #footnote("https://openvpn.net/"), que permiten crear redes
-  privadas cifradas entre dispositivos sin necesidad de configuraciones
-  complejas de red o reenvío de puertos.
+  Una alternativa más segura consiste en mantener los servicios accesibles solo
+  desde la red local y establecer una capa privada de conexión remota entre los
+  dispositivos autorizados. Este tipo de soluciones crean túneles cifrados que
+  permiten que los equipos se comuniquen como si estuvieran en la misma red
+  interna, evitando así la exposición directa de los servicios a Internet y la
+  necesidad de configurar reenvíos de puertos o reglas complejas en el
+  cortafuegos.
 
-  Esta aproximación ofrece una seguridad significativamente superior, ya que los
-  servicios no quedan expuestos directamente a Internet, y solo los dispositivos
-  autenticados dentro de la red privada pueden acceder a ellos.
+  De este modo, únicamente los dispositivos autenticados dentro de la red
+  privada pueden acceder a los recursos, reduciendo significativamente el riesgo
+  de intrusión o acceso no autorizado.
+
+Dado que el objetivo del proyecto es mantener un entorno doméstico seguro sin
+necesidad de exposición directa a Internet, se ha optado por implementar una VPN
+como mecanismo principal de acceso remoto.
+
+==== Soluciones VPN disponibles
+
+Existen diversas herramientas que permiten crear redes privadas cifradas entre
+dispositivos. A continuación se presentan algunas de las más relevantes:
+
+- *OpenVPN* #footnote("https://openvpn.net") es una de las soluciones más
+  veteranas y ampliamente utilizadas en el ámbito empresarial. Ofrece un alto
+  nivel de seguridad y flexibilidad, aunque su configuración puede resultar
+  compleja en entornos personales debido al uso de certificados, archivos de
+  configuración y gestión manual de puertos. Está disponible bajo licencia GNU
+  GPLv2.
+
+- *WireGuard* #footnote("https://www.wireguard.com") es una alternativa más
+  moderna centrada en la simplicidad y el rendimiento. Su diseño minimalista y
+  su integración nativa en el kernel de Linux lo convierten en una opción
+  eficiente y fácil de auditar. Sin embargo, la configuración manual de pares y
+  claves puede complicarse cuando se conectan múltiples dispositivos. Se
+  distribuye bajo licencia GPLv2.
+
+- *PiVPN* #footnote("https://pivpn.io") no es una VPN en sí misma, sino un
+  conjunto de scripts que automatizan la instalación y configuración de
+  servidores OpenVPN o WireGuard, pensado especialmente para dispositivos como
+  Raspberry Pi. Su ventaja radica en la facilidad de despliegue, aunque mantiene
+  las limitaciones propias de las tecnologías que utiliza. El proyecto es de
+  código abierto y se distribuye bajo licencia MIT.
+
+- *Tailscale* #footnote("https://tailscale.com") se basa internamente en
+  WireGuard, pero añade una capa de gestión automática que simplifica la
+  configuración, autenticación y mantenimiento de las conexiones. Permite crear
+  una red privada entre dispositivos de manera prácticamente inmediata, sin
+  necesidad de abrir puertos ni gestionar certificados. Está disponible bajo una
+  licencia comercial, aunque se permite su uso gratuito en entornos personales.
+
+==== Criterios de selección
+
+Para determinar la herramienta más adecuada dentro del contexto del proyecto se
+han definido los siguientes criterios:
+
+- Rendimiento: eficiencia en el uso de recursos, especialmente en hardware
+  limitado como la Raspberry Pi.
+
+- Mantenimiento reducido: mínima necesidad de intervención manual o gestión de
+  certificados.
+
+- Licencia: preferencia por soluciones gratuitas y de uso permitido en contextos
+  personales.
+
+- Integración con NixOS: disponibilidad de módulos o soporte nativo para
+  facilitar el despliegue.
 
 ==== Solución adoptada
 
-Para este proyecto se ha optado por utilizar *Tailscale* #footnote(
-  "https://tailscale.com",
-) como mecanismo de acceso remoto seguro. Tailscale es un servicio que crea una
-red privada virtual basada en la tecnología de WireGuard, permitiendo conectar
-varios dispositivos entre sí de manera cifrada, como si se encontraran en la
-misma red local @tailscale_wireguard. Cada dispositivo conectado a Tailscale se
-autentica mediante una identidad única (por ejemplo, una cuenta de Google,
-GitHub o Microsoft) y obtiene una dirección IP privada dentro de la red virtual.
+Tras analizar las opciones anteriores, se ha decidido utilizar Tailscale como
+solución de acceso remoto segura para el proyecto.
 
-Entre las ventajas que justifican esta elección destacan:
+Tailscale ofrece una experiencia significativamente más sencilla que la
+configuración manual de WireGuard u OpenVPN, ya que automatiza la gestión de
+claves, túneles y descubrimiento de pares mediante su propia infraestructura
+cifrada. Además, permite autenticar a los dispositivos mediante identidades de
+usuario (por ejemplo, cuentas de Google, GitHub o Microsoft), lo que facilita el
+control de acceso y evita el uso de certificados individuales
+@tailscale_wireguard.
 
-- Simplicidad de despliegue: no requiere abrir puertos en el router.
+A diferencia de PiVPN, su integración con NixOS es directa, mediante un módulo
+oficial que gestiona la activación del servicio y la configuración. Aunque
+partes de Tailscale están bajo licencia comercial, su uso personal y educativo
+es gratuito, lo que se alinea con los objetivos del proyecto. Además, cabe
+mencionar que si fuese necesario, existe un proyecto de código abierto llamado
+*Headscale* #footnote(
+  "https://headscale.net",
+) que implementa un servidor compatible con el protocolo de Tailscale,
+permitiendo desplegar una solución similar de forma completamente libre en un
+entorno empresarial.
 
-- Autenticación mediante identidad: el acceso se gestiona por usuario y
-  dispositivo, facilitando el control de quién puede entrar en la red privada.
+En conjunto, Tailscale proporciona un equilibrio óptimo entre seguridad,
+simplicidad de despliegue y bajo mantenimiento. Además, al estar basado en
+WireGuard, se beneficia de su rendimiento y eficiencia. Por tanto, cumple todos
+los criterios establecidos y garantiza un acceso remoto seguro sin necesidad de
+exposición pública de los servicios.
 
-- Compatibilidad multiplataforma: disponible para Linux, Windows, macOS, Android
-  e iOS, lo que permite acceder al servicio desde cualquier dispositivo del
-  usuario.
-
-- Mantenimiento reducido: evita la exposición directa del servicio y, por tanto,
-  la necesidad de aplicar medidas adicionales de protección frente a ataques
-  externos.
+==== Despliegue de Tailscale
 
 Para instalar Tailscale en NixOS, se puede activar con facilidad el módulo
 oficial disponible en la configuración del sistema. Una vez activado, Tailscale
