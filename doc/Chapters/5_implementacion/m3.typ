@@ -30,7 +30,7 @@ criterios técnicos y funcionales:
 - Licencia libre (FOSS): el software debe estar publicado bajo una licencia
   libre o de código abierto que permita su uso, modificación y redistribución
   sin restricciones comerciales.
-- Sincronización multidispositivo: disponibilidad de clientes estables en web,
+- Sincronización entre dispositivos: disponibilidad de clientes estables en web,
   escritorio y móvil compartiendo notas.
 - Recursos: consumo moderado y mantenimiento sencillo en hardware limitado.
 - Disponibilidad de imagen Docker: existencia de imagen oficial o mantenida que
