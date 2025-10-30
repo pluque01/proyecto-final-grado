@@ -80,7 +80,8 @@
             "DuckDNS",
             "wildcard",
             "PiVPN",
-            "Headscale"
+            "Headscale",
+            "Mesh"
         ],
     }
 }

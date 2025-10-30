@@ -249,132 +249,152 @@ permiten mantener una infraestructura segura y escalable.
 
 === Acceso desde el exterior
 
-Uno de los requisitos fundamentales para el servicio de almacenamiento y
-colaboración implementado es la posibilidad de acceder a los datos desde
-distintos dispositivos y ubicaciones, sin depender exclusivamente de la red
-local. Esto responde directamente a la necesidad del usuario de consultar,
-modificar o compartir información académica incluso cuando no se encuentra en su
-domicilio.
+Para garantizar que el sistema de almacenamiento y colaboración sea útil más
+allá de la red doméstica, es necesario habilitar acceso remoto seguro. En un
+entorno autoalojado, esto implica tomar decisiones que equilibren seguridad,
+disponibilidad y complejidad operativa.
 
-En este contexto, es necesario analizar las distintas estrategias que permiten
-acceder de forma remota a servicios autoalojados manteniendo la seguridad y el
-control sobre la infraestructura.
+El objetivo principal es acceder al servicio desde cualquier lugar, evitando
+exponer innecesariamente la infraestructura personal a Internet.
 
-==== Alternativas de acceso
+==== Criterios de decisión
 
-Existen principalmente dos enfoques para permitir el acceso remoto a un servicio
-como Nextcloud:
+La elección de la solución se ha guiado por los siguientes principios:
+- Minimizar exposición pública
+- Evitar puntos únicos de fallo críticos
+- Evitar mantener infraestructura de seguridad compleja
 
-- Exposición directa a Internet público:
+==== Alternativas evaluadas
 
-  En este modelo, el servicio se publica en la red mediante un dominio y un
-  proxy inverso, utilizando certificados TLS para garantizar la conexión
-  cifrada. Esta opción permite un acceso universal desde cualquier dispositivo
-  conectado a Internet, pero requiere una configuración rigurosa de seguridad:
-  gestión de certificados, cortafuegos, actualizaciones constantes y
-  monitorización frente a posibles ataques o escaneos automáticos.
+Se analizaron tres enfoques realistas para permitir acceso desde el exterior:
 
-  Si bien ofrece mayor disponibilidad, también aumenta la superficie de
-  exposición, lo que implica un riesgo añadido para entornos personales sin
-  medidas de defensa avanzadas.
+===== Exposición directa del servicio a Internet
 
-- Acceso mediante una red privada virtual (VPN):
+Consiste en publicar el servidor mediante un dominio público, un proxy inverso y
+certificados TLS válidos.
 
-  Una alternativa más segura consiste en mantener los servicios accesibles solo
-  desde la red local y establecer una capa privada de conexión remota entre los
-  dispositivos autorizados. Este tipo de soluciones crean túneles cifrados que
-  permiten que los equipos se comuniquen como si estuvieran en la misma red
-  interna, evitando así la exposición directa de los servicios a Internet y la
-  necesidad de configurar reenvíos de puertos o reglas complejas en el
-  cortafuegos.
+- *Ventajas*
+  - Acceso directo desde cualquier dispositivo
+  - Integración simple con aplicaciones externas
 
-  De este modo, únicamente los dispositivos autenticados dentro de la red
-  privada pueden acceder a los recursos, reduciendo significativamente el riesgo
-  de intrusión o acceso no autorizado.
+- *Inconvenientes*
+  - Apertura de puertos (80/443) en el router
+  - Superficie de ataque elevada por escáneres automáticos y bots
+  - Mantener un firewall y actualizaciones constantes
+  - Necesidad de monitorizar logs y actividad maliciosa
 
-Dado que el objetivo del proyecto es mantener un entorno doméstico seguro sin
-necesidad de exposición directa a Internet, se ha optado por implementar una VPN
-como mecanismo principal de acceso remoto.
+En un entorno doméstico, esta opción es viable, pero aumenta el riesgo y
+mantenimiento, especialmente sin infraestructura de seguridad adicional. Es, por
+tanto, una solución funcional pero con exposición significativa y una
+responsabilidad operativa elevada.
 
-==== Soluciones VPN disponibles
+===== VPN tradicional
 
-Existen diversas herramientas que permiten crear redes privadas cifradas entre
-dispositivos. A continuación se presentan algunas de las más relevantes:
+Una red privada virtual ("Virtual Private Network") es una tecnología que
+permite crear un túnel cifrado entre dos puntos a través de Internet, de forma
+que el tráfico se transmite de manera segura como si ambos dispositivos
+estuvieran en la misma red local. Esto protege la comunicación frente a terceros
+y permite acceder a servicios privados desde ubicaciones remotas
+@cloudflare_vpn.
 
-- *OpenVPN* #footnote("https://openvpn.net") es una de las soluciones más
-  veteranas y ampliamente utilizadas en el ámbito empresarial. Ofrece un alto
-  nivel de seguridad y flexibilidad, aunque su configuración puede resultar
-  compleja en entornos personales debido al uso de certificados, archivos de
-  configuración y gestión manual de puertos. Está disponible bajo licencia GNU
-  GPLv2.
+Para esto, existen dos soluciones principales, WireGuard #footnote(
+  "https://www.wireguard.com/",
+) y OpenVPN #footnote("https://openvpn.net/"). La primera es la alternativa más
+moderna y ligera, con un consumo de recursos más reducido, aunque ambas son
+opciones sólidas y ampliamente utilizadas.
 
-- *WireGuard* #footnote("https://www.wireguard.com") es una alternativa más
-  moderna centrada en la simplicidad y el rendimiento. Su diseño minimalista y
-  su integración nativa en el kernel de Linux lo convierten en una opción
-  eficiente y fácil de auditar. Sin embargo, la configuración manual de pares y
-  claves puede complicarse cuando se conectan múltiples dispositivos. Se
-  distribuye bajo licencia GPLv2.
+- *Ventajas*
+  - Sin exposición pública de servicios
+  - Control total sobre cifrado y red
+  - Muy buena seguridad teórica
 
-- *PiVPN* #footnote("https://pivpn.io") no es una VPN en sí misma, sino un
-  conjunto de scripts que automatizan la instalación y configuración de
-  servidores OpenVPN o WireGuard, pensado especialmente para dispositivos como
-  Raspberry Pi. Su ventaja radica en la facilidad de despliegue, aunque mantiene
-  las limitaciones propias de las tecnologías que utiliza. El proyecto es de
-  código abierto y se distribuye bajo licencia MIT.
+- *Inconvenientes*
+  - Hay que exponer puertos para la VPN
+  - Gestión de claves y configuración para cada dispositivo
+  - No resuelve el acceso por dominio automáticamente, por lo que requiere un
+    servidor DNS local
+  - La infraestructura local se convierte en un único punto de fallo
+    - Si la Raspberry Pi cae no hay acceso ni resolución interna
+    - Si el DNS local falla no hay acceso por dominio
 
-- *Tailscale* #footnote("https://tailscale.com") se basa internamente en
-  WireGuard, pero añade una capa de gestión automática que simplifica la
-  configuración, autenticación y mantenimiento de las conexiones. Permite crear
-  una red privada entre dispositivos de manera prácticamente inmediata, sin
-  necesidad de abrir puertos ni gestionar certificados. Está disponible bajo una
-  licencia comercial, aunque se permite su uso gratuito en entornos personales.
+Aunque técnicamente robusta, esta estrategia introduce más complejidad operativa
+que la exposición directa, especialmente cuando se quiere mantener una
+resolución DNS interna y certificados TLS válidos. La gestión manual de claves y
+configuración para cada dispositivo añade una carga significativa, y la
+dependencia de la infraestructura local puede afectar la disponibilidad.
 
-==== Criterios de selección
+===== Mesh VPN
 
-Para determinar la herramienta más adecuada dentro del contexto del proyecto se
-han definido los siguientes criterios:
+Las VPN tradicionales suelen funcionar mediante un modelo cliente-servidor,
+donde todos los dispositivos remotos se conectan a un único punto central.
 
-- Rendimiento: eficiencia en el uso de recursos, especialmente en hardware
-  limitado como la Raspberry Pi.
+En contraste, una VPN de malla ("Mesh VPN") permite que los dispositivos se
+conecten directamente entre sí, formando una red distribuida donde cada nodo
+puede comunicarse punto a punto con los demás, sin depender de un único servidor
+de acceso @tailscale_mesh_vpns.
 
-- Mantenimiento reducido: mínima necesidad de intervención manual o gestión de
-  certificados.
+Dentro de este enfoque se encuentra Tailscale #footnote(
+  "https://tailscale.com",
+), una solución que utiliza WireGuard como base criptográfica y de transporte, y
+añade un plano de control que automatiza los aspectos complejos de una red
+virtual segura @tailscale_wireguard. En la práctica, permite construir una Mesh
+VPN privada y segura sin abrir puertos ni mantener un servidor accesible desde
+Internet, y sin tener que gestionar manualmente certificados.
 
-- Licencia: preferencia por soluciones gratuitas y de uso permitido en contextos
-  personales.
+- *Ventajas*
+  - No se abre ningún puerto al exterior
+  - Sin exposición directa del servidor
+  - Configuración automática de túneles
+  - Sin dependencia de un DNS local ni split-horizon
+  - Cliente con bajo consumo de recursos basado en WireGuard
+  - Configuración prácticamente instantánea
 
-- Integración con NixOS: disponibilidad de módulos o soporte nativo para
-  facilitar el despliegue.
+- *Inconvenientes*
+  - Utiliza infraestructura externa para la coordinación
+  - Parte del software es comercial, aunque su uso personal es gratuito
+    - Cabe mencionar que existe una alternativa libre al nodo de control de
+      Tailscale llamada Headscale #footnote("https://headscale.io"), pero
+      requiere justamente la infraestructura que se intenta evitar: un servidor
+      accesible desde Internet para coordinar nodos, lo que devuelve el problema
+      inicial de exposición pública y añade mantenimiento.
 
 ==== Solución adoptada
 
-Tras analizar las opciones anteriores, se ha decidido utilizar Tailscale como
-solución de acceso remoto segura para el proyecto.
+Tras evaluar los enfoques anteriores, la solución elegida para el acceso remoto
+ha sido la implementación de una red privada virtual en malla mediante
+Tailscale. La decisión se fundamenta en criterios de seguridad práctica,
+simplicidad operativa y fiabilidad en un entorno doméstico autoalojado.
 
-Tailscale ofrece una experiencia significativamente más sencilla que la
-configuración manual de WireGuard u OpenVPN, ya que automatiza la gestión de
-claves, túneles y descubrimiento de pares mediante su propia infraestructura
-cifrada. Además, permite autenticar a los dispositivos mediante identidades de
-usuario (por ejemplo, cuentas de Google, GitHub o Microsoft), lo que facilita el
-control de acceso y evita el uso de certificados individuales
-@tailscale_wireguard.
+Aunque tanto WireGuard como OpenVPN permiten construir una VPN tradicional
+segura, su aplicación en este proyecto conllevaría una infraestructura adicional
+para mantener una resolución DNS interna, gestionar manualmente claves para cada
+dispositivo y mantener un punto de acceso siempre disponible. Dado que el
+servidor principal se ejecuta sobre hardware doméstico, esto introduce puntos
+únicos de fallo y aumenta la complejidad y los requisitos de mantenimiento.
+Además, incluso con una VPN propia, sería necesario abrir al menos un puerto en
+el router, lo que incrementa la superficie de exposición.
 
-A diferencia de PiVPN, su integración con NixOS es directa, mediante un módulo
-oficial que gestiona la activación del servicio y la configuración. Aunque
-partes de Tailscale están bajo licencia comercial, su uso personal y educativo
-es gratuito, lo que se alinea con los objetivos del proyecto. Además, cabe
-mencionar que si fuese necesario, existe un proyecto de código abierto llamado
-*Headscale* #footnote(
-  "https://headscale.net",
-) que implementa un servidor compatible con el protocolo de Tailscale,
-permitiendo desplegar una solución similar de forma completamente libre en un
-entorno empresarial.
+La exposición pública del servicio también fue descartada. Si bien es viable y
+ampliamente utilizada, implica abrir puertos a Internet y asumir una
+responsabilidad de seguridad continua (actualizaciones, análisis de logs,
+protección del servidor y configuración del firewall). En un entorno donde no
+existe un equipo dedicado a la gestión y monitorización, esta opción supone un
+riesgo operativo elevado.
 
-En conjunto, Tailscale proporciona un equilibrio óptimo entre seguridad,
-simplicidad de despliegue y bajo mantenimiento. Además, al estar basado en
-WireGuard, se beneficia de su rendimiento y eficiencia. Por tanto, cumple todos
-los criterios establecidos y garantiza un acceso remoto seguro sin necesidad de
-exposición pública de los servicios.
+En contraste, Tailscale permite establecer conectividad cifrada de extremo a
+extremo sin necesidad de abrir puertos ni exponer servicios al exterior,
+gestionando automáticamente el intercambio de claves, el descubrimiento de nodos
+y la conectividad. Además, por su funcionamiento como Mesh VPN, elimina la
+dependencia en un único servidor local y evita que un fallo del nodo principal
+deje inaccesible toda la red.
+
+Aunque Tailscale emplea infraestructura externa para la coordinación, el tráfico
+permanece cifrado y no es accesible para terceros. Su uso personal es gratuito
+y, en caso de requerir una solución totalmente libre, existe la alternativa de
+desplegar Headscale, que replica el plano de control de Tailscale y tiene
+licencia libre. Esto garantiza que la elección no limita futuras decisiones de
+diseño y permite migrar a una solución completamente autoalojada si fuese
+necesario.
 
 ==== Despliegue de Tailscale
 
