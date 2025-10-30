@@ -309,7 +309,8 @@ opciones sólidas y ampliamente utilizadas.
   - Muy buena seguridad teórica
 
 - *Inconvenientes*
-  - Hay que exponer puertos para la VPN
+  - Hay que exponer al menos un puerto
+  - Expone la IP pública del servidor VPN
   - Gestión de claves y configuración para cada dispositivo
   - No resuelve el acceso por dominio automáticamente, por lo que requiere un
     servidor DNS local
