@@ -76,7 +76,8 @@
             "wildcard",
             "PiVPN",
             "Headscale",
-            "Mesh"
+            "Mesh",
+            "Trilium"
         ]
     }
 }
