@@ -247,6 +247,265 @@ más adecuada. Su bajo consumo de recursos, su integración dinámica con servic
 en contenedores y su soporte completo para la gestión automática de certificados
 permiten mantener una infraestructura segura y escalable.
 
+=== Acceso desde el exterior
+
+Para garantizar que el sistema de almacenamiento y colaboración sea útil más
+allá de la red doméstica, es necesario habilitar acceso remoto seguro. En un
+entorno autoalojado, esto implica tomar decisiones que equilibren seguridad,
+disponibilidad y complejidad operativa.
+
+El objetivo principal es acceder al servicio desde cualquier lugar, evitando
+exponer innecesariamente la infraestructura personal a Internet.
+
+==== Criterios de decisión
+
+La elección de la solución se ha guiado por los siguientes principios:
+- Minimizar exposición pública
+- Evitar puntos únicos de fallo críticos
+- Evitar mantener infraestructura de seguridad compleja
+
+==== Alternativas evaluadas
+
+Se analizaron tres enfoques realistas para permitir acceso desde el exterior:
+
+===== Exposición directa del servicio a Internet
+
+Consiste en publicar el servidor mediante un dominio público, un proxy inverso y
+certificados TLS válidos.
+
+- *Ventajas*
+  - Acceso directo desde cualquier dispositivo
+  - Integración simple con aplicaciones externas
+
+- *Inconvenientes*
+  - Apertura de puertos (80/443) en el router
+  - Superficie de ataque elevada por escáneres automáticos y bots
+  - Mantener un firewall y actualizaciones constantes
+  - Necesidad de monitorizar registros y actividad maliciosa
+
+En un entorno doméstico, esta opción es viable, pero aumenta el riesgo y
+mantenimiento, especialmente sin infraestructura de seguridad adicional. Es, por
+tanto, una solución funcional pero con exposición significativa y una
+responsabilidad operativa elevada.
+
+===== VPN tradicional
+
+Una red privada virtual ("Virtual Private Network") es una tecnología que
+permite crear un túnel cifrado entre dos puntos a través de Internet, de forma
+que el tráfico se transmite de manera segura como si ambos dispositivos
+estuvieran en la misma red local. Esto protege la comunicación frente a terceros
+y permite acceder a servicios privados desde ubicaciones remotas
+@cloudflare_vpn.
+
+Para esto, existen dos soluciones principales, WireGuard #footnote(
+  "https://www.wireguard.com/",
+) y OpenVPN #footnote("https://openvpn.net/"). La primera es la alternativa más
+moderna y ligera, con un consumo de recursos más reducido, aunque ambas son
+opciones sólidas y ampliamente utilizadas.
+
+- *Ventajas*
+  - Sin exposición pública de servicios
+  - Control total sobre cifrado y red
+  - Muy buena seguridad teórica
+
+- *Inconvenientes*
+  - Hay que exponer al menos un puerto
+  - Expone la IP pública del servidor VPN
+  - Gestión de claves y configuración para cada dispositivo
+  - No resuelve el acceso por dominio automáticamente, por lo que requiere un
+    servidor DNS local
+  - La infraestructura local se convierte en un único punto de fallo
+    - Si la Raspberry Pi cae no hay acceso ni resolución interna
+    - Si el DNS local falla no hay acceso por dominio
+
+Aunque técnicamente robusta, esta estrategia introduce más complejidad operativa
+que la exposición directa, especialmente cuando se quiere mantener una
+resolución DNS interna y certificados TLS válidos. La gestión manual de claves y
+configuración para cada dispositivo añade una carga significativa, y la
+dependencia de la infraestructura local puede afectar la disponibilidad.
+
+===== Mesh VPN
+
+Las VPN tradicionales suelen funcionar mediante un modelo cliente-servidor,
+donde todos los dispositivos remotos se conectan a un único punto central.
+
+En contraste, una VPN de malla ("Mesh VPN") permite que los dispositivos se
+conecten directamente entre sí, formando una red distribuida donde cada nodo
+puede comunicarse punto a punto con los demás, sin depender de un único servidor
+de acceso @tailscale_mesh_vpns.
+
+Dentro de este enfoque se encuentra Tailscale #footnote(
+  "https://tailscale.com",
+), una solución que utiliza WireGuard como base criptográfica y de transporte, y
+añade un plano de control que automatiza los aspectos complejos de una red
+virtual segura @tailscale_wireguard. En la práctica, permite construir una Mesh
+VPN privada y segura sin abrir puertos ni mantener un servidor accesible desde
+Internet, y sin tener que gestionar manualmente certificados.
+
+- *Ventajas*
+  - No se abre ningún puerto al exterior
+  - Sin exposición directa del servidor
+  - Configuración automática de túneles
+  - Sin dependencia de un DNS local ni split-horizon
+  - Cliente con bajo consumo de recursos basado en WireGuard
+  - Configuración prácticamente instantánea
+
+- *Inconvenientes*
+  - Utiliza infraestructura externa para la coordinación
+  - Parte del software es comercial, aunque su uso personal es gratuito
+    - Cabe mencionar que existe una alternativa libre al nodo de control de
+      Tailscale llamada Headscale #footnote("https://headscale.io"), pero
+      requiere justamente la infraestructura que se intenta evitar: un servidor
+      accesible desde Internet para coordinar nodos, lo que devuelve el problema
+      inicial de exposición pública y añade mantenimiento.
+
+==== Solución adoptada
+
+Tras evaluar los enfoques anteriores, la solución elegida para el acceso remoto
+ha sido la implementación de una red privada virtual en malla mediante
+Tailscale. La decisión se fundamenta en criterios de seguridad práctica,
+simplicidad operativa y fiabilidad en un entorno doméstico autoalojado.
+
+Aunque tanto WireGuard como OpenVPN permiten construir una VPN tradicional
+segura, su aplicación en este proyecto conllevaría una infraestructura adicional
+para mantener una resolución DNS interna, gestionar manualmente claves para cada
+dispositivo y mantener un punto de acceso siempre disponible. Dado que el
+servidor principal se ejecuta sobre hardware doméstico, esto introduce puntos
+únicos de fallo y aumenta la complejidad y los requisitos de mantenimiento.
+Además, incluso con una VPN propia, sería necesario abrir al menos un puerto en
+el router, lo que incrementa la superficie de exposición.
+
+La exposición pública del servicio también fue descartada. Si bien es viable y
+ampliamente utilizada, implica abrir puertos a Internet y asumir una
+responsabilidad de seguridad continua (actualizaciones, análisis de registros,
+protección del servidor y configuración del firewall). En un entorno donde no
+existe un equipo dedicado a la gestión y monitorización, esta opción supone un
+riesgo operativo elevado.
+
+En contraste, Tailscale permite establecer conectividad cifrada de extremo a
+extremo sin necesidad de abrir puertos ni exponer servicios al exterior,
+gestionando automáticamente el intercambio de claves, el descubrimiento de nodos
+y la conectividad. Además, por su funcionamiento como Mesh VPN, elimina la
+dependencia en un único servidor local y evita que un fallo del nodo principal
+deje inaccesible toda la red.
+
+Aunque Tailscale emplea infraestructura externa para la coordinación, el tráfico
+permanece cifrado y no es accesible para terceros. Su uso personal es gratuito
+y, en caso de requerir una solución totalmente libre, existe la alternativa de
+desplegar Headscale, que replica el plano de control de Tailscale y tiene
+licencia libre. Esto garantiza que la elección no limita futuras decisiones de
+diseño y permite migrar a una solución completamente autoalojada si fuese
+necesario.
+
+==== Despliegue de Tailscale
+
+Para instalar Tailscale en NixOS, se puede activar con facilidad el módulo
+oficial disponible en la configuración del sistema. Una vez activado, Tailscale
+se encargará de gestionar automáticamente la conexión y autenticación de los
+dispositivos en la red privada.
+
+#figure(
+  image(
+    "../../Figures/Chapter5/m2/tailscale-dashboard.png",
+    width: 100%,
+  ),
+  caption: [Panel de administración de Tailscale, mostrando los dispositivos
+    conectados a la red privada virtual.],
+) <figure:5_m2_tailscale_dashboard>
+
+
+Una vez desplegado Tailscale, es posible acceder de forma remota a la Raspberry
+Pi mediante su nombre interno dentro de la red privada, en este caso `rpi4`.
+Esto permite conectarse directamente al servicio de Nextcloud sin exponerlo
+públicamente.
+
+Sin embargo, esta configuración presenta una limitación al integrarse con el
+proxy inverso Traefik. En este proyecto, Traefik se ha configurado con
+subdominios de la forma `<servicio>.<host>` y no con subdirectorios
+`<host>/<servicio>`, porque Nextcloud desaconseja ejecutarse en un subdirectorio
+para evitar problemas de rutas internas, archivos estáticos y compatibilidad con
+aplicaciones @nextcloud_subdir_limitations. Por tanto, emplear subdominios
+simplifica la configuración y maximiza la compatibilidad con Nextcloud en
+producción.
+
+==== Configuración del dominio local
+
+Para resolver la limitación relacionada con el uso de subdominios, se ha
+decidido configurar un dominio que apunte directamente a la dirección IP privada
+de la Raspberry Pi dentro del entorno local. Existen numerosos proveedores que
+ofrecen este servicio, pero en este proyecto, con el objetivo de minimizar
+costes y simplificar la configuración, se ha optado por utilizar el servicio
+gratuito *DuckDNS* #footnote("https://www.duckdns.org/").
+
+DuckDNS es un sistema de DNS dinámico @aws_dynamic_dns que permite registrar
+subdominios bajo el dominio principal `duckdns.org`. Aunque este proyecto no
+requiere la funcionalidad de actualización dinámica de direcciones IP, el
+servicio resulta muy útil para obtener un subdominio gratuito y gestionable
+mediante una interfaz web sencilla.
+
+En la @figure:5_m2_duckdns_domain se muestra el panel de administración de
+DuckDNS, donde puede verse el subdominio asignado para este proyecto:
+`nixospi.duckdns.org`.
+
+#figure(
+  image("../../Figures/Chapter5/m2/duckdns-domain.png", width: 100%),
+  caption: [Panel de administración de DuckDNS, mostrando el subdominio
+    asignado.],
+)<figure:5_m2_duckdns_domain>
+
+==== Obtención de un certificado TLS
+
+Con la configuración actual, el servicio de Nextcloud ya es accesible a través
+de la dirección `nextcloud.nixospi.duckdns.org` desde cualquier dispositivo
+conectado a la red local o a la red de Tailscale. Sin embargo, para garantizar
+la seguridad de las comunicaciones y proteger los datos transmitidos, podemos
+utilizar Traefik para obtener un certificado TLS válido para este subdominio de
+manera automática.
+
+Para esto, Traefik se ha configurado con el proveedor de certificados Let's
+Encrypt #footnote("https://letsencrypt.org/"), utilizando el mecanismo
+`dnsChallenge`. Este método resulta especialmente útil en entornos donde los
+dominios apuntan a direcciones IP privadas como es el caso del subdominio
+configurado, ya que la validación no depende del acceso HTTP directo al
+servidor, sino de la creación temporal de un registro `TXT` en el DNS del
+dominio @letsencrypt_dns01.
+
+Gracias a esta configuración, Traefik genera y renueva automáticamente un
+certificado SSL wildcard para `*.nixospi.duckdns.org`, lo que permite proteger
+con cifrado TLS todos los subdominios asociados a los distintos servicios
+desplegados, incluyendo `nextcloud.nixospi.duckdns.org`.
+
+#figure(
+  image("../../Figures/Chapter5/m2/tls-certificate.png", width: 70%),
+  caption: [Certificado TLS emitido por Let's Encrypt para
+    `nixospi.duckdns.org`.],
+)
+
+El esquema de la @figure:5_m2_tailscale_duckdns_traefik representa el flujo
+completo de conexión entre los distintos componentes. El subdominio
+`nextcloud.nixospi.duckdns.org`, gestionado por DuckDNS, resuelve hacia la
+dirección IP privada de la Raspberry Pi. Cuando un usuario accede al servicio,
+la petición se redirige hacia el host `rpi4`, donde Traefik actúa como proxy
+inverso dentro de la red externa, gestionando la terminación TLS y el
+enrutamiento de tráfico hacia los contenedores de Podman. En la red interna se
+encuentran los servicios de Nextcloud y su base de datos, comunicándose
+únicamente a través de la red privada definida para los contenedores.
+
+Todo el entorno está encapsulado dentro de la red privada virtual establecida
+por Tailscale, lo que garantiza un acceso remoto cifrado y seguro sin necesidad
+de exponer puertos al exterior.
+
+
+#figure(
+  image(
+    "../../Figures/Chapter5/m2/m2-dns-tailscale.drawio.svg",
+    width: 100%,
+  ),
+  caption: [Esquema de acceso remoto a Nextcloud mediante Tailscale, DuckDNS y
+    Traefik.],
+)<figure:5_m2_tailscale_duckdns_traefik>
+
+
 === Validación del milestone
 
 Una vez desplegado el servicio Nextcloud es necesario comprobar que la solución

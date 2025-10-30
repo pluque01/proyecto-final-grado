@@ -21,7 +21,13 @@ in {
   services.podman.containers."${name}-db" = {
     image = "mariadb:latest";
 
-    network = ["backnet"]; # Use internal network for database
+    network = ["backnet"];
+
+    environment = {
+      OVERWRITEHOST = host;
+      OVERWRITEPROTOCOL = "https";
+      OVERWRITECLIURL = "https://${host}";
+    };
 
     environmentFile = ["${mainDataDir}/db.env"];
 
@@ -51,8 +57,9 @@ in {
     labels = {
       "traefik.enable" = "true";
       "traefik.http.routers.${name}.rule" = "Host(`${host}`)";
-      "traefik.http.services.${name}.loadbalancer.server.port" = "80";
-    };
+      "traefik.http.routers.${name}.tls" = "true";
+      "traefik.http.routers.${name}.entrypoints" = "websecure";
+      "traefik.http.routers.${name}.tls.certresolver" = "duckdns";
 
     extraConfig = {
       Service = {

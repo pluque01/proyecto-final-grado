@@ -7,24 +7,30 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs = {
     self,
     nixpkgs,
     nixos-hardware,
     home-manager,
+    sops-nix,
   } @ inputs: let
     globals = {
       containerUser = "containers";
       dataFolder = "/mnt/data";
-      hostname = "rpi4.local";
+      hostname = "nixospi.duckdns.org";
+      letsEncryptEmail = "pablols114@gmail.com";
       mkServiceHost = service: "${service}.${globals.hostname}";
     };
   in {
     nixosConfigurations = {
       rpi4 = nixpkgs.lib.nixosSystem {
         system = "aarch64-linux";
-        specialArgs = {inherit globals;};
+        specialArgs = inputs // {inherit globals;};
         modules = [
           ./configuration.nix
           ./hardware-configuration.nix

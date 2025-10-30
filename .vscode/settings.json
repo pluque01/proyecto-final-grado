@@ -75,7 +75,13 @@
             "ranges",
             "systemd",
             "AIO",
-            "Traefik"
+            "Traefik",
+            "Tailscale",
+            "DuckDNS",
+            "wildcard",
+            "PiVPN",
+            "Headscale",
+            "Mesh"
         ],
     }
 }
