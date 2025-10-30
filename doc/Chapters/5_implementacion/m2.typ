@@ -281,7 +281,7 @@ certificados TLS válidos.
   - Apertura de puertos (80/443) en el router
   - Superficie de ataque elevada por escáneres automáticos y bots
   - Mantener un firewall y actualizaciones constantes
-  - Necesidad de monitorizar logs y actividad maliciosa
+  - Necesidad de monitorizar registros y actividad maliciosa
 
 En un entorno doméstico, esta opción es viable, pero aumenta el riesgo y
 mantenimiento, especialmente sin infraestructura de seguridad adicional. Es, por
@@ -377,7 +377,7 @@ el router, lo que incrementa la superficie de exposición.
 
 La exposición pública del servicio también fue descartada. Si bien es viable y
 ampliamente utilizada, implica abrir puertos a Internet y asumir una
-responsabilidad de seguridad continua (actualizaciones, análisis de logs,
+responsabilidad de seguridad continua (actualizaciones, análisis de registros,
 protección del servidor y configuración del firewall). En un entorno donde no
 existe un equipo dedicado a la gestión y monitorización, esta opción supone un
 riesgo operativo elevado.
