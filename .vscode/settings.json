@@ -81,7 +81,10 @@
             "wildcard",
             "PiVPN",
             "Headscale",
-            "Mesh"
+            "Mesh",
+            "Benchmark",
+            "GiB",
+            "swap"
         ],
     }
 }
