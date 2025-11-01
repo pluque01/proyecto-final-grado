@@ -125,8 +125,8 @@ se mantuvo en torno al 30 %, lo que indica una respuesta estable y sin bloqueos.
 En cuanto al consumo de memoria (@figure:ch6-grafana-mem-usage), la gráfica
 muestra un aumento progresivo durante las fases de transferencia y cacheo de
 datos, llegando a ocupar unos 2.8 GiB de los 4 GiB disponibles. No obstante, el
-sistema no presentó saturación ni uso de *swap*, recuperando memoria libre una
-vez finalizadas las operaciones más intensivas.
+sistema no presentó saturación ni uso de memoria "swap" @linux_swap_space,
+recuperando memoria libre una vez finalizadas las operaciones más intensivas.
 
 Estos resultados confirman que, pese a las limitaciones inherentes al hardware
 de la Raspberry Pi, el conjunto de servicios mantiene un comportamiento fluido y
