@@ -7,7 +7,7 @@ bajo distintas condiciones de uso.
 
 Las pruebas realizadas se han diseñado a partir de los problemas detectados o
 potenciales identificados durante la fase de despliegue. Cada uno de ellos se
-formula en forma de *issue* dentro del repositorio, y se aborda con un conjunto
+formula en forma de "issue" dentro del repositorio, y se aborda con un conjunto
 de pruebas destinadas a verificar su resolución o impacto real en el sistema.
 
 == Pruebas funcionales y técnicas
@@ -65,8 +65,10 @@ eliminación de archivos y la creación de carpetas se propagaron sin errores.
 ==== Prueba de carga con Apache Benchmark
 
 Para complementar las métricas obtenidas mediante monitorización, se realizó una
-prueba de carga con la herramienta Apache Benchmark, con el objetivo de evaluar
-la capacidad del servidor para atender múltiples peticiones concurrentes.
+prueba de carga con la herramienta Apache Benchmark #footnote(
+  "https://httpd.apache.org/docs/2.4/programs/ab.html",
+), con el objetivo de evaluar la capacidad del servidor para atender múltiples
+peticiones concurrentes.
 
 El comando ejecutado fue:
 
