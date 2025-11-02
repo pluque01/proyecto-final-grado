@@ -80,7 +80,10 @@
             "Trilium",
             "Collectives",
             "Notes",
-            "subpáginas"
+            "subpáginas",
+            "Benchmark",
+            "GiB",
+            "swap"
         ]
     }
 }

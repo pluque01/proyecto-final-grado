@@ -23,8 +23,9 @@
 #include "Chapters/3.metodologia.typ"
 #include "Chapters/4.planificación.typ"
 #include "Chapters/5_implementacion/5.implementacion.typ"
-#include "Chapters/6.costes.typ"
-#include "Chapters/7.conclusiones.typ"
+#include "Chapters/6.validacion.typ"
+#include "Chapters/7.costes.typ"
+#include "Chapters/8.conclusiones.typ"
 
 
 #bibliography("references.bib")
