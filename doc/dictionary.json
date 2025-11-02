@@ -77,7 +77,10 @@
             "PiVPN",
             "Headscale",
             "Mesh",
-            "Trilium"
+            "Trilium",
+            "Collectives",
+            "Notes",
+            "subpáginas"
         ]
     }
 }
