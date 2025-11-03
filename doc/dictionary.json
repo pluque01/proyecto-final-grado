@@ -83,7 +83,8 @@
             "subpáginas",
             "Benchmark",
             "GiB",
-            "swap"
+            "swap",
+            "Activity"
         ]
     }
 }
