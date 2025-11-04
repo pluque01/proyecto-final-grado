@@ -75,7 +75,7 @@ Esta elección permite mantener la coherencia tecnológica del proyecto y ofrece
 valor adicional al usuario final, integrando de forma directa las funciones de
 toma de notas y conocimiento dentro del ecosistema de colaboración existente.
 
-=== Despliegue e integración
+=== Despliegue e integración<cap:5_m3_deployment>
 
 Al tratarse de una ampliación funcional sobre la infraestructura ya desplegada
 en la @cap:5_m2, no ha sido necesario modificar la configuración de red, proxy
