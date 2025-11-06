@@ -56,6 +56,7 @@ de estas descripciones se plantean historias de usuario, que reflejan qué esper
 conseguir cada perfil mediante la solución propuesta.
 
 === Personas identificadas
+
 ==== Laura Gómez (estudiante universitaria)
 
 Laura es estudiante de ingeniería y necesita almacenar gran cantidad de apuntes,
@@ -64,22 +65,28 @@ Google Drive y Dropbox, pero se encuentra con limitaciones de espacio y con la
 incomodidad de gestionar varios proveedores. Además, le preocupa que sus datos
 estén en servidores externos y no tener control sobre ellos.
 
-También utiliza aplicaciones como Notion o Evernote para organizar sus notas,
-ideas y referencias. Aunque estas herramientas le resultan útiles, depende de
-plataformas comerciales que pueden cambiar sus condiciones de uso en cualquier
-momento. Laura busca una alternativa autogestionada que le permita centralizar
-tanto sus documentos como sus notas académicas en un único entorno bajo su
-control.
+Laura busca una alternativa autogestionada que le permita centralizar y
+compartir sus documentos académicos en un entorno propio, bajo su control.
+
+==== David Martínez (estudiante universitario)
+
+David es compañero de Laura y utiliza herramientas como Notion o Evernote para
+organizar sus notas, ideas y referencias. Aunque estas plataformas le resultan
+útiles, depende de servicios comerciales que pueden cambiar sus condiciones de
+uso en cualquier momento. David quiere una solución autogestionada que le
+permita estructurar y editar sus apuntes de forma colaborativa, integrada con el
+sistema de almacenamiento utilizado por su grupo de estudio.
 
 ==== Marta Sánchez (administradora de sistemas)
 
 Marta es responsable de la infraestructura informática en una pequeña empresa.
 Su equipo maneja decenas de credenciales para distintos servicios y hasta ahora
 utilizaban hojas de cálculo compartidas, lo que supone un riesgo de seguridad.
-Marta quiere una solución autogestionada que le permita almacenar, compartir y
-gestionar contraseñas de manera segura, sin depender de proveedores externos.
+Marta quiere una solución autogestionada que le permita compartir contraseñas de
+manera segura y controlada, sin depender de proveedores externos.
 
 == Historias de usuario
+
 === Laura Gómez (estudiante universitaria)
 
 - HU01: Como estudiante, quiero almacenar mis documentos en un servidor propio,
@@ -88,6 +95,8 @@ gestionar contraseñas de manera segura, sin depender de proveedores externos.
 
 - HU02: Como estudiante, quiero compartir carpetas con mis compañeros, para
   facilitar el trabajo en grupo de forma sencilla y bajo mi control.
+
+=== David Martínez (estudiante universitario)
 
 - HU03: Como estudiante, quiero organizar mis notas e ideas en una herramienta
   similar a Notion, para tener toda mi información académica centralizada sin
@@ -98,11 +107,7 @@ gestionar contraseñas de manera segura, sin depender de proveedores externos.
 
 === Marta Sánchez (administradora de sistemas)
 
-- HU05: Como administradora de sistemas, quiero almacenar todas las credenciales
-  de mi equipo en un gestor de contraseñas seguro, para evitar pérdidas de
-  información y riesgos de seguridad.
-
-- HU06: Como administradora de sistemas, quiero compartir ciertas contraseñas
+- HU05: Como administradora de sistemas, quiero compartir ciertas contraseñas
   con mis compañeros de forma controlada, para que cada usuario tenga acceso
   únicamente a la información que necesita.
 
