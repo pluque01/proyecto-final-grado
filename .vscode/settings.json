@@ -89,7 +89,8 @@
             "Benchmark",
             "GiB",
             "swap",
-            "Activity"
+            "Activity",
+            "TB"
         ],
     }
 }
