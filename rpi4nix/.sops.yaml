@@ -1,0 +1,9 @@
+keys:
+  - &admin_pluque_wsl age18dm8ex5kgwa9w5yawp5u7lfrtg3uf3cyyre9l6kcg0wwrswya98sgx0zx5
+  - &server age19kyf0a8l4f5y9fn97j543u5dnlcad0f7j6yjlrn8l99rxc0snpdq0t6j6x
+creation_rules:
+  - path_regex: secrets.yaml$
+    key_groups:
+    - age:
+      - *server
+      - *admin_pluque_ws

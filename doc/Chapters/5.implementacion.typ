@@ -1,2 +1,0 @@
-= Implementación
-#lorem(700)

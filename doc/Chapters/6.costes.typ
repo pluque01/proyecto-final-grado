@@ -1,2 +1,0 @@
-= Costes
-#lorem(200)
