@@ -1,3 +1,5 @@
+#import "@preview/lilaq:0.5.0" as lq
+
 = Validación y pruebas
 
 Con el desarrollo funcional completado, este capítulo se centra en la validación
@@ -91,8 +93,43 @@ las limitaciones del hardware empleado. La combinación de Traefik como proxy y
 Apache como servidor web permite manejar con eficiencia las conexiones TLS y
 distribuir correctamente las peticiones.
 
+#let datos = (
+  (1, 316),
+  (2, 339),
+  (3, 353),
+  (4, 360),
+  (5, 394),
+  (6, 434),
+  (7, 603),
+  (8, 667),
+  (9, 667),
+)
+#show: lq.theme.skyline
 #figure(
-  image("../Figures/Chapter6/response-times-ab.png", width: 100%),
+  lq.diagram(
+    xlabel: "Percentil",
+    xaxis: (
+      ticks: (
+        (1, "50"),
+        (2, "66"),
+        (3, "75"),
+        (4, "80"),
+        (5, "90"),
+        (6, "95"),
+        (7, "98"),
+        (8, "99"),
+        (9, "100"),
+      ),
+    ),
+    ylabel: "Tiempo de respuesta (ms)",
+    width: 100%,
+    height: 6cm,
+    lq.bar(
+      datos.map(d => d.at(0)),
+      datos.map(d => d.at(1)),
+      // color: rgb("#4f8cc9"),
+    ),
+  ),
   caption: [Tiempos de respuesta obtenidos en la prueba de carga con Apache
     Benchmark.],
 )
