@@ -90,7 +90,8 @@
             "GiB",
             "swap",
             "Activity",
-            "TB"
+            "TB",
+            "proxies"
         ],
     }
 }

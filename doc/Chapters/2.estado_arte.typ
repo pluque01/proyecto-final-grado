@@ -1,4 +1,4 @@
-= Estado del arte
+= Estado del arte<cap:2_estado_arte>
 
 En este capítulo se revisan las principales soluciones de productividad digital
 en dos vertientes: los servicios comerciales en la nube ("Software as a Service,
