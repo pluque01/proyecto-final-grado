@@ -123,7 +123,9 @@
       spacing: 20pt,
       if not regex("(Índice.*)|(Bibliografía)") in it.body.fields().text {
         let title-content = text(size: 16pt, weight: "regular", "Capítulo ")
-        let title-number = text(size: 64pt, weight: "light", str(counter(heading).get().first()))
+        let title-number = text(size: 64pt, weight: "light", str(
+          counter(heading).get().first(),
+        ))
         let title-height = measure(title-content).height
         let padding = 1em
 
@@ -219,7 +221,12 @@
           // Título
           align(
             center,
-            par(leading: 0.3em, text(font: serif-font, 18pt, weight: 700, title)),
+            par(leading: 0.3em, text(
+              font: serif-font,
+              18pt,
+              weight: 700,
+              title,
+            )),
           ),
           line(length: 100%, stroke: 2pt),
           // Texto adicional
@@ -240,19 +247,31 @@
   // Author information.
   align(
     center,
-    table(columns: auto, align: center, stroke: none, if authors.len() > 1 {
+    table(
+      columns: auto,
+      align: center,
+      stroke: none,
+      if authors.len() > 1 {
         table.header(strong("Autores"))
       } else {
         table.header(strong("Autor"))
-      }, ..authors.map(author => author)),
+      },
+      ..authors.map(author => author),
+    ),
   )
   align(
     center,
-    table(columns: auto, align: center, stroke: none, if authors.len() > 1 {
+    table(
+      columns: auto,
+      align: center,
+      stroke: none,
+      if authors.len() > 1 {
         table.header(strong("Directores"))
       } else {
         table.header(strong("Director"))
-      }, ..directors.map(director => director)),
+      },
+      ..directors.map(director => director),
+    ),
   )
   v(9.6fr)
   align(
@@ -281,7 +300,11 @@
       text(
         14pt,
         font: serif-font,
-        city + ", " + traducir_mes(datetime.today().display("[day] de [month repr:long] de [year]")),
+        city
+          + ", "
+          + traducir_mes(
+            datetime.today().display("[day] de [month repr:long] de [year]"),
+          ),
       ),
     )
   }
@@ -312,7 +335,11 @@
   )
 
   // Custom numbering for figures (<section><fig_number>)
-  set figure(numbering: (..num) => numbering("1.1", counter(heading).get().first(), num.pos().first()))
+  set figure(numbering: (..num) => numbering(
+    "1.1",
+    counter(heading).get().first(),
+    num.pos().first(),
+  ))
   show heading.where(level: 1): it => {
     counter(math.equation).update(0)
     counter(figure.where(kind: image)).update(0)
@@ -327,14 +354,19 @@
   let colon-entry(it) = {
     link(
       it.element.location(),
-      text(fill: black, it.indented([#it.prefix().children.at(2).], it.inner())),
+      text(fill: black, it.indented(
+        [#it.prefix().children.at(2).],
+        it.inner(),
+      )),
     )
   }
   show outline: out => {
     //if calc.even(here().page()) {
     //  pagebreak()
     //}
-    show outline.entry: it => if out.target == selector(heading) { it } else { colon-entry(it) }
+    show outline.entry: it => if out.target == selector(heading) { it } else {
+      colon-entry(it)
+    }
     out
   }
   // -------------------------------------------------------------
@@ -360,6 +392,7 @@
   }
   outline(depth: 3, indent: auto)
   outline(title: "Índice de figuras", target: figure.where(kind: image))
+  outline(title: "Índice de listados", target: figure.where(kind: raw))
   outline(title: "Índice de tablas", target: figure.where(kind: table))
 
   set par(justify: true)
@@ -389,13 +422,14 @@
     }
     show footnote: it => [0]
     set footnote.entry(separator: none)
-    show text.where(weight: "bold")
+    show text
+      .where(weight: "bold")
       .or(text.where(weight: "italic"))
       .or(text.where(weight: "black"))
       .or(text.where(weight: "semibold")): it => text(weight: "regular", it)
     show strong: it => it.body
     show emph: it => it.body
-    doc 
+    doc
   }
 }
 //LTeX: enabled=true
