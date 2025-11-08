@@ -220,34 +220,37 @@ arquitectura aarch64, correspondiente a la Raspberry Pi.
 
 Para ello, se definió un archivo `flake.nix` con la siguiente estructura:
 
-```nix
-{
-  description = "NixOS Raspberry Pi configuration flake";
-  outputs = { self, nixpkgs, }: {
-    nixosConfigurations = {
-      rpi = nixpkgs.lib.nixosSystem {
-        system = "aarch64-linux";
-        modules = [
-          "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
-          ./configuration.nix
-        ];
+#figure(
+  ```nix
+  {
+    description = "NixOS Raspberry Pi configuration flake";
+    outputs = { self, nixpkgs, }: {
+      nixosConfigurations = {
+        rpi = nixpkgs.lib.nixosSystem {
+          system = "aarch64-linux";
+          modules = [
+            "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
+            ./configuration.nix
+          ];
+        };
       };
     };
-  };
-}
-  outputs = { self, nixpkgs, }: {
-    nixosConfigurations = {
-      rpi = nixpkgs.lib.nixosSystem {
-        system = "aarch64-linux";
-        modules = [
-          "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
-          ./configuration.nix
-        ];
+  }
+    outputs = { self, nixpkgs, }: {
+      nixosConfigurations = {
+        rpi = nixpkgs.lib.nixosSystem {
+          system = "aarch64-linux";
+          modules = [
+            "${nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
+            ./configuration.nix
+          ];
+        };
       };
     };
-  };
-}
-```
+  }
+  ```,
+  caption: [Nix flake para generar la imagen de NixOS para Raspberry Pi],
+)
 
 
 Este flake declara una configuración de sistema denominada "rpi", basada en el
@@ -259,43 +262,46 @@ La configuración principal se definió en el archivo `configuration.nix`, que
 establece la zona horaria, la localización, la creación del usuario principal y
 la habilitación del servicio SSH:
 
-```nix
-{...}: {
-  config = {
-    # Time, keyboard language, etc
-    time.timeZone = "Europe/Madrid";
-    i18n.defaultLocale = "es_ES.UTF-8";
+#figure(
+  ```nix
+  {...}: {
+    config = {
+      # Time, keyboard language, etc
+      time.timeZone = "Europe/Madrid";
+      i18n.defaultLocale = "es_ES.UTF-8";
 
-    # User
-    users.users.pi = {
-      isNormalUser = true;
-      password = "<redacted_password>";
-      extraGroups = [
-        "wheel" # Enable 'sudo' for the user.
-        "networkmanager"
-      ];
-      openssh.authorizedKeys.keys = [
-        "<redacted_public_key>"
-      ];
+      # User
+      users.users.pi = {
+        isNormalUser = true;
+        password = "<redacted_password>";
+        extraGroups = [
+          "wheel" # Enable 'sudo' for the user.
+          "networkmanager"
+        ];
+        openssh.authorizedKeys.keys = [
+          "<redacted_public_key>"
+        ];
+      };
+
+      # Allow ssh in
+      services.openssh.enable = true;
+
+      networking = {
+        hostName = "pi4";
+        networkmanager.enable = true;
+      };
+
+      # This makes the build be a .img instead of a .img.zst
+      sdImage.compressImage = false;
+
+      system = {
+        stateVersion = "25.05";
+      };
     };
-
-    # Allow ssh in
-    services.openssh.enable = true;
-
-    networking = {
-      hostName = "pi4";
-      networkmanager.enable = true;
-    };
-
-    # This makes the build be a .img instead of a .img.zst
-    sdImage.compressImage = false;
-
-    system = {
-      stateVersion = "25.05";
-    };
-  };
-}
-```
+  }
+  ```,
+  caption: [Configuración del sistema para la Raspberry Pi],
+)
 
 Esta configuración permite que, una vez iniciado el sistema, el usuario "pi"
 pueda conectarse por SSH sin necesidad de teclado ni pantalla, asegurando desde
@@ -521,24 +527,27 @@ Infraestructura como Código también en el nivel del usuario. En este proyecto,
 se ha integrado como módulo dentro del flake principal de NixOS, de modo que la
 configuración del sistema y la del usuario se construyen conjuntamente:
 
-```nix
-{
-  inputs.home-manager.url = "github:nix-community/home-manager";
-  outputs = { self, nixpkgs, home-manager, ... }: {
-    nixosConfigurations.rpi = nixpkgs.lib.nixosSystem {
-      system = "aarch64-linux";
-      modules = [
-        ./configuration.nix
-        home-manager.nixosModules.home-manager
-        {
-          # Configuración del usuario containers
-          home-manager.users.containers = import ./home/containers;
-        }
-      ];
+#figure(
+  ```nix
+  {
+    inputs.home-manager.url = "github:nix-community/home-manager";
+    outputs = { self, nixpkgs, home-manager, ... }: {
+      nixosConfigurations.rpi = nixpkgs.lib.nixosSystem {
+        system = "aarch64-linux";
+        modules = [
+          ./configuration.nix
+          home-manager.nixosModules.home-manager
+          {
+            # Configuración del usuario containers
+            home-manager.users.containers = import ./home/containers;
+          }
+        ];
+      };
     };
-  };
-}
-```
+  }
+  ```,
+  caption: [Integración de Home Manager en NixOS],
+)
 
 
 Además, se ha creado un usuario dedicado para la ejecución de contenedores,
@@ -547,27 +556,30 @@ usuario está diseñado específicamente para alojar y gestionar los contenedore
 rootless, reduciendo el impacto potencial de vulnerabilidades o configuraciones
 erróneas. Su definición en `configuration.nix` es la siguiente:
 
-```nix
-users.users.containers = {
-  isNormalUser = true;
-  description = "Dedicated user for rootless Podman containers";
-  home = "/home/containers";
-  linger = true;
-  createHome = true;
-  subUidRanges = [
-    {
-      startUid = 100000;
-      count = 65536;
-    }
-  ];
-  subGidRanges = [
-    {
-      startGid = 100000;
-      count = 65536;
-    }
-  ];
-};
-```
+#figure(
+  ```nix
+  users.users.containers = {
+    isNormalUser = true;
+    description = "Dedicated user for rootless Podman containers";
+    home = "/home/containers";
+    linger = true;
+    createHome = true;
+    subUidRanges = [
+      {
+        startUid = 100000;
+        count = 65536;
+      }
+    ];
+    subGidRanges = [
+      {
+        startGid = 100000;
+        count = 65536;
+      }
+    ];
+  };
+  ```,
+  caption: [Definición del usuario dedicado para ejecutar contenedores],
+)
 
 
 El parámetro `linger = true` es especialmente importante, ya que permite que los
@@ -588,20 +600,23 @@ servicios.
 La configuración de Podman se define mediante Home Manager en el archivo
 `home/containers/default.nix`:
 
-```nix
-{ config, pkgs, ... }:
+#figure(
+  ```nix
+  { config, pkgs, ... }:
 
-{
-  services.podman = {
-    enable = true;
-    autoUpdate = {
+  {
+    services.podman = {
       enable = true;
-      # Ejecuta el auto-update diariamente a medianoche
-      onCalendar = "*-*-* 00:00:00";
+      autoUpdate = {
+        enable = true;
+        # Ejecuta el auto-update diariamente a medianoche
+        onCalendar = "*-*-* 00:00:00";
+      };
     };
-  };
-}
-```
+  }
+  ```,
+  caption: [Configuración de Podman],
+)
 
 La opción `enable = true` activa Podman como servicio de usuario, lo que permite
 lanzar y gestionar contenedores bajo el identificador del usuario sin requerir
