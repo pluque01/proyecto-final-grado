@@ -170,7 +170,7 @@
       },
       it.body,
     )
-    v(24pt)
+    v(48pt)
   }
   show heading.where(level: 2): it => {
     set text(size: 20pt, weight: "regular")
@@ -500,12 +500,12 @@
   )
   pagebreak()
 
+
   // -------------------------------------------------------------
 
   // Acknowledgements page
   if acknowledgements != none {
     set page(margin: 4cm)
-    align(center, text("Agradecimientos", size: 12pt, weight: "bold"))
     heading(numbering: none, outlined: false, "Agradecimientos")
     par(acknowledgements)
     pagebreak()
