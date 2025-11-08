@@ -5,7 +5,7 @@ autoalojado desplegado en el milestone anterior, incorporando capacidades de
 toma de notas y gestión de conocimiento personal dentro del propio entorno de
 Nextcloud. Se pretende así evolucionar el PMV previo hacia una herramienta más
 completa y útil para la organización de información académica y colaborativa,
-manteniendo la filosofía self-hosted y la integración con la infraestructura
+manteniendo la filosofía autoalojada y la integración con la infraestructura
 existente.
 
 === Objetivo del PMV

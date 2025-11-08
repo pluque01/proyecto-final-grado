@@ -1,7 +1,7 @@
 == [M1] Infraestructura y configuración de entorno<cap:5_m1>
 
 Este milestone tiene como objetivo seleccionar y preparar el hardware que
-servirá de base para la infraestructura self-hosted, junto con la instalación y
+servirá de base para la infraestructura autoalojada, junto con la instalación y
 configuración del sistema operativo. Su finalidad es disponer de un entorno
 operativo mínimo, estable y accesible de forma remota, que permita continuar con
 la implementación progresiva de los servicios autoalojados definidos en las
@@ -15,7 +15,7 @@ reproducibilidad y accesibilidad remota.
 
 === Selección del hardware
 
-El self-hosting implica que los servicios se ejecuten en una infraestructura
+El autoalojamiento implica que los servicios se ejecuten en una infraestructura
 propia, bajo control directo del usuario o de la organización. Esta elección
 ofrece independencia de proveedores externos, mayor privacidad y la posibilidad
 de adaptar el entorno a las necesidades concretas del proyecto.
@@ -41,8 +41,8 @@ proyecto:
 - *Dispositivo embebido (Raspberry Pi)*: Presenta una solución ligera y
   económica, con bajo consumo energético y funcionamiento silencioso
   @raspi_benchmarks_2024. Ofrece una amplia comunidad, soporte estable y
-  compatibilidad con distribuciones GNU/Linux orientadas al self-hosting, lo que
-  facilita la instalación y administración de servicios.
+  compatibilidad con distribuciones GNU/Linux orientadas al autoalojamiento, lo
+  que facilita la instalación y administración de servicios.
 
 ==== Criterios de elección
 
@@ -79,7 +79,7 @@ del proyecto. Esta decisión se fundamenta en los siguientes aspectos:
 
 - En conjunto, la Raspberry Pi ofrece el equilibrio ideal entre eficiencia,
   autonomía y sostenibilidad, cumpliendo los requisitos del proyecto para una
-  infraestructura self-hosted ligera y reproducible.
+  infraestructura autoalojada ligera y reproducible.
 
 De esta forma, la Raspberry Pi constituye la base sobre la que se desplegarán
 los distintos servicios implementados en las siguientes fases del proyecto.
@@ -94,7 +94,7 @@ una tarjeta microSD de 32 GB para el almacenamiento principal.
 === Selección del sistema operativo
 
 Una vez definido el hardware, se procedió a evaluar las posibles opciones de
-sistema operativo para la infraestructura self-hosted. El objetivo era disponer
+sistema operativo para la infraestructura autoalojada. El objetivo era disponer
 de un entorno ligero, estable y reproducible, que facilitara la instalación de
 servicios, el mantenimiento a largo plazo y la automatización de la
 configuración.
@@ -148,7 +148,7 @@ Para comparar las distintas opciones se definieron los siguientes criterios:
   mantener la estabilidad del entorno.
 - Comunidad y soporte: disponibilidad de documentación, foros y paquetes
   actualizados.
-- Compatibilidad con servicios self-hosted: existencia de paquetes o mecanismos
+- Compatibilidad con servicios autoalojados: existencia de paquetes o mecanismos
   simples para desplegar herramientas como Nextcloud, Vaultwarden o Logseq.
 - Enfoque declarativo: capacidad para describir el estado del sistema de forma
   programática, coherente con los principios de IaC.
@@ -172,10 +172,10 @@ Los principales motivos de esta elección son los siguientes:
   permite tratar la infraestructura como parte del código del proyecto, con
   control de versiones, trazabilidad y documentación integrada.
 - Mantiene un ecosistema activo, con soporte oficial para múltiples servicios
-  self-hosted y una comunidad creciente que promueve la documentación abierta.
+  autoalojados y una comunidad creciente que promueve la documentación abierta.
 
 De esta manera, NixOS se consolida como la opción más coherente con la filosofía
-del proyecto: un entorno autohospedado, reproducible y sostenible, en el que la
+del proyecto: un entorno autoalojado, reproducible y sostenible, en el que la
 infraestructura se gestiona como código y evoluciona junto con el resto del
 sistema.
 
@@ -504,7 +504,7 @@ criterios:
 ==== Justificación de la elección
 
 Considerando los criterios anteriores, se ha seleccionado Podman como
-herramienta principal de contenedorización para el entorno self-hosted del
+herramienta principal de contenedorización para el entorno autoalojado del
 proyecto. Podman ofrece un equilibrio óptimo entre compatibilidad, seguridad y
 simplicidad operativa, permitiendo gestionar contenedores sin necesidad de
 privilegios de superusuario y manteniendo la compatibilidad con las imágenes y
@@ -585,7 +585,7 @@ erróneas. Su definición en `configuration.nix` es la siguiente:
 El parámetro `linger = true` es especialmente importante, ya que permite que los
 servicios y contenedores asociados a este usuario continúen ejecutándose incluso
 cuando no haya una sesión activa. Esto resulta esencial en un entorno
-self-hosted, donde los servicios deben permanecer disponibles de forma continua
+autoalojado, donde los servicios deben permanecer disponibles de forma continua
 sin depender del inicio de sesión del usuario.
 
 Por su parte, los atributos "subUidRanges" y "subGidRanges" definen los rangos

@@ -1,7 +1,7 @@
 == [M2] Implementación de servicios de almacenamiento y colaboración<cap:5_m2>
 
 Este milestone tiene como objetivo desarrollar el primer servicio funcional del
-entorno self-hosted, orientado al almacenamiento y la compartición de archivos
+entorno autoalojado, orientado al almacenamiento y la compartición de archivos
 entre usuarios. Su finalidad es proporcionar una solución que permita acceder a
 los documentos personales desde cualquier dispositivo, manteniendo el control
 sobre los datos y la independencia respecto a servicios externos. A partir de la
@@ -19,7 +19,7 @@ reproducibilidad del despliegue.
 === Alternativas de implementación
 
 Para la puesta en marcha del servicio de almacenamiento y colaboración se han
-considerado distintas soluciones self-hosted que permiten sincronizar y
+considerado distintas soluciones autoalojadas que permiten sincronizar y
 compartir archivos entre usuarios. Estas alternativas se han evaluado en función
 de su funcionalidad, grado de madurez y adecuación a los requisitos definidos en
 las historias de usuario.
@@ -107,7 +107,7 @@ y facilitando la integración con futuras herramientas de monitorización o
 automatización.
 
 Por último, su rendimiento estable y sus requisitos de hardware moderados lo
-convierten en una opción especialmente adecuada para el entorno self-hosted del
+convierten en una opción especialmente adecuada para el entorno autoalojado del
 proyecto, basado en una Raspberry Pi. En conjunto, estos factores hacen de
 Nextcloud la solución más equilibrada para satisfacer las necesidades
 funcionales del milestone, combinando usabilidad, eficiencia y reproducibilidad
@@ -585,7 +585,7 @@ coherencia de los archivos compartidos.
 
 Las pruebas realizadas demuestran que el despliegue de Nextcloud sobre NixOS
 cumple satisfactoriamente con las dos primeras historias de usuario del
-proyecto. El sistema proporciona un entorno self-hosted funcional que permite
+proyecto. El sistema proporciona un entorno autoalojado funcional que permite
 tanto el almacenamiento personal de documentos como la colaboración entre varios
 usuarios mediante la compartición de carpetas y la edición simultánea de
 archivos.
