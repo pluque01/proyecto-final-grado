@@ -17,12 +17,22 @@ amortización lineal a cuatro años, según los porcentajes de la tabla de
 amortización simplificada de la Agencia Tributaria Española
 @aeat_tabla_amortizacion_2025.
 
+#let frame(stroke) = (x, y) => (
+  left: if x > 0 { 0pt } else { stroke },
+  right: stroke,
+  top: if y < 2 { stroke } else { 0pt },
+  bottom: stroke,
+)
+#set table(
+  fill: (_, y) => if calc.odd(y) { rgb("EAF2F5") },
+  stroke: frame(1pt + rgb("21222C")),
+)
+
 #figure(
   table(
     columns: 4,
     align: (left, center, center, right),
     inset: 1em,
-    stroke: 0.5pt,
     [*Hardware*],
     [*Valor (€)*],
     [*Amortización anual (%)*],
@@ -66,7 +76,6 @@ estimado siguiente:
     columns: 3,
     align: (left, center, right),
     inset: 1em,
-    stroke: 0.5pt,
     [*Concepto*], [*Tiempo*], [*Coste (€)*],
     [ Coste laboral estimado ], [ 9 meses ], [ 18.750 € ],
   ),
