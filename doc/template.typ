@@ -44,6 +44,9 @@
   grado: "",
   date: none,
   abstract: none,
+  abstract-en: none,
+  keywords: none,
+  keywords-en: none,
   bibliography-file: none,
   inside-margin: 4cm, // Inner margin (binding side)
   outside-margin: 3cm, // Outer margin
@@ -313,27 +316,6 @@
   v(1.2em, weak: true)
   pagebreak()
 
-
-  let hydra-context = (
-    book: true,
-  )
-  set page(
-    margin: (inside: inside-margin, outside: outside-margin, y: y-margin),
-    // Hydra header definition
-    header: context {
-      if calc.odd(here().page()) {
-        align(right, emph(hydra(2)))
-        line(length: 100%)
-      } else {
-        align(left, emph(hydra(1)))
-        let headings = query(heading.where(level: 1))
-        if headings.find(h => h.location().page() == here().page()) == none {
-          line(length: 100%)
-        }
-      }
-    },
-  )
-
   // Custom numbering for figures (<section><fig_number>)
   set figure(numbering: (..num) => numbering(
     "1.1",
@@ -384,6 +366,63 @@
   )
   // -------------------------------------------------------------
 
+  set par(justify: true)
+
+  // Abstract page
+  if abstract != none {
+    set page(margin: 4cm)
+    align(center, text(title, size: 12pt, weight: "bold"))
+    v(-8pt)
+    align(center, text(subtitle, size: 12pt, weight: "regular"))
+    align(center, text(
+      authors.join(", "),
+      size: 12pt,
+      weight: "regular",
+      style: "italic",
+    ))
+    text("Resumen", size: 12pt, weight: "bold")
+    par(abstract)
+
+    if keywords != none {
+      text("Palabras clave: ", weight: "bold")
+      text(keywords, style: "italic")
+    }
+    pagebreak()
+  }
+  // Abstract page english
+  if abstract-en != none {
+    set page(margin: 4cm)
+    text("Abstract", size: 12pt, weight: "bold")
+    par(abstract-en)
+
+    if keywords != none {
+      text("Keywords: ", weight: "bold")
+      text(keywords-en, style: "italic")
+    }
+    pagebreak()
+  }
+
+  // Hydra config
+  let hydra-context = (
+    book: true,
+  )
+  set page(
+    margin: (inside: inside-margin, outside: outside-margin, y: y-margin),
+    // Hydra header definition
+    header: context {
+      if calc.odd(here().page()) {
+        align(right, emph(hydra(2)))
+        line(length: 100%)
+      } else {
+        align(left, emph(hydra(1)))
+        let headings = query(heading.where(level: 1))
+        if headings.find(h => h.location().page() == here().page()) == none {
+          line(length: 100%)
+        }
+      }
+    },
+  )
+
 
   // Table of contents settings
   show outline.entry.where(level: 1): it => {
@@ -394,8 +433,6 @@
   outline(title: "Índice de figuras", target: figure.where(kind: image))
   outline(title: "Índice de listados", target: figure.where(kind: raw))
   outline(title: "Índice de tablas", target: figure.where(kind: table))
-
-  set par(justify: true)
 
   body
 }

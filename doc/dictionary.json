@@ -86,7 +86,8 @@
             "swap",
             "Activity",
             "TB",
-            "proxies"
+            "proxies",
+            "Abstract"
         ]
     }
 }
