@@ -5,8 +5,8 @@
 La transformación digital de los últimos años ha consolidado el uso de servicios
 en la nube como parte esencial de la vida cotidiana, tanto a nivel personal como
 profesional. Según datos recientes sobre la evolución del mercado de servicios
-en la nube @precedence2024-cloud, su adopción global continúa en expansión
-impulsada por la digitalización generalizada.
+en la nube, su adopción global continúa en expansión impulsada por la
+digitalización generalizada @precedence2024-cloud.
 
 Estas plataformas ofrecen soluciones accesibles y de uso inmediato, lo que ha
 impulsado su adopción masiva en ámbitos muy diversos. Sin embargo, esta
@@ -46,7 +46,17 @@ experimentar con arquitecturas de software modernas en un entorno controlado.
 
 En este contexto, este trabajo se enmarca en la búsqueda de una solución que
 permita centralizar servicios personales en una infraestructura propia,
-evaluando su viabilidad frente a las alternativas comerciales más habituales.
+siguiendo la filosofía de Infrastructure as Code (IaC). Este enfoque promueve la
+automatización y la reproducibilidad de los entornos, al definir toda la
+infraestructura mediante código en lugar de configuraciones manuales
+@morris2016infrastructure. De este modo, los servicios pueden desplegarse,
+actualizarse o restaurarse de forma controlada y coherente, reduciendo errores
+humanos y facilitando su mantenimiento.
+
+La aplicación de esta filosofía a un entorno de servicios autogestionados busca
+demostrar que la misma disciplina y rigor empleados en entornos profesionales
+pueden trasladarse también al ámbito personal, facilitando la creación de
+sistemas sostenibles, documentados y fácilmente replicables.
 
 == Definición del problema
 
