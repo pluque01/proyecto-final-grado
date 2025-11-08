@@ -47,6 +47,7 @@
   abstract-en: none,
   keywords: none,
   keywords-en: none,
+  acknowledgements: none,
   bibliography-file: none,
   inside-margin: 4cm, // Inner margin (binding side)
   outside-margin: 3cm, // Outer margin
@@ -124,7 +125,8 @@
     pagebreak(to: "even", weak: true)
     stack(
       spacing: 20pt,
-      if not regex("(Índice.*)|(Bibliografía)") in it.body.fields().text {
+      if not regex("(Índice.*)|(Bibliografía)|(Agradecimientos)")
+        in it.body.fields().text {
         let title-content = text(size: 16pt, weight: "regular", "Capítulo ")
         let title-number = text(size: 64pt, weight: "light", str(
           counter(heading).get().first(),
@@ -498,6 +500,16 @@
   )
   pagebreak()
 
+  // -------------------------------------------------------------
+
+  // Acknowledgements page
+  if acknowledgements != none {
+    set page(margin: 4cm)
+    align(center, text("Agradecimientos", size: 12pt, weight: "bold"))
+    heading(numbering: none, outlined: false, "Agradecimientos")
+    par(acknowledgements)
+    pagebreak()
+  }
   // -------------------------------------------------------------
 
 

@@ -24,6 +24,7 @@
   abstract-en: "This project develops a self-hosted and reproducible system of collaborative services, following Infrastructure as Code principles. Through a declarative configuration, it integrates storage, password management, and shared documentation within a secure and sustainable environment. The work demonstrates that a complete infrastructure can be maintained under full user control, reducing dependence on external platforms and simplifying deployment and maintenance.",
   keywords: "infraestructura como código, autoalojado, reproducibilidad, NixOS, automatización, servicios colaborativos, administración de sistemas",
   keywords-en: "infrastructure as code, self-hosting, reproducibility, NixOS, automation, collaborative services, systems administration",
+  acknowledgements: "A mi familia y amigos por su apoyo durante la realización de este trabajo, y al tutor por su orientación y seguimiento a lo largo del proyecto.",
 )
 
 #include "Chapters/1.introduccion.typ"

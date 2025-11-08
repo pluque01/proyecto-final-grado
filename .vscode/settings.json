@@ -91,7 +91,10 @@
             "swap",
             "Activity",
             "TB",
-            "proxies"
+            "proxies",
+            "Abstract",
+            "Merelo",
+            "Guervos"
         ],
     }
 }
