@@ -6,13 +6,17 @@
 #show: lt(overwrite: false)
 
 #show: project.with(
-  title: "Placeholder title",
-  subtitle: "Placeholder subtitle",
+  title: "Infraestructura colaborativa autoalojada y reproducible",
+  subtitle: "Aplicación de principios IaC para el despliegue y mantenimiento de servicios locales",
   authors: (
     "Pablo Luque Salguero",
   ),
   directors: (
-    "Juan Julián Merelo Guervos",
+    "Juan Julián Merelo Guervos": (
+      gender: "male",
+      department: "Arquitectura y Tecnología de Computadores",
+      university: "Universidad de Granada",
+    ),
   ),
   city: "Granada",
   grado: "Grado en Ingeniería Informática",

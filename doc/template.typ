@@ -273,7 +273,7 @@
       } else {
         table.header(strong("Director"))
       },
-      ..directors.map(director => director),
+      ..directors.keys().map(director => director),
     ),
   )
   v(9.6fr)
@@ -402,6 +402,8 @@
     pagebreak()
   }
 
+  pagebreak()
+
   // Hydra config
   let hydra-context = (
     book: true,
@@ -422,6 +424,81 @@
       }
     },
   )
+
+  // Página de autorización a la defensa
+  for (director, info) in directors {
+    par(
+      if (info.gender == "male") {
+        "D. "
+      } else if (info.gender == "female") {
+        "Dña. "
+      }
+        + text(director, weight: "bold")
+        + ", "
+        + if (info.gender == "male") {
+          "profesor"
+        } else if (info.gender == "female") {
+          "profesora"
+        }
+        + " del departamento de "
+        + text(info.department, weight: "regular")
+        + " de la "
+        + text(info.university, weight: "regular")
+        + ".",
+    )
+  }
+
+  v(1.2em)
+  if (directors.len() > 1) {
+    text("Informan:", weight: "bold")
+  } else {
+    text("Informo:", weight: "bold")
+  }
+  par(
+    "Que el presente trabajo, titulado "
+      + text(title, weight: "bold")
+      + ", "
+      + "ha sido realizado bajo"
+      + if (directors.len() > 1) {
+        " nuestra"
+      } else {
+        " mi"
+      }
+      + " supervisión por "
+      + text(authors.join(", "), weight: "bold")
+      + ", "
+      + "y "
+      + if (directors.len() > 1) {
+        "autorizamos"
+      } else {
+        "autorizo"
+      }
+      + " la defensa de dicho trabajo ante el tribunal que corresponda.",
+  )
+  par(
+    "Y para que conste, expiden y firman el presente informe en "
+      + city
+      + ", a "
+      + traducir_mes(
+        datetime.today().display("[day] de [month repr:long] de [year]"),
+      )
+      + ".",
+  )
+
+  v(2.4em)
+  stack(
+    dir: ltr,
+    for (director, info) in directors {
+      block(
+        text("El director:", weight: "bold")
+          + v(8em)
+          + text(director, weight: "bold"),
+      )
+    },
+  )
+  pagebreak()
+
+  // -------------------------------------------------------------
 
 
   // Table of contents settings
