@@ -25,15 +25,15 @@ mejorando la satisfacción de los usuarios y optimizando los recursos empleados.
 Aunque este trabajo se desarrolla en un entorno académico, estos mismos
 fundamentos se trasladan aquí para asegurar un proceso flexible y eficiente.
 
-=== Iteraciones mediante milestones
+=== Iteraciones mediante milestones<chapter3_milestones>
 
-La organización del trabajo se articula a través de *milestones*, cada uno de
-los cuales corresponde a un producto mínimo viable (PMV). Estos hitos
-representan ciclos de desarrollo breves en los que se despliega, configura y
-valida un servicio o funcionalidad específica. De este modo, cada milestone
-integra tanto la implementación técnica como la documentación asociada,
-asegurando que el avance del proyecto se realice de manera incremental y
-verificable.
+La organización del trabajo se articula a través de hitos ("milestones"), cada
+uno de los cuales corresponde a un producto mínimo viable (PMV). Estos
+milestones representan ciclos de desarrollo breves en los que se despliega,
+configura y valida un servicio o funcionalidad específica. De este modo, cada
+milestone integra tanto la implementación técnica como la documentación
+asociada, asegurando que el avance del proyecto se realice de manera incremental
+y verificable.
 
 Este enfoque iterativo basado en milestones facilita la detección temprana de
 errores, permite introducir ajustes en función de los resultados obtenidos y

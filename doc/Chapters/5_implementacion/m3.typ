@@ -1,16 +1,17 @@
 == [M3] Implementación de servicio de notas y conocimiento personal<cap:5_m3>
 
 Este milestone tiene como objetivo ampliar las funcionalidades del servicio
-autoalojado desplegado en el hito anterior, incorporando capacidades de toma de
-notas y gestión de conocimiento personal dentro del propio entorno de Nextcloud.
-Se pretende así evolucionar el PMV previo hacia una herramienta más completa y
-útil para la organización de información académica y colaborativa, manteniendo
-la filosofía self-hosted y la integración con la infraestructura existente.
+autoalojado desplegado en el milestone anterior, incorporando capacidades de
+toma de notas y gestión de conocimiento personal dentro del propio entorno de
+Nextcloud. Se pretende así evolucionar el PMV previo hacia una herramienta más
+completa y útil para la organización de información académica y colaborativa,
+manteniendo la filosofía self-hosted y la integración con la infraestructura
+existente.
 
 === Objetivo del PMV
 
-El objetivo de este hito es extender Nextcloud para ofrecer funciones de toma de
-notas individuales y en grupo, permitiendo:
+El objetivo de este milestone es extender Nextcloud para ofrecer funciones de
+toma de notas individuales y en grupo, permitiendo:
 
 - Crear y organizar notas con algún lenguaje de marcado sencillo.
 
@@ -187,11 +188,11 @@ sistema. Esto satisface los requisitos planteados en la historia de usuario
 HU04, validando que el PMV permite la creación, edición y organización colectiva
 de información dentro de la misma plataforma autoalojada.
 
-=== Conclusiones del hito
+=== Conclusiones del milestone
 
-Este hito ha supuesto una evolución del sistema autoalojado desarrollado en el
-milestone anterior, incorporando nuevas funcionalidades orientadas a la gestión
-de notas personales y conocimiento compartido dentro del mismo entorno
+Este milestone ha supuesto una evolución del sistema autoalojado desarrollado en
+el milestone anterior, incorporando nuevas funcionalidades orientadas a la
+gestión de notas personales y conocimiento compartido dentro del mismo entorno
 Nextcloud. La estrategia seguida ha consistido en ampliar el PMV previo en lugar
 de sustituirlo, aprovechando la infraestructura ya desplegada.
 

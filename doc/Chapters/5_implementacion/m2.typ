@@ -86,7 +86,7 @@ Su elección se debe a que proporciona una cobertura completa de las Historias d
 Usuario HU01 y HU02, al permitir que los usuarios almacenen sus documentos en un
 servidor propio y al facilitar la compartición de carpetas con control de
 permisos entre varios usuarios. Estas dos funciones constituyen el núcleo
-funcional del producto mínimo viable definido para este hito.
+funcional del producto mínimo viable definido para este milestone.
 
 A diferencia de otras alternativas, Nextcloud integra de forma nativa tanto la
 sincronización de archivos como la colaboración entre usuarios, ofreciendo una
@@ -594,5 +594,5 @@ Gracias al enfoque declarativo de NixOS y la contenedorización, el despliegue
 del servicio es reproducible y sencillo de mantener, lo que facilita su
 actualización o reinstalación sin pérdida de datos. Con este milestone se
 valida, por tanto, la viabilidad del modelo de infraestructura propuesto y se
-establecen las bases para ampliar los servicios en los siguientes hitos del
+establecen las bases para ampliar los servicios en los siguientes milestones del
 proyecto.

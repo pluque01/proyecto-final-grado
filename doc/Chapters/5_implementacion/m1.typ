@@ -653,4 +653,4 @@ De este modo, el sistema no solo se encuentra plenamente operativo, sino tambié
 preparado para albergar servicios autoalojados complejos bajo un control total,
 seguro y declarativo del entorno. Este milestone marca, por tanto, la transición
 desde la fase de configuración de la infraestructura hacia la de implementación
-de servicios, que se abordará en los siguientes hitos del proyecto.
+de servicios, que se abordará en los siguientes milestones del proyecto.

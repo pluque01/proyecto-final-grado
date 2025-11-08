@@ -8,22 +8,22 @@ siguiendo un enfoque iterativo e incremental, en coherencia con los principios
 
 Para la gestión y el seguimiento se ha empleado GitHub, aprovechando sus
 funcionalidades nativas de planificación, como los "milestones" y las "issues".
-Un milestone o hito representa una agrupación de tareas con un objetivo común y
-un horizonte temporal definido, permitiendo medir el progreso de forma
-estructurada @github_milestones. Por su parte, una tarea o issue es una unidad
-de trabajo que describe una tarea, problema o mejora específica, y constituye el
-principal mecanismo de organización en GitHub @github_issues. El uso conjunto de
-ambos elementos permite mantener un control centralizado del proyecto dentro del
-repositorio, garantizando la trazabilidad de los cambios y la documentación
-continua de los avances.
+Un milestone (@chapter3_milestones) representa una agrupación de tareas con un
+objetivo común y un horizonte temporal definido, permitiendo medir el progreso
+de forma estructurada @github_milestones. Por su parte, una tarea o issue es una
+unidad de trabajo que describe una tarea, problema o mejora específica, y
+constituye el principal mecanismo de organización en GitHub @github_issues. El
+uso conjunto de ambos elementos permite mantener un control centralizado del
+proyecto dentro del repositorio, garantizando la trazabilidad de los cambios y
+la documentación continua de los avances.
 
 == Organización del proyecto
 
-El desarrollo se ha estructurado en una serie de hitos o milestones, cada uno
-con un objetivo concreto y verificable. Cada milestone agrupa un conjunto de
-issues relacionadas, que detallan las tareas necesarias para alcanzar dicho
-objetivo. Este enfoque permite dividir el trabajo en bloques manejables y
-evaluar el progreso de forma clara y medible.
+El desarrollo se ha estructurado en una serie de milestones, cada uno con un
+objetivo concreto y verificable. Cada milestone agrupa un conjunto de issues
+relacionadas, que detallan las tareas necesarias para alcanzar dicho objetivo.
+Este enfoque permite dividir el trabajo en bloques manejables y evaluar el
+progreso de forma clara y medible.
 
 El primer milestone (M0) corresponde a la infraestructura inicial del proyecto,
 cuyo resultado principal es un entorno de trabajo funcional y estable sobre el
