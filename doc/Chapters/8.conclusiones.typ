@@ -14,7 +14,7 @@ servicios externos ni exponer la infraestructura doméstica a Internet.
 
 == Cumplimiento de objetivos
 
-El desarrollo se ha estructurado en varios hitos (M1-M4), que han permitido
+El desarrollo se ha estructurado en varios milestones (M1-M4), que han permitido
 abordar de forma incremental los distintos componentes del sistema. Los
 objetivos específicos se han alcanzado en su totalidad o con ligeras
 limitaciones, como se resume a continuación:
@@ -37,7 +37,7 @@ limitaciones, como se resume a continuación:
 - Gestor de contraseñas autogestionado: Se ha habilitado la aplicación oficial
   Passwords, que permite compartir credenciales de manera selectiva con cifrado
   y auditoría. Aunque no admite aún la compartición por grupos completos, cubre
-  los requisitos funcionales del hito y se integra sin modificar la
+  los requisitos funcionales del milestone y se integra sin modificar la
   infraestructura existente.
 
   - Ver @cap:5_m4.
@@ -98,9 +98,9 @@ también una experiencia formativa muy enriquecedora.
 La parte más compleja fue el inicio del proyecto, cuando fue necesario desplegar
 desde cero el sistema operativo base y establecer la infraestructura de
 contenedores. Esa etapa requirió una fuerte dedicación y una comprensión
-profunda de NixOS, pero sentó las bases sólidas para el resto de hitos. A partir
-de ahí, el trabajo avanzó de manera más fluida y me permitió centrarme en la
-integración y validación de servicios.
+profunda de NixOS, pero sentó las bases sólidas para el resto de milestones. A
+partir de ahí, el trabajo avanzó de manera más fluida y me permitió centrarme en
+la integración y validación de servicios.
 
 En conjunto, el trabajo confirma la viabilidad técnica de las soluciones
 autoalojadas frente a los modelos SaaS tradicionales, y pone de relieve el valor

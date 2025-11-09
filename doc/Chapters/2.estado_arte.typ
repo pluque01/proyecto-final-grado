@@ -28,9 +28,9 @@ aunque asumibles a corto plazo, tienden a acumularse con el tiempo. Finalmente,
 los datos quedan alojados en servidores de terceros, lo que plantea
 interrogantes en materia de privacidad y control.
 
-Frente a este paradigma, ha ganado terreno el autohospedaje o self-hosting, que
-consiste en desplegar servicios sobre infraestructura propia. Este modelo aporta
-mayor soberanía sobre los datos, un coste más estable a medio y largo plazo y la
+Frente a este paradigma, ha ganado terreno el autoalojamiento, que consiste en
+desplegar servicios sobre infraestructura propia. Este modelo aporta mayor
+soberanía sobre los datos, un coste más estable a medio y largo plazo y la
 flexibilidad de personalizar el entorno digital. La contrapartida es que
 requiere conocimientos técnicos y un esfuerzo constante de administración y
 mantenimiento.
@@ -86,7 +86,7 @@ SaaS como Notion destacan por la colaboración fluida, la experiencia de usuario
 cuidada y la disponibilidad inmediata de plantillas y recursos, mientras que
 Logseq se centra en ofrecer control absoluto sobre los datos, transparencia en
 el formato de almacenamiento y flexibilidad para personalizar el flujo de
-trabajo. El sacrificio en el self-hosting es la pérdida de ciertas funciones
+trabajo. El sacrificio en el autoalojamiento es la pérdida de ciertas funciones
 avanzadas y una mayor responsabilidad en la configuración.
 
 == Gestión de contraseñas

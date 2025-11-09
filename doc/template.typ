@@ -44,6 +44,10 @@
   grado: "",
   date: none,
   abstract: none,
+  abstract-en: none,
+  keywords: none,
+  keywords-en: none,
+  acknowledgements: none,
   bibliography-file: none,
   inside-margin: 4cm, // Inner margin (binding side)
   outside-margin: 3cm, // Outer margin
@@ -121,9 +125,12 @@
     pagebreak(to: "even", weak: true)
     stack(
       spacing: 20pt,
-      if not regex("(Índice.*)|(Bibliografía)") in it.body.fields().text {
+      if not regex("(Índice.*)|(Bibliografía)|(Agradecimientos)")
+        in it.body.fields().text {
         let title-content = text(size: 16pt, weight: "regular", "Capítulo ")
-        let title-number = text(size: 64pt, weight: "light", str(counter(heading).get().first()))
+        let title-number = text(size: 64pt, weight: "light", str(
+          counter(heading).get().first(),
+        ))
         let title-height = measure(title-content).height
         let padding = 1em
 
@@ -163,7 +170,7 @@
       },
       it.body,
     )
-    v(24pt)
+    v(48pt)
   }
   show heading.where(level: 2): it => {
     set text(size: 20pt, weight: "regular")
@@ -219,7 +226,12 @@
           // Título
           align(
             center,
-            par(leading: 0.3em, text(font: serif-font, 18pt, weight: 700, title)),
+            par(leading: 0.3em, text(
+              font: serif-font,
+              18pt,
+              weight: 700,
+              title,
+            )),
           ),
           line(length: 100%, stroke: 2pt),
           // Texto adicional
@@ -240,19 +252,31 @@
   // Author information.
   align(
     center,
-    table(columns: auto, align: center, stroke: none, if authors.len() > 1 {
+    table(
+      columns: auto,
+      align: center,
+      stroke: none,
+      if authors.len() > 1 {
         table.header(strong("Autores"))
       } else {
         table.header(strong("Autor"))
-      }, ..authors.map(author => author)),
+      },
+      ..authors.map(author => author),
+    ),
   )
   align(
     center,
-    table(columns: auto, align: center, stroke: none, if authors.len() > 1 {
+    table(
+      columns: auto,
+      align: center,
+      stroke: none,
+      if authors.len() > 1 {
         table.header(strong("Directores"))
       } else {
         table.header(strong("Director"))
-      }, ..directors.map(director => director)),
+      },
+      ..directors.keys().map(director => director),
+    ),
   )
   v(9.6fr)
   align(
@@ -281,7 +305,11 @@
       text(
         14pt,
         font: serif-font,
-        city + ", " + traducir_mes(datetime.today().display("[day] de [month repr:long] de [year]")),
+        city
+          + ", "
+          + traducir_mes(
+            datetime.today().display("[day] de [month repr:long] de [year]"),
+          ),
       ),
     )
   }
@@ -290,7 +318,95 @@
   v(1.2em, weak: true)
   pagebreak()
 
+  // Custom numbering for figures (<section><fig_number>)
+  set figure(numbering: (..num) => numbering(
+    "1.1",
+    counter(heading).get().first(),
+    num.pos().first(),
+  ))
+  show heading.where(level: 1): it => {
+    counter(math.equation).update(0)
+    counter(figure.where(kind: image)).update(0)
+    counter(figure.where(kind: table)).update(0)
+    counter(figure.where(kind: raw)).update(0)
+    it
+  }
+  // -------------------------------------------------------------
 
+  // -------------------------------------------------------------
+  // Custom outline for figures
+  let colon-entry(it) = {
+    link(
+      it.element.location(),
+      text(fill: black, it.indented(
+        [#it.prefix().children.at(2).],
+        it.inner(),
+      )),
+    )
+  }
+  show outline: out => {
+    //if calc.even(here().page()) {
+    //  pagebreak()
+    //}
+    show outline.entry: it => if out.target == selector(heading) { it } else {
+      colon-entry(it)
+    }
+    out
+  }
+  // -------------------------------------------------------------
+
+  // -------------------------------------------------------------
+  // Page numbering
+  counter(page).update(2)
+  // Page footer definition
+  set page(
+    footer: context [
+      // #line(length: 100%, stroke: 0.5pt + black)
+      #set align(right)
+      #counter(page).display("1")
+    ],
+  )
+  // -------------------------------------------------------------
+
+  set par(justify: true)
+
+  // Abstract page
+  if abstract != none {
+    set page(margin: 4cm)
+    align(center, text(title, size: 12pt, weight: "bold"))
+    v(-8pt)
+    align(center, text(subtitle, size: 12pt, weight: "regular"))
+    align(center, text(
+      authors.join(", "),
+      size: 12pt,
+      weight: "regular",
+      style: "italic",
+    ))
+    text("Resumen", size: 12pt, weight: "bold")
+    par(abstract)
+
+    if keywords != none {
+      text("Palabras clave: ", weight: "bold")
+      text(keywords, style: "italic")
+    }
+    pagebreak()
+  }
+  // Abstract page english
+  if abstract-en != none {
+    set page(margin: 4cm)
+    text("Abstract", size: 12pt, weight: "bold")
+    par(abstract-en)
+
+    if keywords != none {
+      text("Keywords: ", weight: "bold")
+      text(keywords-en, style: "italic")
+    }
+    pagebreak()
+  }
+
+  pagebreak()
+
+  // Hydra config
   let hydra-context = (
     book: true,
   )
@@ -311,45 +427,89 @@
     },
   )
 
-  // Custom numbering for figures (<section><fig_number>)
-  set figure(numbering: (..num) => numbering("1.1", counter(heading).get().first(), num.pos().first()))
-  show heading.where(level: 1): it => {
-    counter(math.equation).update(0)
-    counter(figure.where(kind: image)).update(0)
-    counter(figure.where(kind: table)).update(0)
-    counter(figure.where(kind: raw)).update(0)
-    it
-  }
-  // -------------------------------------------------------------
-
-  // -------------------------------------------------------------
-  // Custom outline for figures
-  let colon-entry(it) = {
-    link(
-      it.element.location(),
-      text(fill: black, it.indented([#it.prefix().children.at(2).], it.inner())),
+  // Página de autorización a la defensa
+  for (director, info) in directors {
+    par(
+      if (info.gender == "male") {
+        "D. "
+      } else if (info.gender == "female") {
+        "Dña. "
+      }
+        + text(director, weight: "bold")
+        + ", "
+        + if (info.gender == "male") {
+          "profesor"
+        } else if (info.gender == "female") {
+          "profesora"
+        }
+        + " del departamento de "
+        + text(info.department, weight: "regular")
+        + " de la "
+        + text(info.university, weight: "regular")
+        + ".",
     )
   }
-  show outline: out => {
-    //if calc.even(here().page()) {
-    //  pagebreak()
-    //}
-    show outline.entry: it => if out.target == selector(heading) { it } else { colon-entry(it) }
-    out
+
+  v(1.2em)
+  if (directors.len() > 1) {
+    text("Informan:", weight: "bold")
+  } else {
+    text("Informo:", weight: "bold")
   }
-  // -------------------------------------------------------------
+  par(
+    "Que el presente trabajo, titulado "
+      + text(title, weight: "bold")
+      + ", "
+      + "ha sido realizado bajo"
+      + if (directors.len() > 1) {
+        " nuestra"
+      } else {
+        " mi"
+      }
+      + " supervisión por "
+      + text(authors.join(", "), weight: "bold")
+      + ", "
+      + "y "
+      + if (directors.len() > 1) {
+        "autorizamos"
+      } else {
+        "autorizo"
+      }
+      + " la defensa de dicho trabajo ante el tribunal que corresponda.",
+  )
+  par(
+    "Y para que conste, expiden y firman el presente informe en "
+      + city
+      + ", a "
+      + traducir_mes(
+        datetime.today().display("[day] de [month repr:long] de [year]"),
+      )
+      + ".",
+  )
+
+  v(2.4em)
+  stack(
+    dir: ltr,
+    for (director, info) in directors {
+      block(
+        text("El director:", weight: "bold")
+          + v(8em)
+          + text(director, weight: "bold"),
+      )
+    },
+  )
+  pagebreak()
+
 
   // -------------------------------------------------------------
-  // Page numbering
-  counter(page).update(2)
-  // Page footer definition
-  set page(
-    footer: context [
-      // #line(length: 100%, stroke: 0.5pt + black)
-      #set align(right)
-      #counter(page).display("1")
-    ],
-  )
+
+  // Acknowledgements page
+  if acknowledgements != none {
+    set page(margin: 4cm)
+    heading(numbering: none, outlined: false, "Agradecimientos")
+    par(acknowledgements)
+    pagebreak()
+  }
   // -------------------------------------------------------------
 
 
@@ -360,9 +520,8 @@
   }
   outline(depth: 3, indent: auto)
   outline(title: "Índice de figuras", target: figure.where(kind: image))
+  outline(title: "Índice de listados", target: figure.where(kind: raw))
   outline(title: "Índice de tablas", target: figure.where(kind: table))
-
-  set par(justify: true)
 
   body
 }
@@ -389,13 +548,14 @@
     }
     show footnote: it => [0]
     set footnote.entry(separator: none)
-    show text.where(weight: "bold")
+    show text
+      .where(weight: "bold")
       .or(text.where(weight: "italic"))
       .or(text.where(weight: "black"))
       .or(text.where(weight: "semibold")): it => text(weight: "regular", it)
     show strong: it => it.body
     show emph: it => it.body
-    doc 
+    doc
   }
 }
 //LTeX: enabled=true

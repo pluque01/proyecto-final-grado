@@ -230,3 +230,44 @@ funcionamiento del editor colaborativo integrado en Nextcloud.
   image("../Figures/Chapter6/nextcloud-collab-test.png", width: 100%),
   caption: [Edición simultánea de un documento desde varios clientes.],
 )
+
+== Los contenedores podrían no actualizarse automáticamente
+
+Durante la fase de desarrollo se identificó la necesidad de mantener los
+contenedores actualizados para garantizar la seguridad y estabilidad del
+sistema. En una de las sesiones de uso, al acceder al panel de administración de
+Nextcloud, se observó una notificación que indicaba la disponibilidad de una
+nueva versión del contenedor (@figure:ch6-nextcloud-update-notification).
+
+Con el fin de verificar el funcionamiento del mecanismo de actualización
+automática de Podman, se revisaron los registros del servicio
+`podman-auto-update` al día siguiente. En el registro correspondiente
+(@figure:ch6-podman-auto-update-log) puede comprobarse cómo el contenedor de
+Nextcloud fue actualizado correctamente a la última versión disponible en el
+registro de imágenes, sin intervención manual.
+
+Esta evidencia confirma que el sistema de actualización automática mantiene los
+servicios desplegados en su versión más reciente, reduciendo el riesgo de
+vulnerabilidades y simplificando el mantenimiento operativo.
+
+#figure(
+  image(
+    "../Figures/Chapter6/nextcloud-update-notification.png",
+    width: 100%,
+  ),
+  caption: [Notificación de actualización disponible para el contenedor de
+    Nextcloud.],
+)<figure:ch6-nextcloud-update-notification>
+
+#figure(
+  ```log
+  nov 09 00:05:09 rpi4 systemd[894]: Starting Podman auto-update service...
+  [...]
+  nov 09 00:09:27 rpi4 podman[295859]:             UNIT                            CONTAINER                       IMAGE                                              POLICY      UPDATED
+  nov 09 00:09:27 rpi4 podman[295859]:             podman-nextcloud.service        5b20c4b64c52 (nextcloud)        docker.io/library/nextcloud:30-apache              registry    true
+  [...]
+  nov 09 00:09:35 rpi4 systemd[894]: Finished Podman auto-update service.
+  ```,
+  caption: [Registro del servicio de actualización automática de Podman, donde
+    se observa la actualización del contenedor de Nextcloud.],
+)<figure:ch6-podman-auto-update-log>

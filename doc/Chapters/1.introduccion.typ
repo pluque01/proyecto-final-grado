@@ -5,8 +5,8 @@
 La transformación digital de los últimos años ha consolidado el uso de servicios
 en la nube como parte esencial de la vida cotidiana, tanto a nivel personal como
 profesional. Según datos recientes sobre la evolución del mercado de servicios
-en la nube @precedence2024-cloud, su adopción global continúa en expansión
-impulsada por la digitalización generalizada.
+en la nube, su adopción global continúa en expansión impulsada por la
+digitalización generalizada @precedence2024-cloud.
 
 Estas plataformas ofrecen soluciones accesibles y de uso inmediato, lo que ha
 impulsado su adopción masiva en ámbitos muy diversos. Sin embargo, esta
@@ -32,21 +32,31 @@ Protección de Datos (UE 2016/679), que subraya la necesidad de garantizar la
 soberanía del usuario sobre su información personal @rgpd2016.
 
 Ante esta situación, surge un interés creciente por las alternativas
-autogestionadas de servicios digitales ("self-hosting"), que permiten a los
+autoalojadas de servicios digitales ("self-hosting"), que permiten a los
 usuarios desplegar sus propios servicios sobre hardware propio. Gracias a
 tecnologías como la virtualización, los contenedores y el software libre, hoy es
 posible replicar gran parte de las funcionalidades que ofrecen los proveedores
 comerciales, pero sin los inconvenientes mencionados.
 
-El self-hosting no solo responde a la necesidad de reducir costes y reforzar la
-privacidad, sino que también fomenta la soberanía digital: la capacidad de los
-usuarios para decidir cómo, dónde y bajo qué condiciones se gestionan sus datos
-y servicios. Además, brinda un espacio de aprendizaje técnico, al permitir
+El autoalojamiento no solo responde a la necesidad de reducir costes y reforzar
+la privacidad, sino que también fomenta la soberanía digital: la capacidad de
+los usuarios para decidir cómo, dónde y bajo qué condiciones se gestionan sus
+datos y servicios. Además, brinda un espacio de aprendizaje técnico, al permitir
 experimentar con arquitecturas de software modernas en un entorno controlado.
 
 En este contexto, este trabajo se enmarca en la búsqueda de una solución que
 permita centralizar servicios personales en una infraestructura propia,
-evaluando su viabilidad frente a las alternativas comerciales más habituales.
+siguiendo la filosofía de Infrastructure as Code (IaC). Este enfoque promueve la
+automatización y la reproducibilidad de los entornos, al definir toda la
+infraestructura mediante código en lugar de configuraciones manuales
+@morris2016infrastructure. De este modo, los servicios pueden desplegarse,
+actualizarse o restaurarse de forma controlada y coherente, reduciendo errores
+humanos y facilitando su mantenimiento.
+
+La aplicación de esta filosofía a un entorno de servicios autogestionados busca
+demostrar que la misma disciplina y rigor empleados en entornos profesionales
+pueden trasladarse también al ámbito personal, facilitando la creación de
+sistemas sostenibles, documentados y fácilmente replicables.
 
 == Definición del problema
 
@@ -120,10 +130,10 @@ sobre los datos, reducción de costes y flexibilidad en la personalización.
 
 === Objetivo general
 
-Diseñar e implementar una infraestructura de self-hosting basada en software
-libre y desplegada mediante contenedores, que proporcione servicios de
-almacenamiento de archivos, toma y organización de notas, y gestión de
-contraseñas como alternativa a las plataformas comerciales más habituales.
+Diseñar e implementar una infraestructura autoalojada basada en software libre y
+desplegada mediante contenedores, que proporcione servicios de almacenamiento de
+archivos, toma y organización de notas, y gestión de contraseñas como
+alternativa a las plataformas comerciales más habituales.
 
 === Objetivos específicos
 

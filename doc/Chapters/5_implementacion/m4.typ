@@ -9,8 +9,8 @@ modificar la arquitectura base desplegada en la @cap:5_m2.
 
 === Objetivo del PMV
 
-El propósito de este hito es dotar a la instancia de Nextcloud de un sistema
-nativo de gestión y compartición de contraseñas que permita:
+El propósito de este milestone es dotar a la instancia de Nextcloud de un
+sistema nativo de gestión y compartición de contraseñas que permita:
 
 - Compartir entradas individuales con otros usuarios.
 - Definir permisos de lectura o edición, con posibilidad de revocación
@@ -136,7 +136,7 @@ auditoría completa sobre la gestión de secretos
 
 === Validación del milestone
 
-La validación del hito se ha realizado verificando el cumplimiento de la
+La validación del milestone se ha realizado verificando el cumplimiento de la
 historia de usuario HU05, centrada en la compartición controlada de contraseñas
 a varios usuarios. Para ello se llevaron a cabo distintas pruebas funcionales
 sobre la instancia desplegada de Nextcloud con la aplicación Passwords
@@ -202,13 +202,13 @@ objetivo del milestone, al permitir compartir contraseñas de forma selectiva y
 segura, manteniendo trazabilidad, cifrado y control operativo sin añadir
 complejidad a la infraestructura.
 
-=== Conclusiones del hito
+=== Conclusiones del milestone
 
-Este hito incorpora la capacidad de gestionar y compartir contraseñas de forma
-selectiva dentro del entorno colaborativo de Nextcloud, cumpliendo los objetivos
-planteados en la historia de usuario HU05. La adopción de la aplicación oficial
-Passwords permite ampliar las funciones del sistema sin modificar la
-infraestructura ni introducir nuevos componentes.
+Este milestone incorpora la capacidad de gestionar y compartir contraseñas de
+forma selectiva dentro del entorno colaborativo de Nextcloud, cumpliendo los
+objetivos planteados en la historia de usuario HU05. La adopción de la
+aplicación oficial Passwords permite ampliar las funciones del sistema sin
+modificar la infraestructura ni introducir nuevos componentes.
 
 La solución elegida ofrece un equilibrio adecuado entre seguridad, simplicidad y
 control, al proporcionar cifrado extremo a extremo, revocación inmediata de
