@@ -241,7 +241,7 @@ nueva versión del contenedor (@figure:ch6-nextcloud-update-notification).
 
 Con el fin de verificar el funcionamiento del mecanismo de actualización
 automática de Podman, se revisaron los registros del servicio
-`podman-auto-update` al día siguiente. En el log correspondiente
+`podman-auto-update` al día siguiente. En el registro correspondiente
 (@figure:ch6-podman-auto-update-log) puede comprobarse cómo el contenedor de
 Nextcloud fue actualizado correctamente a la última versión disponible en el
 registro de imágenes, sin intervención manual.
