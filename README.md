@@ -19,7 +19,7 @@ typst compile main.typ memoria.pdf
 ## Requisitos Previos
 
 - Raspberry Pi 4
-- Tarjeta microSD (mínimo 16GB recomendado)
+- Tarjeta microSD (mínimo 16GB)
 - Cuenta de [DuckDNS](https://www.duckdns.org/) configurada
 - Cuenta de [Tailscale](https://tailscale.com/) y una clave de autenticación (auth key)
 
@@ -186,6 +186,12 @@ globals = {
 
 Asegúrate de que `hardware-configuration.nix` refleje tu configuración de hardware (disco, particiones, etc.).
 
+Para generar este archivo automáticamente, puedes usar:
+
+```bash
+sudo nixos-generate-config --show-hardware-config > /home/pi/rpi4nix/hardware-configuration.nix
+```
+
 ### 4. Construir y Aplicar la Configuración
 
 Ahora aplica la configuración completa al sistema:
@@ -236,7 +242,7 @@ sudo systemctl --user --machine=containers@ status grafana
 ### Actualizar el Sistema
 
 ```bash
-cd /home/pi/nix-config
+cd /home/pi/rpi4nix
 
 # Actualizar flake.lock
 nix flake update
@@ -248,7 +254,7 @@ sudo nixos-rebuild switch --flake .#rpi4
 ### Aplicar Cambios de Configuración
 
 ```bash
-cd /home/pi/nix-config
+cd /home/pi/rpi4nix
 
 # Edita los archivos de configuración según necesites
 # Luego aplica los cambios:
