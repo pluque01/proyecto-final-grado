@@ -62,7 +62,9 @@ limitaciones, como se resume a continuación:
   `README.md` del repositorio.
 
   - Ver las diferentes secciones del Capítulo 5.
-  - Ver `README.md` en el repositorio del proyecto.
+  - Ver `README.md` en el repositorio del proyecto #footnote(
+      "https://github.com/pluque01/proyecto-final-grado",
+    ).
 
 == Consideraciones éticas y sostenibilidad
 
