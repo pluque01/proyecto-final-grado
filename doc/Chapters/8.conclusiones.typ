@@ -57,10 +57,14 @@ limitaciones, como se resume a continuación:
   - Ver @cap:2_estado_arte.
 
 - Documentación y reproducibilidad: La memoria describe de forma detallada cada
-  fase del despliegue y validación, con referencias cruzadas y configuraciones
-  reproducibles.
+  fase del despliegue y validación. Además, se ha creado una guía específica
+  para facilitar la instalación y configuración del sistema en el fichero
+  `README.md` del repositorio.
 
   - Ver las diferentes secciones del Capítulo 5.
+  - Ver `README.md` en el repositorio del proyecto #footnote(
+      "https://github.com/pluque01/proyecto-final-grado",
+    ).
 
 == Consideraciones éticas y sostenibilidad
 

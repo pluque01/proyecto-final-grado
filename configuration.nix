@@ -1,4 +1,5 @@
 {
+  inputs,
   pkgs,
   config,
   globals,
@@ -7,6 +8,9 @@
   imports = [
     ./modules/sops.nix
     ./modules/tailscale.nix
+    ./modules/node-exporter.nix
+    ./modules/prometheus.nix
+    ./modules/grafana.nix
   ];
 
   sops = {
@@ -18,11 +22,54 @@
         group = "users";
         mode = "0400";
       };
+      # Nextcloud secrets
+      "nextcloud/mysql_password" = {
+        owner = globals.containerUser;
+        group = "users";
+        mode = "0400";
+      };
+      "nextcloud/mysql_root_password" = {
+        owner = globals.containerUser;
+        group = "users";
+        mode = "0400";
+      };
+      "nextcloud/admin_password" = {
+        owner = globals.containerUser;
+        group = "users";
+        mode = "0400";
+      };
     };
 
     templates."duckdns.env" = {
       content = ''
         DUCKDNS_TOKEN=${config.sops.placeholder."duckdns_token"}
+      '';
+      owner = globals.containerUser;
+      group = "users";
+      mode = "0400";
+    };
+
+    templates."nextcloud.env" = {
+      content = ''
+        MYSQL_HOST=nextcloud-db
+        MYSQL_DATABASE=nextcloud
+        MYSQL_USER=nextcloud
+        MYSQL_PASSWORD=${config.sops.placeholder."nextcloud/mysql_password"}
+        NEXTCLOUD_ADMIN_USER=admin
+        NEXTCLOUD_ADMIN_PASSWORD=${config.sops.placeholder."nextcloud/admin_password"}
+        NEXTCLOUD_TRUSTED_DOMAINS=${globals.mkServiceHost "nextcloud"}
+      '';
+      owner = globals.containerUser;
+      group = "users";
+      mode = "0400";
+    };
+
+    templates."nextcloud-db.env" = {
+      content = ''
+        MYSQL_DATABASE=nextcloud
+        MYSQL_USER=nextcloud
+        MYSQL_PASSWORD=${config.sops.placeholder."nextcloud/mysql_password"}
+        MYSQL_ROOT_PASSWORD=${config.sops.placeholder."nextcloud/mysql_root_password"}
       '';
       owner = globals.containerUser;
       group = "users";
@@ -95,6 +142,16 @@
       ];
       RemainAfterExit = true;
     };
+  };
+
+  system.autoUpgrade = {
+    enable = true;
+    flake = inputs.self.outPath;
+    flags = [
+      "--print-build-logs"
+    ];
+    dates = "02:00";
+    randomizedDelaySec = "45min";
   };
 
   # Allow ssh in

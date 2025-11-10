@@ -60,11 +60,12 @@ específicas del trabajo.
 === Control de versiones y colaboración
 
 Para la gestión del código y de los documentos se ha utilizado el sistema de
-control de versiones *Git*, alojado en la plataforma *GitHub*. Esta combinación
-ha permitido mantener un historial claro de los cambios, facilitando la
-trazabilidad y la posibilidad de revertir modificaciones en caso necesario.
-Asimismo, GitHub ha servido como espacio de trabajo colaborativo en el que
-organizar y centralizar el proyecto.
+control de versiones *Git*, alojado en la plataforma *GitHub* #footnote(
+  "https://github.com/pluque01/proyecto-final-grado",
+). Esta combinación ha permitido mantener un historial claro de los cambios,
+facilitando la trazabilidad y la posibilidad de revertir modificaciones en caso
+necesario. Asimismo, GitHub ha servido como espacio de trabajo colaborativo en
+el que organizar y centralizar el proyecto.
 
 Dentro de GitHub, se han empleado diversas funcionalidades adicionales para
 mejorar la organización:

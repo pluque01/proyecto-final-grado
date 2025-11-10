@@ -60,7 +60,7 @@ in {
     fi
   '';
   services.podman.containers.traefik = {
-    image = "traefik:latest";
+    image = "docker.io/library/traefik:latest";
 
     network = networks;
 
@@ -73,6 +73,15 @@ in {
       "/run/user/1001/podman/podman.sock:/var/run/docker.sock"
       "${mainDataDir}/acme.json:/acme.json"
     ];
+
+    labels = {
+      "io.containers.autoupdate" = "registry";
+
+      "traefik.http.routers.grafana.rule" = "Host(`grafana.${globals.hostname}`)";
+      "traefik.http.routers.grafana.entrypoints" = "websecure";
+      "traefik.http.routers.grafana.tls.certresolver" = "duckdns";
+      "traefik.http.services.grafana.loadbalancer.server.url" = "http://host.containers.internal:3000";
+    };
 
     extraConfig = {
       Service = {
