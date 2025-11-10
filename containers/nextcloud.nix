@@ -1,11 +1,13 @@
 {
   lib,
+  config,
   networks ? [],
   globals,
 }: let
   name = "nextcloud";
   host = globals.mkServiceHost name;
 
+  # Create a data directory for persistent storage
   mainDataDir = "${globals.dataFolder}/${globals.containerUser}/${name}";
   nextcloudDataDir = "${mainDataDir}/data";
   mariadbDataDir = "${mainDataDir}/db";
@@ -13,13 +15,10 @@ in {
   home.activation.ensureNextcloudDirs = lib.hm.dag.entryAfter ["writeBoundary"] ''
     mkdir -p ${nextcloudDataDir}
     mkdir -p ${mariadbDataDir}
-
-    install -m 600 ${./nextcloud.env} ${mainDataDir}/${name}.env
-    install -m 600 ${./db.env} ${mainDataDir}/db.env
   '';
 
   services.podman.containers."${name}-db" = {
-    image = "mariadb:latest";
+    image = "docker.io/library/mariadb:latest";
 
     network = ["backnet"];
 
@@ -29,11 +28,15 @@ in {
       OVERWRITECLIURL = "https://${host}";
     };
 
-    environmentFile = ["${mainDataDir}/db.env"];
+    environmentFile = ["/run/secrets/rendered/nextcloud-db.env"];
 
     volumes = [
       "${mariadbDataDir}:/var/lib/mysql"
     ];
+
+    labels = {
+      "io.containers.autoupdate" = "registry";
+    };
 
     extraConfig = {
       Service = {
@@ -43,11 +46,12 @@ in {
   };
 
   services.podman.containers.${name} = {
-    image = "nextcloud:30-apache";
+    image = "docker.io/library/nextcloud:30-apache";
 
-    network = networks ++ ["backnet"]; # Also needs to be on backnet to reach the database
+    network = networks ++ ["backnet"];
 
-    environmentFile = ["${mainDataDir}/${name}.env"];
+    # Use sops template from system-level configuration
+    environmentFile = ["/run/secrets/rendered/nextcloud.env"];
 
     volumes = [
       "${nextcloudDataDir}:/var/www/html"
@@ -55,11 +59,13 @@ in {
 
     # Traefik labels for automatic discovery
     labels = {
+      "io.containers.autoupdate" = "registry";
       "traefik.enable" = "true";
       "traefik.http.routers.${name}.rule" = "Host(`${host}`)";
       "traefik.http.routers.${name}.tls" = "true";
       "traefik.http.routers.${name}.entrypoints" = "websecure";
       "traefik.http.routers.${name}.tls.certresolver" = "duckdns";
+    };
 
     extraConfig = {
       Service = {

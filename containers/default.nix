@@ -11,16 +11,18 @@
       driver = "bridge";
       internal = true;
     };
-    monitoring = {driver = "bridge";};
   };
 
   traefik = import ./traefik.nix {
     inherit lib pkgs config globals;
     networks = ["frontnet"];
   };
-  nextcloud = import ./nextcloud/nextcloud.nix {
-    inherit lib globals;
+  nextcloud = import ./nextcloud.nix {
+    inherit lib config globals;
     networks = ["frontnet"];
+  };
+  podman-exporter = import ./podman-exporter.nix {
+    inherit pkgs globals;
   };
 in {
   home.stateVersion = "25.05";
@@ -43,5 +45,6 @@ in {
   imports = [
     traefik
     nextcloud
+    podman-exporter
   ];
 }
