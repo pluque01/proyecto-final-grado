@@ -149,9 +149,9 @@ Con base en estos criterios se consideraron dos alternativas principales:
   editor versátil con un amplio ecosistema de extensiones, capaz de integrar
   soporte para Typst y herramientas de revisión lingüística en un mismo entorno.
 
-La opción seleccionada fue finalmente *Visual Studio Code (VSCode)*, ya que, en
-combinación con sus extensiones, satisface todos los requisitos definidos para
-el entorno de edición. En particular:
+La opción seleccionada fue finalmente VSCode, ya que, en combinación con sus
+extensiones, satisface todos los requisitos definidos para el entorno de
+edición. En particular:
 
 - *Tinymist*#footnote("https://github.com/Myriad-Dreamin/tinymist"): proporciona
   compatibilidad completa con Typst, incluyendo resaltado de sintaxis y
@@ -176,8 +176,9 @@ alternativa evaluada.
 Con el objetivo de garantizar la calidad y consistencia de la memoria en todo
 momento, se han configurado workflows de integración continua en el repositorio
 de GitHub del proyecto. Estos workflows se ejecutan de forma automática cada vez
-que se introduce un cambio en el repositorio, ya sea mediante un *commit*
-directo o a través de una *pull request*.
+que se introduce un cambio en el repositorio, ya sea mediante una confirmación
+de cambios ("commit") directa o a través de una solicitud de cambios ("pull
+request").
 
 Los workflows implementados realizan dos validaciones principales:
 
@@ -197,3 +198,9 @@ manera temprana, vinculándolos directamente con el cambio que los causa. Así, 
 asegura que la memoria esté siempre en un estado válido, al mismo tiempo que se
 reduce el riesgo de acumular errores difíciles de corregir en las fases finales
 del proyecto.
+
+#figure(
+  caption: [Captura de pantalla de los workflows de validación automática
+    configurados en GitHub Actions para la memoria del proyecto.],
+  image("../Figures/Chapter3/github-workflow-checks.png", width: 100%),
+) <figure:ch3_github_workflow_checks>
