@@ -284,6 +284,7 @@ la habilitación del servicio SSH:
 
       # Allow ssh in
       services.openssh.enable = true;
+      services.openssh.settings.PasswordAuthentication = false;
 
       networking = {
         hostName = "pi4";

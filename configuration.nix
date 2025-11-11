@@ -156,6 +156,7 @@
 
   # Allow ssh in
   services.openssh.enable = true;
+  services.openssh.settings.PasswordAuthentication = false;
 
   # Allow unprileged users to map ports lower than 1024
   boot.kernel.sysctl."net.ipv4.ip_unprivileged_port_start" = 0;
