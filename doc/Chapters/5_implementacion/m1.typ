@@ -248,11 +248,12 @@ Para ello, se definió un archivo `flake.nix` con la siguiente estructura:
   }
   ```,
   caption: [Nix flake para generar la imagen de NixOS para Raspberry Pi],
-)
+)<figure:ch5_1_flake_nixos_rpi>
 
 
-Este flake declara una configuración de sistema denominada "rpi", basada en el
-módulo oficial para la creación de imágenes SD para arquitecturas ARM 64.
+El @figure:ch5_1_flake_nixos_rpi declara una configuración de sistema denominada
+"rpi", basada en el módulo oficial para la creación de imágenes SD para
+arquitecturas ARM 64.
 
 ==== Configuración del sistema
 
@@ -521,9 +522,9 @@ entorno de usuario de manera declarativa y reproducible.
 
 Home Manager facilita describir las aplicaciones, servicios y parámetros del
 usuario dentro de su propio módulo de configuración, manteniendo la filosofía de
-Infraestructura como Código también en el nivel del usuario. En este proyecto,
-se ha integrado como módulo dentro del flake principal de NixOS, de modo que la
-configuración del sistema y la del usuario se construyen conjuntamente:
+IaC también en el nivel del usuario. En este proyecto, se ha integrado como
+módulo dentro del fichero principal de NixOS, de modo que la configuración del
+sistema y la del usuario se construyen conjuntamente:
 
 #figure(
   ```nix
