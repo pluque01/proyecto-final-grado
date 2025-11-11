@@ -214,7 +214,7 @@ disponible desde el primer arranque.
 La compilación de la imagen se realizó desde una máquina con Windows 11 (x86_64)
 utilizando NixOS bajo WSL @microsoft_wsl_install. Gracias al propio sistema de
 compilación cruzada de Nix, fue posible generar una imagen compatible con la
-arquitectura aarch64, correspondiente a la Raspberry Pi.
+arquitectura "aarch64", correspondiente a la Raspberry Pi.
 
 Para ello, se definió un archivo `flake.nix` con la siguiente estructura:
 
@@ -330,8 +330,9 @@ etapas del proyecto.
 Teniendo en cuenta que la Raspberry Pi es un dispositivo al que vamos a acceder
 con frecuencia conviene asignarle una IP fija en la red local. Esto se puede
 hacer desde la configuración del router, asignando una dirección IP estática a
-la MAC de la Raspberry Pi. De este modo, siempre que se conecte a la red local
-tendrá la misma IP y podremos acceder a ella sin problemas.
+la dirección única (MAC) de la Raspberry Pi. De este modo, siempre que se
+conecte a la red local tendrá la misma IP y podremos acceder a ella sin
+problemas.
 
 Con las herramientas de mi router (Movistar HGU) se puede hacer fácilmente desde
 la sección de DHCP, donde se pueden ver los dispositivos conectados y asignarles
@@ -506,18 +507,17 @@ herramienta principal de contenedorización para el entorno autoalojado del
 proyecto. Podman ofrece un equilibrio óptimo entre compatibilidad, seguridad y
 simplicidad operativa, permitiendo gestionar contenedores sin necesidad de
 privilegios de superusuario y manteniendo la compatibilidad con las imágenes y
-flujos de trabajo de Docker. Su diseño modular y conforme a los estándares OCI
-garantiza la portabilidad de los servicios y la interoperabilidad con otras
-plataformas.
+flujos de trabajo de Docker.
 
 ==== Instalación y configuración de Podman en NixOS
 
 Para mantener un modelo de ejecución seguro y coherente con el principio de
 privilegios mínimos, se ha optado por ejecutar los contenedores en modo
 rootless, es decir, sin necesidad de privilegios de superusuario. En NixOS, esta
-configuración se consigue de forma óptima mediante Home Manager, una extensión
-del ecosistema Nix que permite gestionar la configuración del entorno de usuario
-de manera declarativa y reproducible.
+configuración se consigue de forma óptima mediante Home Manager #footnote(
+  "https://github.com/nix-community/home-manager",
+), una extensión del ecosistema Nix que permite gestionar la configuración del
+entorno de usuario de manera declarativa y reproducible.
 
 Home Manager facilita describir las aplicaciones, servicios y parámetros del
 usuario dentro de su propio módulo de configuración, manteniendo la filosofía de
