@@ -643,11 +643,11 @@ su configuración.
 La incorporación de una capa de contenedorización rootless mediante Podman,
 gestionada a través de Home Manager, amplía las capacidades del sistema y
 refuerza su reproducibilidad. Esta arquitectura permite desplegar servicios en
-entornos aislados y portables, manteniendo la coherencia con la filosofía de
-Infraestructura como Código y sin comprometer la seguridad del sistema base. El
-uso de un usuario dedicado y sin privilegios para la ejecución de contenedores
-garantiza el aislamiento de procesos y la persistencia de los servicios, incluso
-en ausencia de sesiones activas.
+entornos aislados y portables, manteniendo la coherencia con la filosofía de IaC
+y sin comprometer la seguridad del sistema base. El uso de un usuario dedicado y
+sin privilegios para la ejecución de contenedores garantiza el aislamiento de
+procesos y la persistencia de los servicios, incluso en ausencia de sesiones
+activas.
 
 De este modo, el sistema no solo se encuentra plenamente operativo, sino también
 preparado para albergar servicios autoalojados complejos bajo un control total,
