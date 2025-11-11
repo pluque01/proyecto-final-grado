@@ -20,6 +20,22 @@ propia, bajo control directo del usuario o de la organización. Esta elección
 ofrece independencia de proveedores externos, mayor privacidad y la posibilidad
 de adaptar el entorno a las necesidades concretas del proyecto.
 
+==== Criterios de elección
+
+Las alternativas se valoraron según los siguientes criterios:
+
+- Coste económico: inversión inicial y ausencia de cuotas recurrentes.
+
+- Consumo energético: viabilidad para funcionamiento continuo sin impacto
+  significativo.
+
+- Autonomía: control completo del entorno sin depender de terceros.
+
+- Escalabilidad y replicabilidad: facilidad para reproducir la infraestructura
+  en otros contextos.
+
+- Soporte comunitario: disponibilidad de documentación, foros y soluciones.
+
 ==== Alternativas consideradas
 
 Se evaluaron tres aproximaciones principales para alojar los servicios del
@@ -43,22 +59,6 @@ proyecto:
   @raspi_benchmarks_2024. Ofrece una amplia comunidad, soporte estable y
   compatibilidad con distribuciones GNU/Linux orientadas al autoalojamiento, lo
   que facilita la instalación y administración de servicios.
-
-==== Criterios de elección
-
-Las alternativas se valoraron según los siguientes criterios:
-
-- Coste económico: inversión inicial y ausencia de cuotas recurrentes.
-
-- Consumo energético: viabilidad para funcionamiento continuo sin impacto
-  significativo.
-
-- Autonomía: control completo del entorno sin depender de terceros.
-
-- Escalabilidad y replicabilidad: facilidad para reproducir la infraestructura
-  en otros contextos.
-
-- Soporte comunitario: disponibilidad de documentación, foros y soluciones.
 
 ==== Justificación de la elección
 
@@ -99,6 +99,23 @@ de un entorno ligero, estable y reproducible, que facilitara la instalación de
 servicios, el mantenimiento a largo plazo y la automatización de la
 configuración.
 
+==== Criterios de evaluación
+
+Para comparar las distintas opciones se definieron los siguientes criterios:
+
+- Reproducibilidad: posibilidad de replicar la configuración exacta del sistema
+  en otro equipo o tras una reinstalación.
+- Ligereza y eficiencia: consumo de recursos ajustado a las limitaciones del
+  hardware disponible.
+- Mantenibilidad: facilidad para aplicar actualizaciones, revertir cambios y
+  mantener la estabilidad del entorno.
+- Comunidad y soporte: disponibilidad de documentación, foros y paquetes
+  actualizados.
+- Compatibilidad con servicios autoalojados: existencia de paquetes o mecanismos
+  simples para desplegar herramientas como Nextcloud, Vaultwarden o Logseq.
+- Enfoque declarativo: capacidad para describir el estado del sistema de forma
+  programática, coherente con los principios de IaC.
+
 ==== Alternativas consideradas
 
 Se analizaron distintas distribuciones de GNU/Linux con soporte para la
@@ -129,29 +146,10 @@ arquitectura ARM y orientadas al uso como servidor:
   gestor de paquetes y sistema de configuración Nix. Permite definir toda la
   configuración del sistema de forma declarativa, garantizando reproducibilidad
   y reversión completa de cambios. Este enfoque se alinea con el paradigma de
-  *Infraestructura como código* ("IaC"), que concibe la infraestructura como un
-  conjunto de definiciones versionables en lugar de configuraciones manuales
-  @morris2016infrastructure. Aunque su curva de aprendizaje es más pronunciada,
-  ofrece un control total sobre los servicios y dependencias, lo que lo
-  convierte en una opción especialmente adecuada para entornos técnicos y
-  proyectos de investigación.
-
-==== Criterios de evaluación
-
-Para comparar las distintas opciones se definieron los siguientes criterios:
-
-- Reproducibilidad: posibilidad de replicar la configuración exacta del sistema
-  en otro equipo o tras una reinstalación.
-- Ligereza y eficiencia: consumo de recursos ajustado a las limitaciones del
-  hardware disponible.
-- Mantenibilidad: facilidad para aplicar actualizaciones, revertir cambios y
-  mantener la estabilidad del entorno.
-- Comunidad y soporte: disponibilidad de documentación, foros y paquetes
-  actualizados.
-- Compatibilidad con servicios autoalojados: existencia de paquetes o mecanismos
-  simples para desplegar herramientas como Nextcloud, Vaultwarden o Logseq.
-- Enfoque declarativo: capacidad para describir el estado del sistema de forma
-  programática, coherente con los principios de IaC.
+  IaC por completo. Aunque su curva de aprendizaje es más pronunciada, ofrece un
+  control total sobre los servicios y dependencias, lo que lo convierte en una
+  opción especialmente adecuada para entornos técnicos y proyectos de
+  investigación.
 
 ==== Elección del sistema operativo
 
