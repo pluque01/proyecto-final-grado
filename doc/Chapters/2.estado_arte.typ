@@ -107,7 +107,7 @@ mantiene compatibilidad con los clientes oficiales de Bitwarden. Ofrece cifrado
 de extremo a extremo, soporte de autenticación multifactor y la posibilidad de
 compartir contraseñas de forma controlada entre usuarios. Su reducido consumo de
 recursos lo hace idóneo para un escenario de servidor único, y su licencia
-GPL-3.0 garantiza transparencia y comunidad activa.
+AGPL-3.0 garantiza transparencia y comunidad activa.
 
 El contraste se centra en las prioridades. Mientras que los gestores SaaS
 destacan por la robustez empresarial, el soporte profesional y las funciones
