@@ -11,11 +11,11 @@ funcionalidades nativas de planificación, como los "milestones" y las "issues".
 Un milestone (@chapter3_milestones) representa una agrupación de tareas con un
 objetivo común y un horizonte temporal definido, permitiendo medir el progreso
 de forma estructurada @github_milestones. Por su parte, una tarea o issue es una
-unidad de trabajo que describe una tarea, problema o mejora específica, y
-constituye el principal mecanismo de organización en GitHub @github_issues. El
-uso conjunto de ambos elementos permite mantener un control centralizado del
-proyecto dentro del repositorio, garantizando la trazabilidad de los cambios y
-la documentación continua de los avances.
+unidad de trabajo que describe un problema o mejora específica, y constituye el
+principal mecanismo de organización en GitHub @github_issues. El uso conjunto de
+ambos elementos permite mantener un control centralizado del proyecto dentro del
+repositorio, garantizando la trazabilidad de los cambios y la documentación
+continua de los avances.
 
 == Organización del proyecto
 
