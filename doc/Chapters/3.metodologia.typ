@@ -93,20 +93,23 @@ criterios mínimos que debía cumplir:
 - Disponibilidad de herramientas para validar la compilación.
 - Integración de verificadores de gramática y ortografía.
 
-Con base en estos criterios, se valoraron distintas opciones: *Word*, *LaTeX* y
-*Typst*:
+Con base en estos criterios, se valoraron distintas opciones: Microsoft Word,
+LaTeX y Typst:
 
-- *Word* ofrece facilidad de uso y una interfaz gráfica intuitiva, pero presenta
+- *Microsoft Word* #footnote(
+    "https://www.microsoft.com/es-es/microsoft-365/word",
+  ) ofrece facilidad de uso y una interfaz gráfica intuitiva, pero presenta
   limitaciones a la hora de garantizar un estilo uniforme en documentos extensos
   y técnicos. Su sistema de maquetación, aunque versátil, puede resultar poco
   fiable para asegurar consistencia a lo largo de todo el documento.
 
-- *LaTeX* es una solución consolidada en el ámbito científico y académico, capaz
-  de producir documentos de gran calidad y con un control detallado sobre el
-  formato. Sin embargo, su sintaxis resulta compleja y su curva de aprendizaje
-  es pronunciada, lo que supone una barrera en proyectos con tiempos acotados. A
-  ello se suman los largos tiempos de compilación, que pueden dificultar la
-  iteración rápida y el ajuste inmediato del contenido y del formato.
+- *LaTeX* #footnote("https://www.latex-project.org") es una solución consolidada
+  en el ámbito científico y académico, capaz de producir documentos de gran
+  calidad y con un control detallado sobre el formato. Sin embargo, su sintaxis
+  resulta compleja y su curva de aprendizaje es pronunciada, lo que supone una
+  barrera en proyectos con tiempos acotados. A ello se suman los largos tiempos
+  de compilación, que pueden dificultar la iteración rápida y el ajuste
+  inmediato del contenido y del formato.
 - *Typst* #footnote("https://typst.app") surge como alternativa moderna a LaTeX,
   diseñada para mantener la precisión de un lenguaje de marcado al tiempo que
   simplifica su uso y aprendizaje. Su principal ventaja es ofrecer una edición
