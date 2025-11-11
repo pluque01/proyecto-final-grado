@@ -20,6 +20,22 @@ propia, bajo control directo del usuario o de la organización. Esta elección
 ofrece independencia de proveedores externos, mayor privacidad y la posibilidad
 de adaptar el entorno a las necesidades concretas del proyecto.
 
+==== Criterios de elección
+
+Las alternativas se valoraron según los siguientes criterios:
+
+- Coste económico: inversión inicial y ausencia de cuotas recurrentes.
+
+- Consumo energético: viabilidad para funcionamiento continuo sin impacto
+  significativo.
+
+- Autonomía: control completo del entorno sin depender de terceros.
+
+- Escalabilidad y replicabilidad: facilidad para reproducir la infraestructura
+  en otros contextos.
+
+- Soporte comunitario: disponibilidad de documentación, foros y soluciones.
+
 ==== Alternativas consideradas
 
 Se evaluaron tres aproximaciones principales para alojar los servicios del
@@ -43,22 +59,6 @@ proyecto:
   @raspi_benchmarks_2024. Ofrece una amplia comunidad, soporte estable y
   compatibilidad con distribuciones GNU/Linux orientadas al autoalojamiento, lo
   que facilita la instalación y administración de servicios.
-
-==== Criterios de elección
-
-Las alternativas se valoraron según los siguientes criterios:
-
-- Coste económico: inversión inicial y ausencia de cuotas recurrentes.
-
-- Consumo energético: viabilidad para funcionamiento continuo sin impacto
-  significativo.
-
-- Autonomía: control completo del entorno sin depender de terceros.
-
-- Escalabilidad y replicabilidad: facilidad para reproducir la infraestructura
-  en otros contextos.
-
-- Soporte comunitario: disponibilidad de documentación, foros y soluciones.
 
 ==== Justificación de la elección
 
@@ -99,6 +99,23 @@ de un entorno ligero, estable y reproducible, que facilitara la instalación de
 servicios, el mantenimiento a largo plazo y la automatización de la
 configuración.
 
+==== Criterios de evaluación
+
+Para comparar las distintas opciones se definieron los siguientes criterios:
+
+- Reproducibilidad: posibilidad de replicar la configuración exacta del sistema
+  en otro equipo o tras una reinstalación.
+- Ligereza y eficiencia: consumo de recursos ajustado a las limitaciones del
+  hardware disponible.
+- Mantenibilidad: facilidad para aplicar actualizaciones, revertir cambios y
+  mantener la estabilidad del entorno.
+- Comunidad y soporte: disponibilidad de documentación, foros y paquetes
+  actualizados.
+- Compatibilidad con servicios autoalojados: existencia de paquetes o mecanismos
+  simples para desplegar herramientas como Nextcloud, Vaultwarden o Logseq.
+- Enfoque declarativo: capacidad para describir el estado del sistema de forma
+  programática, coherente con los principios de IaC.
+
 ==== Alternativas consideradas
 
 Se analizaron distintas distribuciones de GNU/Linux con soporte para la
@@ -129,29 +146,10 @@ arquitectura ARM y orientadas al uso como servidor:
   gestor de paquetes y sistema de configuración Nix. Permite definir toda la
   configuración del sistema de forma declarativa, garantizando reproducibilidad
   y reversión completa de cambios. Este enfoque se alinea con el paradigma de
-  *Infraestructura como código* ("IaC"), que concibe la infraestructura como un
-  conjunto de definiciones versionables en lugar de configuraciones manuales
-  @morris2016infrastructure. Aunque su curva de aprendizaje es más pronunciada,
-  ofrece un control total sobre los servicios y dependencias, lo que lo
-  convierte en una opción especialmente adecuada para entornos técnicos y
-  proyectos de investigación.
-
-==== Criterios de evaluación
-
-Para comparar las distintas opciones se definieron los siguientes criterios:
-
-- Reproducibilidad: posibilidad de replicar la configuración exacta del sistema
-  en otro equipo o tras una reinstalación.
-- Ligereza y eficiencia: consumo de recursos ajustado a las limitaciones del
-  hardware disponible.
-- Mantenibilidad: facilidad para aplicar actualizaciones, revertir cambios y
-  mantener la estabilidad del entorno.
-- Comunidad y soporte: disponibilidad de documentación, foros y paquetes
-  actualizados.
-- Compatibilidad con servicios autoalojados: existencia de paquetes o mecanismos
-  simples para desplegar herramientas como Nextcloud, Vaultwarden o Logseq.
-- Enfoque declarativo: capacidad para describir el estado del sistema de forma
-  programática, coherente con los principios de IaC.
+  IaC por completo. Aunque su curva de aprendizaje es más pronunciada, ofrece un
+  control total sobre los servicios y dependencias, lo que lo convierte en una
+  opción especialmente adecuada para entornos técnicos y proyectos de
+  investigación.
 
 ==== Elección del sistema operativo
 
@@ -216,7 +214,7 @@ disponible desde el primer arranque.
 La compilación de la imagen se realizó desde una máquina con Windows 11 (x86_64)
 utilizando NixOS bajo WSL @microsoft_wsl_install. Gracias al propio sistema de
 compilación cruzada de Nix, fue posible generar una imagen compatible con la
-arquitectura aarch64, correspondiente a la Raspberry Pi.
+arquitectura "aarch64", correspondiente a la Raspberry Pi.
 
 Para ello, se definió un archivo `flake.nix` con la siguiente estructura:
 
@@ -250,11 +248,12 @@ Para ello, se definió un archivo `flake.nix` con la siguiente estructura:
   }
   ```,
   caption: [Nix flake para generar la imagen de NixOS para Raspberry Pi],
-)
+)<figure:ch5_1_flake_nixos_rpi>
 
 
-Este flake declara una configuración de sistema denominada "rpi", basada en el
-módulo oficial para la creación de imágenes SD para arquitecturas ARM 64.
+El @figure:ch5_1_flake_nixos_rpi declara una configuración de sistema denominada
+"rpi", basada en el módulo oficial para la creación de imágenes SD para
+arquitecturas ARM 64.
 
 ==== Configuración del sistema
 
@@ -285,6 +284,7 @@ la habilitación del servicio SSH:
 
       # Allow ssh in
       services.openssh.enable = true;
+      services.openssh.settings.PasswordAuthentication = false;
 
       networking = {
         hostName = "pi4";
@@ -332,8 +332,9 @@ etapas del proyecto.
 Teniendo en cuenta que la Raspberry Pi es un dispositivo al que vamos a acceder
 con frecuencia conviene asignarle una IP fija en la red local. Esto se puede
 hacer desde la configuración del router, asignando una dirección IP estática a
-la MAC de la Raspberry Pi. De este modo, siempre que se conecte a la red local
-tendrá la misma IP y podremos acceder a ella sin problemas.
+la dirección única (MAC) de la Raspberry Pi. De este modo, siempre que se
+conecte a la red local tendrá la misma IP y podremos acceder a ella sin
+problemas.
 
 Con las herramientas de mi router (Movistar HGU) se puede hacer fácilmente desde
 la sección de DHCP, donde se pueden ver los dispositivos conectados y asignarles
@@ -508,24 +509,23 @@ herramienta principal de contenedorización para el entorno autoalojado del
 proyecto. Podman ofrece un equilibrio óptimo entre compatibilidad, seguridad y
 simplicidad operativa, permitiendo gestionar contenedores sin necesidad de
 privilegios de superusuario y manteniendo la compatibilidad con las imágenes y
-flujos de trabajo de Docker. Su diseño modular y conforme a los estándares OCI
-garantiza la portabilidad de los servicios y la interoperabilidad con otras
-plataformas.
+flujos de trabajo de Docker.
 
 ==== Instalación y configuración de Podman en NixOS
 
 Para mantener un modelo de ejecución seguro y coherente con el principio de
 privilegios mínimos, se ha optado por ejecutar los contenedores en modo
 rootless, es decir, sin necesidad de privilegios de superusuario. En NixOS, esta
-configuración se consigue de forma óptima mediante Home Manager, una extensión
-del ecosistema Nix que permite gestionar la configuración del entorno de usuario
-de manera declarativa y reproducible.
+configuración se consigue de forma óptima mediante Home Manager #footnote(
+  "https://github.com/nix-community/home-manager",
+), una extensión del ecosistema Nix que permite gestionar la configuración del
+entorno de usuario de manera declarativa y reproducible.
 
 Home Manager facilita describir las aplicaciones, servicios y parámetros del
 usuario dentro de su propio módulo de configuración, manteniendo la filosofía de
-Infraestructura como Código también en el nivel del usuario. En este proyecto,
-se ha integrado como módulo dentro del flake principal de NixOS, de modo que la
-configuración del sistema y la del usuario se construyen conjuntamente:
+IaC también en el nivel del usuario. En este proyecto, se ha integrado como
+módulo dentro del fichero principal de NixOS, de modo que la configuración del
+sistema y la del usuario se construyen conjuntamente:
 
 #figure(
   ```nix
@@ -643,11 +643,11 @@ su configuración.
 La incorporación de una capa de contenedorización rootless mediante Podman,
 gestionada a través de Home Manager, amplía las capacidades del sistema y
 refuerza su reproducibilidad. Esta arquitectura permite desplegar servicios en
-entornos aislados y portables, manteniendo la coherencia con la filosofía de
-Infraestructura como Código y sin comprometer la seguridad del sistema base. El
-uso de un usuario dedicado y sin privilegios para la ejecución de contenedores
-garantiza el aislamiento de procesos y la persistencia de los servicios, incluso
-en ausencia de sesiones activas.
+entornos aislados y portables, manteniendo la coherencia con la filosofía de IaC
+y sin comprometer la seguridad del sistema base. El uso de un usuario dedicado y
+sin privilegios para la ejecución de contenedores garantiza el aislamiento de
+procesos y la persistencia de los servicios, incluso en ausencia de sesiones
+activas.
 
 De este modo, el sistema no solo se encuentra plenamente operativo, sino también
 preparado para albergar servicios autoalojados complejos bajo un control total,

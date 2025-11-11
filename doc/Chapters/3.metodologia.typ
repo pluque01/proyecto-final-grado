@@ -10,12 +10,11 @@ estructurado para la organización y validación de resultados.
 == Enfoque ágil
 
 El proyecto se apoya en los principios del enfoque ágil, definidos inicialmente
-en el *Manifiesto Ágil* y sus doce principios asociados
-@AgileManifestoPrinciples. Más que una metodología estricta, ágil constituye una
-mentalidad orientada a la adaptación, la iteración continua y la entrega
-temprana de valor. Esta perspectiva permite que los proyectos evolucionen en
-función de las necesidades detectadas, en lugar de depender de una planificación
-rígida.
+en el Manifiesto Ágil y sus doce principios @AgileManifestoPrinciples. Más que
+una metodología estricta, ágil constituye una mentalidad orientada a la
+adaptación, la iteración continua y la entrega temprana de valor. Esta
+perspectiva permite que los proyectos evolucionen en función de las necesidades
+detectadas, en lugar de depender de una planificación rígida.
 
 Los principios ágiles priorizan aspectos como la simplicidad, la calidad
 técnica, el diseño cuidado y la capacidad de ajuste frente a nuevas
@@ -94,20 +93,23 @@ criterios mínimos que debía cumplir:
 - Disponibilidad de herramientas para validar la compilación.
 - Integración de verificadores de gramática y ortografía.
 
-Con base en estos criterios, se valoraron distintas opciones: *Word*, *LaTeX* y
-*Typst*:
+Con base en estos criterios, se valoraron distintas opciones: Microsoft Word,
+LaTeX y Typst:
 
-- *Word* ofrece facilidad de uso y una interfaz gráfica intuitiva, pero presenta
+- *Microsoft Word* #footnote(
+    "https://www.microsoft.com/es-es/microsoft-365/word",
+  ) ofrece facilidad de uso y una interfaz gráfica intuitiva, pero presenta
   limitaciones a la hora de garantizar un estilo uniforme en documentos extensos
   y técnicos. Su sistema de maquetación, aunque versátil, puede resultar poco
   fiable para asegurar consistencia a lo largo de todo el documento.
 
-- *LaTeX* es una solución consolidada en el ámbito científico y académico, capaz
-  de producir documentos de gran calidad y con un control detallado sobre el
-  formato. Sin embargo, su sintaxis resulta compleja y su curva de aprendizaje
-  es pronunciada, lo que supone una barrera en proyectos con tiempos acotados. A
-  ello se suman los largos tiempos de compilación, que pueden dificultar la
-  iteración rápida y el ajuste inmediato del contenido y del formato.
+- *LaTeX* #footnote("https://www.latex-project.org") es una solución consolidada
+  en el ámbito científico y académico, capaz de producir documentos de gran
+  calidad y con un control detallado sobre el formato. Sin embargo, su sintaxis
+  resulta compleja y su curva de aprendizaje es pronunciada, lo que supone una
+  barrera en proyectos con tiempos acotados. A ello se suman los largos tiempos
+  de compilación, que pueden dificultar la iteración rápida y el ajuste
+  inmediato del contenido y del formato.
 - *Typst* #footnote("https://typst.app") surge como alternativa moderna a LaTeX,
   diseñada para mantener la precisión de un lenguaje de marcado al tiempo que
   simplifica su uso y aprendizaje. Su principal ventaja es ofrecer una edición
@@ -147,9 +149,9 @@ Con base en estos criterios se consideraron dos alternativas principales:
   editor versátil con un amplio ecosistema de extensiones, capaz de integrar
   soporte para Typst y herramientas de revisión lingüística en un mismo entorno.
 
-La opción seleccionada fue finalmente *Visual Studio Code (VSCode)*, ya que, en
-combinación con sus extensiones, satisface todos los requisitos definidos para
-el entorno de edición. En particular:
+La opción seleccionada fue finalmente VSCode, ya que, en combinación con sus
+extensiones, satisface todos los requisitos definidos para el entorno de
+edición. En particular:
 
 - *Tinymist*#footnote("https://github.com/Myriad-Dreamin/tinymist"): proporciona
   compatibilidad completa con Typst, incluyendo resaltado de sintaxis y
@@ -174,8 +176,9 @@ alternativa evaluada.
 Con el objetivo de garantizar la calidad y consistencia de la memoria en todo
 momento, se han configurado workflows de integración continua en el repositorio
 de GitHub del proyecto. Estos workflows se ejecutan de forma automática cada vez
-que se introduce un cambio en el repositorio, ya sea mediante un *commit*
-directo o a través de una *pull request*.
+que se introduce un cambio en el repositorio, ya sea mediante una confirmación
+de cambios ("commit") directa o a través de una solicitud de cambios ("pull
+request").
 
 Los workflows implementados realizan dos validaciones principales:
 
@@ -195,3 +198,9 @@ manera temprana, vinculándolos directamente con el cambio que los causa. Así, 
 asegura que la memoria esté siempre en un estado válido, al mismo tiempo que se
 reduce el riesgo de acumular errores difíciles de corregir en las fases finales
 del proyecto.
+
+#figure(
+  caption: [Captura de pantalla de los workflows de validación automática
+    configurados en GitHub Actions para la memoria del proyecto.],
+  image("../Figures/Chapter3/github-workflow-checks.png", width: 100%),
+) <figure:ch3_github_workflow_checks>
