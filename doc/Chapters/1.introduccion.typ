@@ -46,12 +46,12 @@ experimentar con arquitecturas de software modernas en un entorno controlado.
 
 En este contexto, este trabajo se enmarca en la búsqueda de una solución que
 permita centralizar servicios personales en una infraestructura propia,
-siguiendo la filosofía de Infrastructure as Code (IaC). Este enfoque promueve la
-automatización y la reproducibilidad de los entornos, al definir toda la
-infraestructura mediante código en lugar de configuraciones manuales
-@morris2016infrastructure. De este modo, los servicios pueden desplegarse,
-actualizarse o restaurarse de forma controlada y coherente, reduciendo errores
-humanos y facilitando su mantenimiento.
+siguiendo la filosofía de la infraestructura como código ("Infrastructure as
+Code, IaC"). Este enfoque promueve la automatización y la reproducibilidad de
+los entornos, al definir toda la infraestructura mediante código en lugar de
+configuraciones manuales @morris2016infrastructure. De este modo, los servicios
+pueden desplegarse, actualizarse o restaurarse de forma controlada y coherente,
+reduciendo errores humanos y facilitando su mantenimiento.
 
 La aplicación de esta filosofía a un entorno de servicios autogestionados busca
 demostrar que la misma disciplina y rigor empleados en entornos profesionales
