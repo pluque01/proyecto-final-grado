@@ -10,12 +10,11 @@ estructurado para la organización y validación de resultados.
 == Enfoque ágil
 
 El proyecto se apoya en los principios del enfoque ágil, definidos inicialmente
-en el *Manifiesto Ágil* y sus doce principios asociados
-@AgileManifestoPrinciples. Más que una metodología estricta, ágil constituye una
-mentalidad orientada a la adaptación, la iteración continua y la entrega
-temprana de valor. Esta perspectiva permite que los proyectos evolucionen en
-función de las necesidades detectadas, en lugar de depender de una planificación
-rígida.
+en el Manifiesto Ágil y sus doce principios @AgileManifestoPrinciples. Más que
+una metodología estricta, ágil constituye una mentalidad orientada a la
+adaptación, la iteración continua y la entrega temprana de valor. Esta
+perspectiva permite que los proyectos evolucionen en función de las necesidades
+detectadas, en lugar de depender de una planificación rígida.
 
 Los principios ágiles priorizan aspectos como la simplicidad, la calidad
 técnica, el diseño cuidado y la capacidad de ajuste frente a nuevas
